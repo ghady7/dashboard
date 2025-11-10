@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ghady Tayeh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page-content" id="pageContent">
+      <div id="intro">
+        <div id="intro-box">
+          <div class="intro-name">Ghady Tayeh</div>
+          <h1>Welcome to My Portfolio</h1>
+          <p>
+            Hi! I'm Ghady, a passionate web developer building awesome
+            experiences.
+          </p>
+          <div class="social-links">
+            <a
+              href="https://www.linkedin.com/in/ghady-tayeh-a0711a339?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+              target="_blank"
+              aria-label="LinkedIn"
+              class="social-icon linkedin"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 7.5h4v14h-4v-14zM7 7.5h3.6v2h.05c.5-.9 1.7-1.8 3.5-1.8 3.7 0 4.4 2.4 4.4 5.6v6.2h-4v-5.5c0-1.3 0-3-1.8-3s-2 1.4-2 2.9v5.6H7v-14z"
+                />
+              </svg>
+            </a>
+            <a
+              href="https://instagram.com/ghady_tayeh"
+              target="_blank"
+              aria-label="Instagram"
+              class="social-icon instagram"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M7.75 2A5.75 5.75 0 002 7.75v8.5A5.75 5.75 0 007.75 22h8.5A5.75 5.75 0 0022 16.25v-8.5A5.75 5.75 0 0016.25 2h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm6.5-1.75a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z"
+                />
+              </svg>
+            </a>
+            <a
+              href="https://github.com/ghady7"
+              target="_blank"
+              aria-label="GitHub"
+              class="social-icon github"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0a12 12 0 00-3.79 23.4c.6.11.82-.26.82-.58v-2.23c-3.34.73-4.04-1.6-4.04-1.6-.55-1.39-1.34-1.76-1.34-1.76-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.85 2.83 1.32 3.52 1 .11-.78.42-1.32.76-1.62-2.66-.3-5.47-1.33-5.47-5.9 0-1.3.46-2.36 1.22-3.2-.12-.3-.53-1.5.12-3.13 0 0 .98-.31 3.22 1.22a11.3 11.3 0 015.86 0c2.24-1.53 3.22-1.22 3.22-1.22.65 1.63.24 2.83.12 3.13.77.84 1.22 1.9 1.22 3.2 0 4.58-2.81 5.6-5.48 5.9.44.38.82 1.12.82 2.26v3.35c0 .32.22.7.82.58A12 12 0 0012 0z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <canvas id="canvas"> </canvas>
+      </div>
+      <nav id="navbar">  <button id="menu-toggle" aria-label="Menu">&#9776;</button>
+
+        <div id="nav-buttons-container">
+          <a href="#intro" id="home-button" class="nav-button">
+            <span class="nav-button-icon-container">
+              <svg
+                viewBox="0 0 24 24"
+                height="0.9em"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M3 9L12 2l9 7v11a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-5H9v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2z"
+                />
+              </svg>
+            </span>
+            <span class="nav-button-text">Home</span>
+          </a>
+
+          <a href="#about" id="about-button" class="nav-button">
+            <span class="nav-button-icon-container">
+              <svg
+                viewBox="0 0 24 24"
+                height="0.9em"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="7" r="4" />
+                <path d="M5.5 21a7.5 7.5 0 0 1 13 0" />
+              </svg>
+            </span>
+            <span class="nav-button-text">About</span>
+          </a>
+
+          <a
+            href="#cv-section"
+            id="portfolio-button"
+            class="nav-button "
+            style="width: 120px"
+          >
+            <span class="nav-button-icon-container">
+              <svg
+                viewBox="0 0 24 24"
+                height="0.9em"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                <path d="M16 7V4a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v3" />
+              </svg>
+            </span>
+            <span class="nav-button-text" style="padding-left: 10px"
+              >Portfolio</span
+            >
+          </a>
+
+          <a href="#contact" id="contact-button" class="nav-button"  style="width: 120px">
+            <span class="nav-button-icon-container">
+              <svg
+                viewBox="0 0 24 24"
+                height="0.9em"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M4 4h16v16H4z" />
+                <polyline points="22,4 12,13 2,4" />
+              </svg>
+            </span>
+            <span class="nav-button-text" style="padding-left: 10px;">Contact</span>
+          </a>
+        </div>
+      </nav>
+
+      <div id="about">
+  <div id="about-container">
+    <h2 id="about-container-header" >Full Stack Junior Developer</h2>
+
+    <div id="about-container-text" >
+      <p> 
+        I specialize in building modern, responsive web applications and
+        I’m constantly upgrading my skills to grow as a well-rounded
+        software developer.
+      </p>
+      <p>
+        As a results-driven Computer Science graduate, I am passionate
+        about advancing my technical expertise in modern software
+        development and emerging technologies. I’m eager to contribute to
+        high-impact projects and continuously grow as a developer within
+        dynamic, forward-thinking teams.
+      </p>
+    </div>
+
+    <a href="GhadyTayeh_cv.pdf" download="GhadyTayeh_cv.pdf" style="text-decoration: none">
+      <button id="cv-button-download" type="button" title="Download my CV">
+              <span class="button__text">Download My CV </span>
+              <span class="button__icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 35 35"
+                  id="bdd05811-e15d-428c-bb53-8661459f9307"
+                  data-name="Layer 2"
+                  class="svg"
+                >
+                  <path
+                    d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"
+                  ></path>
+                  <path
+                    d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"
+                  ></path>
+                  <path
+                    d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"
+                  ></path>
+                </svg>
+              </span>
+            </button>
+          </a>
+        </div>
+        <div id="about-pic">
+          <img
+            src="images/ghady1.png"
+            
+            alt="About Pic"
+          />
+        </div>
+      </div>
+      <div class="portfolio-container">
+        <div class="animated-border-box">
+          <div id="cv-section">
+            <div class="cv-container">
+              <!-- Navigation bar -->
+              <div class="cv-nav">
+                <button class="tab-btn active" data-index="0">Skills</button>
+                <button class="tab-btn" data-index="1">Projects</button>
+                <button class="tab-btn" data-index="2">Certificates</button>
+              </div>
+
+              <!-- Panels container -->
+              <div class="cv-panels">
+                <!-- Skills Panel -->
+                <div class="cv-panel">
+                  <div class="skills">
+                    <div class="skill-card">
+                      <span class="skill-logo">
+                        <!-- HTML5 logo (official) -->
+                        <img src="svg/html-1.svg" alt="Logo" height="26" />
+                      </span>
+                      <h3>HTML & CSS</h3>
+                      <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: 90%"></div>
+                      </div>
+                    </div>
+                    <div class="skill-card">
+                      <span class="skill-logo">
+                        <!-- JavaScript logo (official) -->
+                        <img
+                          src="svg/java-script-svgrepo-com.svg"
+                          alt="Logo"
+                          height="30"
+                        />
+                      </span>
+                      <h3>JavaScript</h3>
+                      <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: 75%"></div>
+                      </div>
+                    </div>
+                    <div class="skill-card">
+                      <span class="skill-logo">
+                        <!-- PHP logo (official) -->
+                        <svg width="32" height="32" viewBox="0 0 32 32">
+                          <ellipse
+                            cx="16"
+                            cy="16"
+                            rx="16"
+                            ry="11"
+                            fill="#777bb4"
+                          />
+                          <text
+                            x="16"
+                            y="21"
+                            text-anchor="middle"
+                            font-size="12"
+                            fill="#fff"
+                            font-family="Arial"
+                            style="font-style: italic"
+                          >
+                            php
+                          </text>
+                        </svg>
+                      </span>
+                      <h3>PHP</h3>
+                      <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: 70%"></div>
+                      </div>
+                    </div>
+                    <div class="skill-card">
+                      <span class="skill-logo">
+                        <!-- Laravel logo (official) -->
+                        <img src="svg/laravel-2.svg" alt="Logo" height="25" />
+                      </span>
+                      <h3>Laravel</h3>
+                      <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: 65%"></div>
+                      </div>
+                    </div>
+                    <div class="skill-card">
+                      <span class="skill-logo">
+                        <!-- Java logo (coffee cup) -->
+                        <img src="svg/java-4.svg" alt="Logo" height="30" />
+                      </span>
+                      <h3>Java</h3>
+                      <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: 70%"></div>
+                      </div>
+                    </div>
+                    <div class="skill-card">
+                      <span class="skill-logo">
+                        <!-- C++ logo (hexagon) -->
+                        <img src="svg/c.svg" alt="Logo" height="30" />
+                      </span>
+                      <h3>C++</h3>
+                      <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: 60%"></div>
+                      </div>
+                    </div>
+                    <div class="skill-card">
+                      <span class="skill-logo">
+                        <!-- SQL logo (database icon) -->
+                        <img
+                          src="svg/sql-database-generic-svgrepo-com.svg"
+                          alt="Logo"
+                          height="28"
+                        />
+                      </span>
+                      <h3>SQL</h3>
+                      <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: 80%"></div>
+                      </div>
+                    </div>
+                    <div class="skill-card">
+                      <span class="skill-logo">
+                        <img src="svg/python-5.svg" alt="Logo" height="25" />
+                      </span>
+                      <h3>Python</h3>
+                      <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: 60%"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Projects Panel -->
+                <div class="cv-panel">
+                  <div class="projects">
+                    <div class="project-card" onclick="openModal(1)">
+                      <h3>Customer Order Web Application</h3>
+                      <p>
+                        A web application that efficiently tracks customer
+                        orders and order dates. It operates entirely on the
+                        client side without requiring a backend server.
+                      </p>
+                    </div>
+
+                    <div class="project-card" onclick="openModal(2)">
+                      <h3>Stock Management System</h3>
+                      <p>
+                        A comprehensive inventory and supply chain management
+                        system enabling multi-user access, supplier
+                        communication, stock tracking, and order fulfillment
+                      </p>
+                    </div>
+
+                    <div class="project-card" onclick="openModal(3)">
+                      <h3>Library Store Management Web Application</h3>
+                      <p>
+                        A PHP-based web app that helps manage a bookstore by
+                        adding books, tracking inventory, and handling sales
+                        efficiently.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Certificates Panel -->
+     <div class="cv-panel">
+  <div class="independent-certifications">
+    <div class="certifications-container" aria-label="Certifications">
+      <ul class="certifications-list">
+      
+        <li class="cert-box" tabindex="0"  data-img="" role="button" aria-pressed="false">
+          <div class="cert-info">
+            <span class="cert-title">Web Development & Cybersecurity – Youbee.ai</span>
+            <span class="cert-status in-progress">In Progress</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Modal -->
+  <div id="independent-cert-modal" class="cert-modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Close Certification">&times;</button>
+    
+    <img id="independent-cert-image" src="images/nike-certificate.jpeg" alt="Certification Image"  />
+
+    <div class="modal-description">
+      <h3>Web Development & Cybersecurity – Youbee.ai</h3>
+      <p>I successfully completed a comprehensive training program with Youbee.ai, focused on full-stack web development and web security. The course covered HTML, CSS, JavaScript, PHP, and Laravel, along with essential practices in securing web applications. Through hands-on projects and guided modules, I built dynamic and responsive web interfaces, integrated back-end functionality, and applied cybersecurity principles to protect user data and site integrity.
+</p>
+    </div>
+
+  </div>
+</div>
+  </div>
+</div>
+
+</div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- end cv-panels -->
+        </div>
+        <!-- end cv-container -->
+      </div>
+      <!-- EXPERIENCE PANEL -->
+<div class="experience-panel">
+  <div class="experience-header">Experience</div>
+  <div class="experience-body">
+    <div class="experience-track" id="experienceTrack">
+      <div class="experience-item">
+  <h4>Team Leader – SIDEWALKS GROUP</h4>
+  <p><strong>October 2022 – May 2025</strong></p>
+  <ul>
+    <li>Led team operations and encouraged collaboration</li>
+    <li>Managed time and priorities to ensure smooth workflow</li>
+    <span class="li-web" onclick="window.open('../nike-CO/index.html', '_blank')"><li>Created a web application to manage customer orders efficiently</li></span>
+    <li>Handled inventory control and stock accuracy</li>
+    <li>Developed sales strategies to exceed targets</li>
+  </ul>
+</div>
+
+<div class="experience-item">
+  <h4>IT Specialist Intern – ABC Lebanon</h4>
+  <p><strong>August 2024 – September 2024</strong></p>
+  <ul>
+    <li>Learned IT workflows and daily tech operations</li>
+    <li>Worked with MMS, JDE, ETL, BI, and SharePoint</li>
+    <li>Supported POS systems, stock tools, and backups</li>
+    <li>Monitored sales data and resolved MMS/POS issues</li>
+  </ul>
+</div>
+
+    </div>
+    <div class="experience-dots" id="experienceDots"></div>
+  </div>
+</div>
+
+<!-- EDUCATION PANEL -->
+<div class="education-panel">
+  <div class="education-header">Education</div>
+  <div class="education-body">
+    <div class="education-track" id="educationTrack">
+     <div class="education-item">
+  <h4>Lebanese Canadian University – LCU</h4>
+  <p><strong>BAS in Computer Science</strong> | 2022 – 2025</p>
+  <ul>
+    <li>Web Development – Building responsive and user-centric web applications.</li>
+    <li>Software Engineering – Applying best practices in software design and development.</li>
+    <li>Database Systems – Designing and managing efficient database solutions.</li>
+    <li>Data Structures – Implementing fundamental data organization and algorithms.</li>
+  </ul>
+</div>
+
+    
+    </div>
+    <div class="education-dots" id="educationDots"></div>
+  </div>
+</div>
+
+      </div>
+      <section id="contact">
+        <div class="glass-contact-card" id="glass-contact-card">
+          <h2>Get in Touch</h2>
+          <p>I'd love to hear from you. Drop me a message below!</p>
+
+<form action="#" id="contact-form" method="post" autocomplete="off">
+  <input
+    name="user_name"
+    class="input"
+    type="text"
+    placeholder="Your Name"
+    autocomplete="off"
+    required
+  />
+
+  <input
+    name="user_email"
+    class="input"
+    type="email"
+    placeholder="Your Email"
+    autocomplete="off"
+    required
+  />
+
+  <textarea
+    name="message"
+    class="input"
+    placeholder="Your Message"
+    rows="5"
+    autocomplete="off"
+    required
+  ></textarea>
+
+  <button
+    id="submit-button"
+    type="submit"
+    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 20px rgba(159,122,234,0.6)'"
+    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'"
+  >
+    Send Message
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="feather feather-send"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <line x1="22" y1="2" x2="11" y2="13"></line>
+      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+    </svg>
+  </button>
+</form>
+
+        </div>
+      </section>
+    </div>
+    <!-- Modal Container -->
+    <div class="modal-container" id="modal">
+      <div class="modal-content" style="display: flex; height: 100%">
+        <span class="modal-close" onclick="closeModal()">×</span>
+
+        <div class="modal-left" id="modalLeft">
+          <h2 id="modalTitle">Title</h2>
+          <p id="modalDescription">Description goes here...</p>
+          <button
+            class="modal-button"
+            onclick="window.open('', '_blank')"
+            id="modalBtn"
+          >
+            View on GitHub
+          </button>
+        </div>
+
+        <div class="modal-right">
+          <iframe src="" id="modalIframe" title="Project Demo"></iframe>
+        </div>
+      </div>
+    </div>
+<div id="image-fullscreen-overlay" style="display: none;">
+  <img id="fullscreen-image" alt="Fullscreen Certification" />
+</div>
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+// Mobile Menu Toggle Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.getElementById('menu-toggle');
+  const navContainer = document.getElementById('nav-buttons-container');
+  const navButtons = document.querySelectorAll('.nav-button');
+  
+  // Toggle mobile menu
+  menuToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    navContainer.classList.toggle('mobile-menu-open');
+    
+    // Animate hamburger icon (optional visual feedback)
+    if (navContainer.classList.contains('mobile-menu-open')) {
+      menuToggle.innerHTML = '&#10005;'; // X symbol
+    } else {
+      menuToggle.innerHTML = '&#9776;'; // Hamburger symbol
+    }
+  });
+  
+  // Close menu when clicking on a navigation button
+  navButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Only close on mobile/tablet
+      if (window.innerWidth <= 768) {
+        navContainer.classList.remove('mobile-menu-open');
+        menuToggle.innerHTML = '&#9776;';
+      }
+    });
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (window.innerWidth <= 768) {
+      if (!navContainer.contains(e.target) && !menuToggle.contains(e.target)) {
+        navContainer.classList.remove('mobile-menu-open');
+        menuToggle.innerHTML = '&#9776;';
+      }
+    }
+  });
+  
+  // Handle window resize - reset menu state when switching to desktop
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      if (window.innerWidth > 768) {
+        navContainer.classList.remove('mobile-menu-open');
+        menuToggle.innerHTML = '&#9776;';
+      }
+    }, 250);
+  });
+  
+  // Prevent body scroll when mobile menu is open (optional)
+  const style = document.createElement('style');
+  style.innerHTML = `
+    body.menu-open {
+      overflow: hidden;
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Add/remove body class when menu opens/closes
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.attributeName === 'class') {
+        if (navContainer.classList.contains('mobile-menu-open')) {
+          document.body.classList.add('menu-open');
+        } else {
+          document.body.classList.remove('menu-open');
+        }
+      }
+    });
+  });
+  
+  observer.observe(navContainer, { attributes: true });
+});
+document.getElementById("menu-toggle").addEventListener("click", function () {
+  document.getElementById("nav-buttons-container").classList.toggle("show");
+});
+
+
+const menuToggle = document.getElementById("menu-toggle");
+const navButtons = document.getElementById("nav-buttons-container");
+
+// Toggle menu open/close
+menuToggle.addEventListener("click", () => {
+  navButtons.classList.toggle("show");
+});
+
+// Close menu when clicking any nav button link
+navButtons.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => {
+    navButtons.classList.remove("show");
+  });
+});
+  window.onload = function () {
+    emailjs.init('6xRnn2yx7Sj_K927P'); // ✅ Your Public Key
+
+    document.getElementById('contact-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      emailjs
+        .sendForm('service_zodpqj8', 'template_iyj26bu', this) // ✅ Your Service & Template IDs
+        .then(
+          function () {
+            alert('Message sent successfully!');
+            document.getElementById('contact-form').reset();
+          },
+          function (error) {
+            alert('Failed to send message: ' + JSON.stringify(error));
+          }
+        );
+    });
+  };
+
+ const previewImg = document.getElementById('independent-cert-image');
+  const overlay = document.getElementById('image-fullscreen-overlay');
+  const fullscreenImg = document.getElementById('fullscreen-image');
+
+  previewImg.addEventListener('click', () => {
+    fullscreenImg.src = previewImg.src;
+    overlay.style.display = 'flex';
+    // Force reflow to apply transition
+    void overlay.offsetWidth;
+    overlay.classList.add('show');
+  });
+
+  overlay.addEventListener('click', () => {
+    overlay.classList.remove('show');
+    // Wait for transition to finish before hiding
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 300);
+  });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const certBoxes = document.querySelectorAll('.cert-box');
+  const certModal = document.getElementById('independent-cert-modal');
+  const certImage = document.getElementById('independent-cert-image');
+  const modalCloseBtn = certModal.querySelector('.modal-close');
+
+  certBoxes.forEach(box => {
+    box.addEventListener('click', () => {
+      const imgSrc = box.getAttribute('data-img');
+      if (!imgSrc) return; // safeguard
+      certImage.src = imgSrc;
+      certModal.classList.add('show');
+      certModal.setAttribute('aria-hidden', 'false');
+      box.setAttribute('aria-pressed', 'true');
+    });
+
+    box.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        box.click();
+      }
+    });
+  });
+
+  modalCloseBtn.addEventListener('click', () => {
+    certModal.classList.remove('show');
+    certModal.setAttribute('aria-hidden', 'true');
+    certBoxes.forEach(box => box.setAttribute('aria-pressed', 'false'));
+    certImage.src = ''; // Clear image source when closing
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && certModal.classList.contains('show')) {
+      certModal.classList.remove('show');
+      certModal.setAttribute('aria-hidden', 'true');
+      certBoxes.forEach(box => box.setAttribute('aria-pressed', 'false'));
+      certImage.src = ''; // Clear image source when closing
+    }
+  });
+});
+
+
+ // Panels
+const experiencePanel = document.querySelector(".experience-panel");
+const educationPanel = document.querySelector(".education-panel");
+
+// Scroll tracks and dots containers
+const experienceTrack = document.getElementById("experienceTrack");
+const experienceDotsContainer = document.getElementById("experienceDots");
+const educationTrack = document.getElementById("educationTrack");
+const educationDotsContainer = document.getElementById("educationDots");
+
+// Trigger element to toggle panel visibility (adjust selector as needed)
+const trigger = document.querySelector(".portfolio-container");
+
+// IntersectionObserver to show/hide panels when trigger is visible
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        experiencePanel.classList.add("experience-panel-show");
+        educationPanel.classList.add("education-panel-show");
+      } else {
+        experiencePanel.classList.remove("experience-panel-show");
+        educationPanel.classList.remove("education-panel-show");
+      }
+    });
+  },
+  { threshold: 0.7 }
+);
+
+if (trigger) observer.observe(trigger);
+/*------------------------------------------------------------------------------------------------------*/
+
+const contactcard = document.getElementById("glass-contact-card");
+const trigger1 = document.getElementById("contact");
+
+const observer1 = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        contactcard.classList.add("glass-contact-card-animation");
+            } else {
+      }
+    });
+  },
+  { threshold: 0.5 }
+);
+
+if (trigger1) observer1.observe(trigger1);
+
+
+/*------------------------------------------------------------------------------------------------------*/
+
+  const observer2 = new IntersectionObserver((entries, observer2) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelector("#about-container-header").classList.add("fade-in-up", "delay-1");
+      document.querySelector("#about-container-text").classList.add("fade-in-up", "delay-2");
+      document.querySelector("#cv-button-download").classList.add("fade-in-up", "delay-3");
+      observer2.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+
+const about = document.querySelector("#about");
+if (about) observer2.observe(about);
+/*------------------------------------------------------------------------------------------------------*/
+// Helper: Create dots for a track
+function createDots(track, dotsContainer) {
+  const itemCount = track.children.length;
+  dotsContainer.innerHTML = "";
+  for (let i = 0; i < itemCount; i++) {
+    const dot = document.createElement("div");
+    dot.classList.add("dot");
+    if (i === 0) dot.classList.add("active");
+    dot.dataset.index = i;
+    dotsContainer.appendChild(dot);
+
+    // Scroll to item on dot click
+    dot.addEventListener("click", () => {
+      track.children[i].scrollIntoView({ behavior: "smooth", inline: "center" });
+    });
+  }
+}
+
+// Helper: Update active dot based on scroll position
+function updateActiveDot(track, dotsContainer) {
+  const scrollLeft = track.scrollLeft;
+  const children = Array.from(track.children);
+  let activeIndex = 0;
+
+  // Find which child is closest to center of the track's visible area
+  const trackCenter = track.offsetWidth / 2;
+
+  let minDistance = Infinity;
+  children.forEach((child, index) => {
+    const childRect = child.getBoundingClientRect();
+    const trackRect = track.getBoundingClientRect();
+    const childCenter = childRect.left - trackRect.left + childRect.width / 2;
+    const distance = Math.abs(trackCenter - childCenter);
+    if (distance < minDistance) {
+      minDistance = distance;
+      activeIndex = index;
+    }
+  });
+
+  // Update dots active class
+  dotsContainer.querySelectorAll(".dot").forEach((dot, idx) => {
+    dot.classList.toggle("active", idx === activeIndex);
+  });
+}
+
+// Initialize dots for experience and education
+createDots(experienceTrack, experienceDotsContainer);
+createDots(educationTrack, educationDotsContainer);
+
+// Scroll event listeners to update active dots
+experienceTrack.addEventListener("scroll", () => {
+  updateActiveDot(experienceTrack, experienceDotsContainer);
+});
+
+educationTrack.addEventListener("scroll", () => {
+  updateActiveDot(educationTrack, educationDotsContainer);
+});
+
+
+      function closeModal() {
+        document.getElementById("modal").style.display = "none";
+        document
+          .querySelector(".page-content")
+          .classList.remove("mirror-effect");
+      }
+
+      const modal = document.getElementById("modal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalDescription = document.getElementById("modalDescription");
+      const modalIframe = document.getElementById("modalIframe");
+      const modalBtn = document.getElementById("modalBtn");
+
+      const modalData = {
+        1: {
+          title: "Customer Order Web Application",
+          description:
+            "A robust web application built with HTML, CSS, JavaScript, specifically designed to manage customer orders efficiently. It provides detailed tracking of orders , while automatically sending WhatsApp notifications to customers for real-time updates. This solution enhances order visibility, improves customer communication, and supports streamlined order fulfillment processes.",
+          iframe: "../nike-CO/index.html",
+          github: "https://github.com/yourrepo/customer-order",
+        },
+        2: {
+          title: "Stock Management System",
+          description:
+            "A comprehensive web application built with HTML, CSS, JavaScript, PHP, and MySQL, designed to centralize inventory operations through a dynamic dashboard. It supports multi-user roles (admin and user), supplier management with associated products, purchase order tracking, and real-time stock monitoring, enhancing supply chain visibility and operational control.",
+          iframe: "https://example.com/stock-system",
+          github: "https://github.com/yourrepo/stock-management",
+        },
+        3: {
+          title: "Library Store Management Web Application",
+          description:
+            "A comprehensive web application developed entirely using PHP, designed to streamline the management of a library bookstore. The system enables seamless addition of new books, real-time inventory tracking, and efficient handling of book sales. Leveraging PHP’s server-side capabilities, it ensures reliable data processing and a smooth user experience for bookstore operations.",
+          iframe: "https://example.com/library-store",
+          github: "https://github.com/yourrepo/library-store",
+        },
+      };
+
+      function openModal(id) {
+        const data = modalData[id];
+        modalTitle.textContent = data.title;
+        modalDescription.textContent = data.description;
+        modalIframe.src = data.iframe;
+        modalBtn.setAttribute(
+          "onclick",
+          `window.open('${data.github}', '_blank')`
+        );
+        modal.classList.add("show"); // Use CSS class instead of style.display
+        document.body.classList.add("modal-open");
+      }
+
+      function closeModal() {
+        modal.classList.remove("show"); // Remove CSS class instead of style.display
+        modalIframe.src = ""; // stop iframe loading
+        document.body.classList.remove("modal-open");
+      }
+
+      // Optional: Close when clicking outside the modal content
+      window.addEventListener("click", function (e) {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      // For #canvas (background particles)
+      const canvasBg = document.getElementById("canvas");
+      const ctxBg = canvasBg.getContext("2d");
+      canvasBg.width = window.innerWidth;
+      canvasBg.height = window.innerHeight;
+
+      const particles = Array.from({ length: 50 }, () => ({
+        x: Math.random() * canvasBg.width,
+        y: Math.random() * canvasBg.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        size: Math.random() * 2 + 1,
+      }));
+
+      const mouse = { x: null, y: null };
+      // Only update mouse for #canvas when intro section is visible
+      window.addEventListener("mousemove", (e) => {
+        const intro = document.getElementById("intro");
+        const rect = intro.getBoundingClientRect();
+        if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+        }
+      });
+
+      function drawGradient() {
+        // No background fill to keep canvas transparent
+      }
+
+      function distance(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      function animateBg() {
+        ctxBg.clearRect(0, 0, canvasBg.width, canvasBg.height);
+
+        // Draw lines between close particles
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dist = distance(particles[i], particles[j]);
+            if (dist < 100) {
+              ctxBg.strokeStyle = `rgba(182, 159, 255, ${
+                (1 - dist / 100) * 0.4
+              })`;
+              ctxBg.lineWidth = 1;
+              ctxBg.beginPath();
+              ctxBg.moveTo(particles[i].x, particles[i].y);
+              ctxBg.lineTo(particles[j].x, particles[j].y);
+              ctxBg.stroke();
+            }
+          }
+        }
+
+        // Update and draw particles with mouse attraction
+        particles.forEach((p) => {
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = mouse.x - p.x;
+            const dy = mouse.y - p.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const influenceRadius = 150;
+
+            if (dist < influenceRadius) {
+              const force = ((influenceRadius - dist) / influenceRadius) * 0.02;
+              p.vx += (dx / dist) * force;
+              p.vy += (dy / dist) * force;
+            }
+          }
+
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > canvasBg.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvasBg.height) p.vy *= -1;
+
+          ctxBg.beginPath();
+          ctxBg.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctxBg.fillStyle = "rgba(182, 159, 255, 0.7)";
+          ctxBg.shadowBlur = 15;
+          ctxBg.shadowColor = "#b69fff";
+          ctxBg.fill();
+        });
+
+        requestAnimationFrame(animateBg);
+      }
+
+      animateBg();
+
+      window.addEventListener("resize", () => {
+        canvasBg.width = window.innerWidth;
+        canvasBg.height = window.innerHeight;
+      });
+      document.addEventListener("DOMContentLoaded", () => {
+        const buttons = document.querySelectorAll(".tab-btn");
+        const panelsContainer = document.querySelector(".cv-panels");
+        const skillBars = document.querySelectorAll(".skill-bar-fill");
+
+        // Animate skill bars
+        function animateSkillBars() {
+          skillBars.forEach((bar) => {
+            const width = bar.style.width;
+            bar.style.width = "0";
+            setTimeout(() => {
+              bar.style.transition = "width 1.2s ease";
+              bar.style.width = width;
+            }, 100);
+          });
+        }
+
+        // Initialize first panel animation
+        animateSkillBars();
+
+        buttons.forEach((btn, index) => {
+          btn.addEventListener("click", () => {
+            // Remove active class from all buttons and add to clicked button
+            buttons.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            // Slide the panels container (using % now)
+            panelsContainer.style.transform = `translateX(-${
+              index * 33.3333
+            }%)`;
+
+            // Animate skill bars only on Skills tab (index 0)
+            if (index === 0) {
+              animateSkillBars();
+            }
+          });
+        });
+      });
+    ;
+    
+      // Removed #starCanvas code as it is not needed and causes errors.
+    </script>
+  </body>
+</html>

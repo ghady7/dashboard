@@ -1,0 +1,309 @@
+*,*::before,*::after{box-sizing:border-box}body,h1,h2,h3,h4,p,figure,blockquote,dl,dd{margin:0}ul[role="list"],ol[role="list"]{list-style:none}html:focus-within{scroll-behavior:smooth}body{min-height:100vh;text-rendering:optimizeSpeed;line-height:1.5}a:not([class]){text-decoration-skip-ink:auto}img,picture{max-width:100%;display:block}input,button,textarea,select{font:inherit}@media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+
+/* Navigation */
+.dashboard_logo {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold; /* Ensure consistent font weight */
+    padding: 10px; /* Add padding around the logo */
+}
+
+.dashboard_menu_lists li {
+    padding: 10px; /* Add padding to menu items for better spacing */
+}
+
+.dashboard_menu_lists li a {
+    color: #fff; /* Set consistent text color */
+    text-decoration: none;
+    padding: 10px; /* Add padding to menu links */
+    transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+.dashboard_menu_lists li a:hover {
+    color: #ccc; /* Adjust hover color for better contrast */
+}
+
+.menuActive {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.menuActive a {
+    color: #fff;
+}
+
+/* Buttons */
+.appBtn {
+    background-color: #007bff; /* Set consistent button background color */
+    color: #fff;
+    padding: 10px 20px; /* Ensure consistent padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.appBtn:hover {
+    background-color: #0056b3; /* Adjust hover color for better contrast */
+}
+
+#dashboardMainContainer{
+    display: flex;
+    flex-direction: row;
+}
+div.dashboard_sidebar{
+    width: 20%;
+    background:#252C31;
+    height: 100vh;
+}
+div.dashboard_content_container{
+    width: 80%;
+    background: #e6eaed;
+}
+
+
+div.dashboard_topNav{
+    width: 100%;
+    background: #fff;
+    padding: 20px;
+
+}
+
+div.dashboard_topNav a{
+    color: #848383;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+a#logoutBtn{
+    float: right;
+}
+
+div.dashboard_content{
+    padding: 20px 10px 10px 10px;
+    background-color:#e6eaed;
+}
+
+div.dashboard_content_main{
+    background-color:#e6eaed;
+    max-height: 900px;
+    height: 100%;
+    
+}
+
+/* for navigation above */
+
+
+        /* CSS for grid layout */
+        .dashboard_content_container {
+            overflow: hidden; /* Disable scrolling */
+        }
+
+        .dashboard_content_main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+        }
+
+        .dashboard_panel {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel_header {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+
+        .panel_info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .panel_info p {
+            margin: 0;
+            color: #666666;
+            margin-right: 10px;
+        }
+
+        .panel_list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .panel_list li {
+            margin-bottom: 5px;
+            color: #999999;
+        }
+
+        #dashboardMainContainer {
+            display: flex;
+            height: 100vh;
+        }
+
+        .dashboard_content_container {
+            flex: 1;
+            overflow-y: auto; 
+            
+        }
+        
+
+
+
+        .dashboard-section {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow:0px 4px 6px rgba(0,0,0,0.2);
+            color:#333;
+        }
+        
+        .dashboard-section-header {
+            margin-bottom: 15px;
+            color:#000;
+        }
+        
+        .section-title {
+            margin: 0;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .dashboard-section-content {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .user-stats,
+        .latest-users {
+            border-right: 1px solid #ddd;
+            padding-right: 20px;
+        }
+        
+        .user-stats {
+            flex: 0 0 40%;
+        }
+        
+        .latest-users {
+            flex: 0 0 55%;
+        }
+        
+        .stat {
+            margin-bottom: 15px;
+        }
+        
+        .stat-label {
+            font-weight: bold;
+        }
+        
+        .section-subtitle {
+            margin-top: 0;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .user-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .user-item {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+          }
+        
+        .user-name {
+            font-weight: bold;
+        }
+        
+        .user-date {
+            color: #666;
+            font-size: 0.9rem;
+
+        }
+        
+        .product-stats,
+.supplier-stats,
+.order-stats {
+    border-right: 1px solid #ddd;
+    padding-right: 20px;
+}
+
+.product-stats,
+.supplier-stats {
+    flex: 0 0 40%;
+}
+
+.order-stats {
+    flex: 0 0 35%;
+}
+
+.latest-suppliers,
+.latest-orders,
+.low-quantity-products {
+    flex: 0 0 55%;
+}
+
+.stat {
+    margin-bottom: 15px;
+
+}
+
+.stat-label {
+    font-weight: bold;
+}
+
+.section-subtitle {
+    margin-top: 0;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.user-list,
+.product-list,
+.supplier-list,
+.order-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-item,
+.product-item,
+.supplier-item,
+.order-item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    display: flex ;
+justify-content: space-between;
+  align-items: center;
+}
+
+.user-name,
+.product-name,
+.supplier-name {
+    font-weight: bold;
+}
+
+.user-date,
+.supplier-date {
+    color: #666;
+    font-size: 0.9rem;
+}
+*{font-family: 'Outfit', sans-serif}
+    ::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}

@@ -1,0 +1,274 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", sans-serif; /* Corrected property */
+}
+
+body {
+  font-family: "Outfit", sans-serif; /* Corrected property */
+  background-color: #121212;
+  color: #e0e0e0;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: 36px;
+  color: #ff6600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Form Container */
+.form-container {
+  background-color: #222222;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 15px; /* Reduced spacing */
+}
+
+label {
+  color: #ffffff;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 6px; /* Reduced spacing */
+}
+
+input[type="text"],
+input[type="date"],
+input[type="radio"],
+input[type="number"],
+input[type="tel"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ff6600;
+  border-radius: 5px;
+  background-color: #333333;
+  color: #ffffff;
+  margin-bottom: 6px; /* Reduced spacing */
+}
+
+input[type="radio"] {
+  width: auto;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+input[type="radio"]:checked + label {
+  color: #ff6600;
+}
+
+/* Radio Buttons Container */
+.form-group div {
+  margin-bottom: 8px; /* Reduced spacing */
+  display: flex;
+}
+
+.form-group div label {
+  margin-left: 5px; /* Reduce space between radio and label */
+}
+
+/* Submit Button */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #ff6600;
+  color: #ffffff;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #e65c00;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .form-container {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  button {
+    font-size: 16px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+}
+
+.fieldset {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 200px;
+  flex-wrap: wrap;
+  align-content: space-around;
+  border-radius: 8px;
+  border-color: #ff6600;
+  padding-top: 10px;
+}
+
+/* Branch radio column grouping */
+.branch_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 8px;
+  border-color: #ff6600;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ff6600;
+  border-radius: 5px;
+  background-color: #333333;
+  color: #ffffff;
+  margin-bottom: 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6600'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #e65c00;
+  box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+}
+
+option:hover {
+  background-color: #e65c00;
+}
+body.light-mode {
+  background: #f9f9f9;
+  color: #101010;
+  font-family: "Poppins", sans-serif;
+}
+
+body.light-mode header {
+  background: #ffffff;
+  color: #ff6b00;
+  border-bottom: 2px solid #ff6b00;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .form-container {
+  background-color: #ffffff;
+  color: #111111;
+  border: 2px solid #ff6b00;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+  background-color: #fdfdfd;
+  color: #111111;
+  border: 2px solid #ff6b00;
+  transition: all 0.2s ease;
+}
+
+body.light-mode input:focus,
+body.light-mode select:focus,
+body.light-mode textarea:focus {
+  border-color: #ff6b00;
+  box-shadow: 0 0 6px rgba(255, 107, 0, 0.4);
+  outline: none;
+}
+
+body.light-mode label {
+  color: #000000;
+}
+
+body.light-mode th,
+body.light-mode td {
+  border: 1px solid #ff6b00;
+}
+
+body.light-mode table {
+  background-color: #ffffff;
+  border-collapse: collapse;
+}
+
+body.light-mode thead {
+  background-color: #ffe8d9;
+  color: #e65100;
+}
+
+body.light-mode #submitButton,
+body.light-mode button {
+  background: linear-gradient(135deg, #ff6b00, #ff8500);
+  color: #ffffff;
+  border: 2px solid #ff6b00;
+  transition: all 0.3s ease;
+}
+
+body.light-mode #submitButton:hover,
+body.light-mode button:hover {
+  background: linear-gradient(135deg, #ff4500, #ff6b00);
+  box-shadow: 0 4px 10px rgba(255, 69, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+body.light-mode #confirmationPopup {
+  background-color: #ffffff;
+  border: 2px solid #ff6b00;
+  color: #000000 !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode #confirmationPopup p {
+  color: #000000 !important;
+}
+
+body.light-mode #confirmationPopup h3,
+body.light-mode .highlight {
+  color: #e65100;
+  font-weight: 600;
+}
+
+body.light-mode #cancelButton {
+  background-color: #ffe8d9;
+  color: #333333;
+  border: 2px solid #ff6b00;
+}

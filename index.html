@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #0a0e27;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated background with particles */
+    .bg-animation {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translateY(-100px) translateX(50px);
+        opacity: 0.8;
+      }
+    }
+
+    /* Gradient orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: orbFloat 20s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #667eea, transparent);
+      top: -200px;
+      left: -200px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, #764ba2, transparent);
+      bottom: -250px;
+      right: -250px;
+      animation-delay: 5s;
+    }
+
+    .orb-3 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, #f093fb, transparent);
+      top: 50%;
+      left: 50%;
+      animation-delay: 10s;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(100px, -100px) scale(1.1);
+      }
+      66% {
+        transform: translate(-100px, 100px) scale(0.9);
+      }
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 40px 20px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+
+    .header p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 18px;
+      font-weight: 300;
+    }
+
+    /* Dashboard grid - 3 cards per row */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Card styling */
+    .card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 40px 32px;
+      color: white;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 70%);
+      opacity: 0;
+      transition: all 0.6s ease;
+      pointer-events: none;
+    }
+
+    .card:hover::after {
+      opacity: 1;
+      top: -100%;
+      left: -100%;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 80px var(--glow-color);
+    }
+
+    /* Card gradient overlays */
+    .card-1 {
+      --glow-color: rgba(102, 126, 234, 0.3);
+    }
+    .card-1 .gradient-overlay {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+    }
+
+    .card-2 {
+      --glow-color: rgba(56, 161, 105, 0.3);
+    }
+    .card-2 .gradient-overlay {
+      background: linear-gradient(135deg, rgba(56, 161, 105, 0.2), rgba(49, 151, 149, 0.2));
+    }
+
+    .card-3 {
+      --glow-color: rgba(236, 201, 75, 0.3);
+    }
+    .card-3 .gradient-overlay {
+      background: linear-gradient(135deg, rgba(236, 201, 75, 0.2), rgba(237, 137, 54, 0.2));
+    }
+
+    .card-4 {
+      --glow-color: rgba(159, 122, 234, 0.3);
+    }
+    .card-4 .gradient-overlay {
+      background: linear-gradient(135deg, rgba(159, 122, 234, 0.2), rgba(138, 43, 226, 0.2));
+    }
+
+    .card-5 {
+      --glow-color: rgba(244, 114, 182, 0.3);
+    }
+    .card-5 .gradient-overlay {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.2), rgba(219, 39, 119, 0.2));
+    }
+
+    .gradient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 24px;
+      opacity: 0.5;
+      transition: opacity 0.4s ease;
+      z-index: 0;
+    }
+
+    .card:hover .gradient-overlay {
+      opacity: 0.8;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Icon styling */
+    .icon-wrapper {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      transform: rotate(45deg);
+      transition: all 0.4s ease;
+    }
+
+    .card:hover .icon-bg {
+      transform: rotate(45deg) scale(1.1);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .icon {
+      font-size: 40px;
+      position: relative;
+      z-index: 1;
+      transition: all 0.4s ease;
+    }
+
+    .card:hover .icon {
+      transform: scale(1.1) rotateY(360deg);
+    }
+
+    /* Text styling */
+    .card h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .card p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 15px;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* Button styling */
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .card-link i {
+      transition: transform 0.3s ease;
+    }
+
+    .card-link:hover i {
+      transform: translateX(4px);
+    }
+
+    /* Badge */
+    .badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 2;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Ripple effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0);
+      animation: rippleEffect 0.6s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 36px;
+      }
+      
+      .dashboard {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .card {
+        padding: 32px 24px;
+      }
+    }
+
+    /* Stats counter animation */
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated background -->
+  <div class="bg-animation">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>My Portfolio Dashboard</h1>
+      <p>Explore my projects and applications</p>
+    </div>
+
+    <!-- Dashboard cards -->
+    <div class="dashboard">
+      <!-- CV Card -->
+      <div class="card card-1" >
+        <div class="gradient-overlay"></div>
+        <div class="badge">Profile</div>
+        <div class="card-content">
+          <div class="icon-wrapper">
+            <div class="icon-bg"></div>
+            <i class="fas fa-user-circle icon"></i>
+          </div>
+          <h2>Professional Profile</h2>
+          <p>View my professional experience, skills, and achievements in an interactive format.</p>
+          <a href="cv/index.html" class="card-link" onclick="event.stopPropagation()">
+            View CV
+            <i class="fas fa-arrow-right"></i>
+          </a>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-value">2+</span>
+              <span class="stat-label">Years Exp</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">13+</span>
+              <span class="stat-label">Skills</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculator Card -->
+      <div class="card card-2" >
+        <div class="gradient-overlay"></div>
+        <div class="badge">Tool</div>
+        <div class="card-content">
+          <div class="icon-wrapper">
+            <div class="icon-bg"></div>
+            <i class="fas fa-calculator icon"></i>
+          </div>
+          <h2>Smart Calculator</h2>
+          <p>A modern, feature-rich calculator with advanced functions and beautiful design.</p>
+          <a href="calculator/calculator.html" class="card-link" onclick="event.stopPropagation()">
+            Open Calculator
+            <i class="fas fa-arrow-right"></i>
+          </a>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-value">9+</span>
+              <span class="stat-label">Functions</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">Fast</span>
+              <span class="stat-label">Response</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nike-CO Card -->
+      <div class="card card-3">
+        <div class="gradient-overlay"></div>
+        <div class="badge">E-Commerce</div>
+        <div class="card-content">
+          <div class="icon-wrapper">
+            <div class="icon-bg"></div>
+            <i class="fas fa-shopping-bag icon"></i>
+          </div>
+          <h2>Order Manager</h2>
+          <p>Modern order management system with smooth tracking and automated customer notifications.</p>
+          <a href="nike-CO/index.html" class="card-link" onclick="event.stopPropagation()">
+            Visit Store
+            <i class="fas fa-arrow-right"></i>
+          </a>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-value">100+</span>
+              <span class="stat-label">Products</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">New</span>
+              <span class="stat-label">Arrivals</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Library System Card -->
+      <div class="card card-4">
+        <div class="gradient-overlay"></div>
+        <div class="badge">Management</div>
+        <div class="card-content">
+          <div class="icon-wrapper">
+            <div class="icon-bg"></div>
+            <i class="fas fa-book icon"></i>
+          </div>
+          <h2>Library System</h2>
+          <p>Comprehensive library management system for tracking books, members, and transactions.</p>
+          <a href="https://github.com/ghady7/Library_System" target="_blank" class="card-link" onclick="event.stopPropagation()">
+            View Repository
+            <i class="fab fa-github"></i>
+          </a>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-value">500+</span>
+              <span class="stat-label">Books</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">Active</span>
+              <span class="stat-label">Members</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory Ease Card -->
+      <div class="card card-5" >
+        <div class="gradient-overlay"></div>
+        <div class="badge">Business</div>
+        <div class="card-content">
+          <div class="icon-wrapper">
+            <div class="icon-bg"></div>
+            <i class="fas fa-boxes icon"></i>
+          </div>
+          <h2>Inventory Ease</h2>
+          <p>Efficient inventory management solution for tracking stock levels and orders.</p>
+          <a href="https://github.com/ghady7/Inventory_Manager/tree/master/IMS" target="_blank" class="card-link" onclick="event.stopPropagation()">
+            View Repository
+            <i class="fab fa-github"></i>
+          </a>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-value">Real-time</span>
+              <span class="stat-label">Tracking</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">Easy</span>
+              <span class="stat-label">Reports</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Create floating particles
+    function createParticles() {
+      const bgAnimation = document.querySelector('.bg-animation');
+      const particleCount = 100;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        const size = Math.random() * 4 + 1;
+        const startX = Math.random() * window.innerWidth;
+        const startY = Math.random() * window.innerHeight;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 5;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${startX}px`;
+        particle.style.top = `${startY}px`;
+        particle.style.background = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.1})`;
+        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        
+        bgAnimation.appendChild(particle);
+      }
+    }
+
+    // Create ripple effect on card click
+    function createRipple(e, card) {
+      const ripple = document.createElement('div');
+      ripple.classList.add('ripple');
+      
+      const rect = card.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      card.appendChild(ripple);
+      
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    // Navigate with ripple effect
+    function navigate(url, e) {
+      const card = e.currentTarget;
+      createRipple(e, card);
+      
+      setTimeout(() => {
+        window.location.href = url;
+      }, 300);
+    }
+
+    // Navigate to external link (GitHub)
+    function navigateExternal(url, e) {
+      const card = e.currentTarget;
+      createRipple(e, card);
+      
+      setTimeout(() => {
+        window.open(url, '_blank');
+      }, 300);
+    }
+
+	  document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'A') {
+          const link = card.querySelector('.card-link');
+          if (link) {
+            createRipple(e, card);
+            setTimeout(() => {
+              if (link.target === '_blank') {
+               
+              } else {
+            
+              }
+            }, 300);
+          }
+        }
+      });
+    });	
+
+    // Animate stats on hover
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const statValues = card.querySelectorAll('.stat-value');
+        statValues.forEach(stat => {
+          const text = stat.textContent;
+          if (!isNaN(parseInt(text))) {
+            const target = parseInt(text);
+            let current = 0;
+            const increment = target / 20;
+            const timer = setInterval(() => {
+              current += increment;
+              if (current >= target) {
+                stat.textContent = text;
+                clearInterval(timer);
+              } else {
+                stat.textContent = Math.floor(current) + '+';
+              }
+            }, 30);
+          }
+        });
+      });
+    });
+
+    // Initialize
+    createParticles();
+
+    // Moderate parallax effect on mouse move (reduced from 20 to 12)
+    document.addEventListener('mousemove', (e) => {
+      const cards = document.querySelectorAll('.card');
+      const x = e.clientX / window.innerWidth - 0.5;
+      const y = e.clientY / window.innerHeight - 0.5;
+      
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const cardX = (rect.left + rect.width / 2) / window.innerWidth - 0.5;
+        const cardY = (rect.top + rect.height / 2) / window.innerHeight - 0.5;
+        
+        const deltaX = (x - cardX) * 12;
+        const deltaY = (y - cardY) * 12;
+        
+        card.style.transform = `perspective(1000px) rotateY(${deltaX}deg) rotateX(${-deltaY}deg)`;
+      });
+    });
+
+    // Reset transform on mouse leave
+    document.addEventListener('mouseleave', () => {
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.transform = '';
+      });
+    });
+  </script>
+</body>
+</html>
