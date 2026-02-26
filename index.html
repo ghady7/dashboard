@@ -154,7 +154,9 @@
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
     }
-
+                      .card:first-child {
+                        grid-column: 1 / -1;
+                      }
     .card::before {
       content: '';
       position: absolute;
@@ -198,6 +200,18 @@
         0 0 80px var(--glow-color);
     }
 
+    @media (max-width: 768px) {
+      .card:hover {
+        transform: translateY(-4px) scale(1.01);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card:hover {
+        transform: translateY(-2px);
+      }
+    }
+
     /* Card gradient overlays */
     .card-1 {
       --glow-color: rgba(102, 126, 234, 0.3);
@@ -233,6 +247,27 @@
     .card-5 .gradient-overlay {
       background: linear-gradient(135deg, rgba(244, 114, 182, 0.2), rgba(219, 39, 119, 0.2));
     }
+    .card-6 {
+  --glow-color: rgba(14, 165, 233, 0.3);
+}
+.card-6 .gradient-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.2),
+    rgba(59, 130, 246, 0.2)
+  );
+}
+
+.card-7 {
+  --glow-color: rgba(34, 197, 94, 0.3);
+}
+.card-7 .gradient-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.2),
+    rgba(16, 185, 129, 0.2)
+  );
+}
 
     .gradient-overlay {
       position: absolute;
@@ -339,6 +374,11 @@
       transform: translateX(4px);
     }
 
+    /* Multiple card links spacing */
+    .card-link + .card-link {
+      margin-left: 12px;
+    }
+
     /* Badge */
     .badge {
       position: absolute;
@@ -394,25 +434,282 @@
       }
     }
 
+    /* Featured card layout */
+    .featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .featured-left {
+      flex: 1;
+    }
+
+    .featured-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .featured-actions {
+      margin-top: 20px;
+    }
+
+    .mid-section {
+      transform: translateX(50%);
+    }
+
     /* Responsive */
     @media (max-width: 1200px) {
       .dashboard {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      .header h1 {
+        font-size: 40px;
+      }
+
+      .card {
+        padding: 32px 28px;
+      }
+
+      .card h2 {
+        font-size: 24px;
+      }
+
+      .icon-wrapper {
+        width: 70px;
+        height: 70px;
+      }
+
+      .icon {
+        font-size: 32px;
+      }
+
+      .mid-section {
+        transform: translateX(25%);
+      }
     }
 
     @media (max-width: 768px) {
-      .header h1 {
-        font-size: 36px;
+      .container {
+        padding: 24px 16px;
       }
-      
+
+      .header {
+        margin-bottom: 40px;
+      }
+
+      .header h1 {
+        font-size: 32px;
+      }
+
+      .header p {
+        font-size: 16px;
+      }
+
       .dashboard {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 16px;
       }
-      
+
       .card {
-        padding: 32px 24px;
+        padding: 24px 20px;
+      }
+
+      .card:first-child {
+        grid-column: 1;
+      }
+
+      .card h2 {
+        font-size: 22px;
+      }
+
+      .card p {
+        font-size: 14px;
+      }
+
+      .icon-wrapper {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 16px;
+      }
+
+      .icon {
+        font-size: 28px;
+      }
+
+      .card-link {
+        padding: 12px 24px;
+        font-size: 14px;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .card-link + .card-link {
+        margin-left: 0;
+        margin-top: 12px;
+      }
+
+      .badge {
+        padding: 4px 10px;
+        font-size: 11px;
+        top: 12px;
+        right: 12px;
+      }
+
+      .stats {
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 16px;
+        padding-top: 16px;
+      }
+
+      .stat-item {
+        padding: 8px 0;
+      }
+
+      .stat-value {
+        font-size: 20px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+      }
+
+      .featured {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .featured-right {
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .mid-section {
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 16px 12px;
+      }
+
+      .header {
+        margin-bottom: 32px;
+      }
+
+      .header h1 {
+        font-size: 26px;
+        margin-bottom: 8px;
+      }
+
+      .header p {
+        font-size: 14px;
+      }
+
+      .dashboard {
+        gap: 12px;
+      }
+
+      .card {
+        padding: 20px 16px;
+      }
+
+      .card h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        font-size: 13px;
+        margin-bottom: 16px;
+      }
+
+      .icon-wrapper {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto 12px;
+      }
+
+      .icon {
+        font-size: 24px;
+      }
+
+      .card-link {
+        padding: 10px 20px;
+        font-size: 13px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .card-link + .card-link {
+        margin-top: 10px;
+      }
+
+      .badge {
+        padding: 3px 8px;
+        font-size: 10px;
+        top: 8px;
+        right: 8px;
+      }
+
+      .stats {
+        gap: 12px;
+      }
+
+      .stat-value {
+        font-size: 18px;
+        margin-bottom: 2px;
+      }
+
+      .stat-label {
+        font-size: 10px;
+      }
+
+      .featured {
+        gap: 16px;
+      }
+
+      .featured-left h2 {
+        font-size: 20px;
+      }
+
+      .featured-left p {
+        font-size: 13px;
+      }
+
+      .orb {
+        filter: blur(60px);
+        opacity: 0.2;
+      }
+
+      .orb-1 {
+        width: 250px;
+        height: 250px;
+        top: -125px;
+        left: -125px;
+      }
+
+      .orb-2 {
+        width: 300px;
+        height: 300px;
+        bottom: -150px;
+        right: -150px;
+      }
+
+      .orb-3 {
+        width: 200px;
+        height: 200px;
+      }
+
+      .mid-section {
+        transform: translateX(0);
       }
     }
 
@@ -462,63 +759,137 @@
     <!-- Dashboard cards -->
     <div class="dashboard">
       <!-- CV Card -->
-      <div class="card card-1" >
-        <div class="gradient-overlay"></div>
-        <div class="badge">Profile</div>
-        <div class="card-content">
-          <div class="icon-wrapper">
-            <div class="icon-bg"></div>
-            <i class="fas fa-user-circle icon"></i>
-          </div>
-          <h2>Professional Profile</h2>
-          <p>View my professional experience, skills, and achievements in an interactive format.</p>
-          <a href="cv/index.html" class="card-link" onclick="event.stopPropagation()">
-            View CV
-            <i class="fas fa-arrow-right"></i>
-          </a>
-          <div class="stats">
-            <div class="stat-item">
-              <span class="stat-value">2+</span>
-              <span class="stat-label">Years Exp</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value">13+</span>
-              <span class="stat-label">Skills</span>
-            </div>
-          </div>
-        </div>
+      <!-- Featured CV Card -->
+<div class="card card-1 featured">
+  <div class="gradient-overlay"></div>
+  <div class="badge">Profile</div>
+
+  <div class="card-content">
+
+    <!-- Left Section --><div class="left-section">
+    <div class="featured-left">
+      <h2>Professional Profile</h2>
+
+      <p>
+        Computer Science professional focused on building scalable,
+        AI-driven and full-stack solutions that solve real-world business problems.
+      </p>
+
+      
+
+      <div class="featured-actions">
+        <a href="cv/index.html" target="_blank" class="card-link" onclick="event.stopPropagation()">
+          View CV
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- Right Section -->
+  <div class="mid-section">
+    <div class="featured-right">
+      <div class="icon-wrapper">
+        <div class="icon-bg"></div>
+        <i class="fas fa-user-circle icon"></i>
       </div>
 
-      <!-- Calculator Card -->
-      <div class="card card-2" >
-        <div class="gradient-overlay"></div>
-        <div class="badge">Tool</div>
-        <div class="card-content">
-          <div class="icon-wrapper">
-            <div class="icon-bg"></div>
-            <i class="fas fa-calculator icon"></i>
-          </div>
-          <h2>Smart Calculator</h2>
-          <p>A modern, feature-rich calculator with advanced functions and beautiful design.</p>
-          <a href="calculator/calculator.html" class="card-link" onclick="event.stopPropagation()">
-            Open Calculator
-            <i class="fas fa-arrow-right"></i>
-          </a>
-          <div class="stats">
-            <div class="stat-item">
-              <span class="stat-value">9+</span>
-              <span class="stat-label">Functions</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value">Fast</span>
-              <span class="stat-label">Response</span>
-            </div>
-          </div>
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-value">2+</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">13+</span>
+          <span class="stat-label">Technical Skills</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">9+</span>
+          <span class="stat-label">Projects Built</span>
         </div>
       </div>
+    </div></div>
+
+  </div>
+</div>
+
+      <!-- HR AI Recruitment System -->
+<div class="card card-2">
+  <div class="gradient-overlay"></div>
+  <div class="badge">AI Recruitment</div>
+  <div class="card-content">
+    <div class="icon-wrapper">
+      <div class="icon-bg"></div>
+      <i class="fas fa-users icon"></i>
+    </div>
+
+    <h2>AI-Powered HR Recruitment</h2>
+
+    <p>
+    AI recruitment system that analyzes and ranks candidates to identify the best match for a job position.</p>
+
+    <a href="https://hr-recruitment-app-0551.onrender.com/" target="_blank" class="card-link" onclick="event.stopPropagation()">
+      View Project
+      <i class="fas fa-arrow-right"></i>
+    </a>
+     <a href="https://github.com/ghady7/hr-recruitment-app" target="_blank" class="card-link" onclick="event.stopPropagation()">
+            View Repository
+            <i class="fab fa-github"></i>
+          </a>
+
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-value">Multi</span>
+        <span class="stat-label">CV Upload</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">AI</span>
+        <span class="stat-label">Candidate Ranking</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stroke Risk Prediction System -->
+<div class="card card-3">
+  <div class="gradient-overlay"></div>
+  <div class="badge">Machine Learning</div>
+  <div class="card-content">
+    <div class="icon-wrapper">
+      <div class="icon-bg"></div>
+      <i class="fas fa-heartbeat icon"></i>
+    </div>
+
+    <h2>Stroke Risk Prediction</h2>
+
+    <p>
+      Machine learning application that analyzes multiple health indicators
+      and predicts a user's stroke risk level.
+    </p>
+
+    <a href="https://machine-learning-projects-9d3i.onrender.com/" target="_blank" class="card-link" onclick="event.stopPropagation()">
+      View Project
+      <i class="fas fa-arrow-right"></i>
+    </a>
+    <a href="https://github.com/ghady7/machine-learning-projects/tree/master/strok_risk" target="_blank" class="card-link" onclick="event.stopPropagation()">
+            View Repository
+            <i class="fab fa-github"></i>
+          </a>
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-value">ML</span>
+        <span class="stat-label">Risk Model</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">Multi</span>
+        <span class="stat-label">Health Inputs</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 
       <!-- Nike-CO Card -->
-      <div class="card card-3">
+      <div class="card card-4">
         <div class="gradient-overlay"></div>
         <div class="badge">E-Commerce</div>
         <div class="card-content">
@@ -528,9 +899,13 @@
           </div>
           <h2>Order Manager</h2>
           <p>Modern order management system with smooth tracking and automated customer notifications.</p>
-          <a href="nike-CO/index.html" class="card-link" onclick="event.stopPropagation()">
+          <a href="order_manager/index.html" target="_blank" class="card-link" onclick="event.stopPropagation()">
             Visit Store
             <i class="fas fa-arrow-right"></i>
+          </a>
+           <a href="https://github.com/ghady7/order_manager" target="_blank" class="card-link" onclick="event.stopPropagation()">
+            View Repository
+            <i class="fab fa-github"></i>
           </a>
           <div class="stats">
             <div class="stat-item">
@@ -538,15 +913,43 @@
               <span class="stat-label">Products</span>
             </div>
             <div class="stat-item">
-              <span class="stat-value">New</span>
-              <span class="stat-label">Arrivals</span>
+              <span class="stat-value">Order</span>
+              <span class="stat-label">Automation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory Ease Card -->
+      <div class="card card-5" >
+        <div class="gradient-overlay"></div>
+        <div class="badge">Business</div>
+        <div class="card-content">
+          <div class="icon-wrapper">
+            <div class="icon-bg"></div>
+            <i class="fas fa-boxes icon"></i>
+          </div>
+          <h2>Inventory Ease</h2>
+          <p>Efficient inventory management solution for tracking stock levels and orders.</p>
+          <a href="https://github.com/ghady7/fyp" target="_blank" class="card-link" onclick="event.stopPropagation()">
+            View Repository
+            <i class="fab fa-github"></i>
+          </a>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-value">Real-time</span>
+              <span class="stat-label">Tracking</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">Easy</span>
+              <span class="stat-label">Reports</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Library System Card -->
-      <div class="card card-4">
+      <div class="card card-6">
         <div class="gradient-overlay"></div>
         <div class="badge">Management</div>
         <div class="card-content">
@@ -573,35 +976,42 @@
         </div>
       </div>
 
-      <!-- Inventory Ease Card -->
-      <div class="card card-5" >
+<!-- Calculator Card -->
+      <div class="card card-7" >
         <div class="gradient-overlay"></div>
-        <div class="badge">Business</div>
+        <div class="badge">Tool</div>
         <div class="card-content">
           <div class="icon-wrapper">
             <div class="icon-bg"></div>
-            <i class="fas fa-boxes icon"></i>
+            <i class="fas fa-calculator icon"></i>
           </div>
-          <h2>Inventory Ease</h2>
-          <p>Efficient inventory management solution for tracking stock levels and orders.</p>
-          <a href="https://github.com/ghady7/Inventory_Manager/tree/master/IMS" target="_blank" class="card-link" onclick="event.stopPropagation()">
+          <h2>Smart Calculator</h2>
+          <p>A modern, feature-rich calculator with advanced functions and beautiful design.</p>
+          <a href="calculator/calculator.html" target="_blank" class="card-link" onclick="event.stopPropagation()">
+            View Project
+            <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="https://github.com/ghady7/calculator" target="_blank" class="card-link" onclick="event.stopPropagation()">
             View Repository
             <i class="fab fa-github"></i>
           </a>
           <div class="stats">
             <div class="stat-item">
-              <span class="stat-value">Real-time</span>
-              <span class="stat-label">Tracking</span>
+              <span class="stat-value">9+</span>
+              <span class="stat-label">Functions</span>
             </div>
             <div class="stat-item">
-              <span class="stat-value">Easy</span>
-              <span class="stat-label">Reports</span>
+              <span class="stat-value">Fast</span>
+              <span class="stat-label">Response</span>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
+
+  
 
   <script>
     // Create floating particles
@@ -714,30 +1124,40 @@
     // Initialize
     createParticles();
 
-    // Moderate parallax effect on mouse move (reduced from 20 to 12)
-    document.addEventListener('mousemove', (e) => {
-      const cards = document.querySelectorAll('.card');
-      const x = e.clientX / window.innerWidth - 0.5;
-      const y = e.clientY / window.innerHeight - 0.5;
-      
-      cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const cardX = (rect.left + rect.width / 2) / window.innerWidth - 0.5;
-        const cardY = (rect.top + rect.height / 2) / window.innerHeight - 0.5;
-        
-        const deltaX = (x - cardX) * 12;
-        const deltaY = (y - cardY) * 12;
-        
-        card.style.transform = `perspective(1000px) rotateY(${deltaX}deg) rotateX(${-deltaY}deg)`;
-      });
-    });
+    // Check if device supports touch
+    const isTouchDevice = () => {
+      return (('ontouchstart' in window) ||
+              (navigator.maxTouchPoints > 0) ||
+              (navigator.msMaxTouchPoints > 0));
+    };
 
-    // Reset transform on mouse leave
-    document.addEventListener('mouseleave', () => {
-      document.querySelectorAll('.card').forEach(card => {
-        card.style.transform = '';
+    // Only enable parallax on non-touch devices with larger screens
+    if (!isTouchDevice() && window.innerWidth > 768) {
+      // Moderate parallax effect on mouse move (reduced from 20 to 12)
+      document.addEventListener('mousemove', (e) => {
+        const cards = document.querySelectorAll('.card:not(.card-1)');
+        const x = e.clientX / window.innerWidth - 0.3;
+        const y = e.clientY / window.innerHeight - 0.3;
+        
+        cards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const cardX = (rect.left + rect.width / 2) / window.innerWidth - 0.5;
+          const cardY = (rect.top + rect.height / 2) / window.innerHeight - 0.5;
+          
+          const deltaX = (x - cardX) * 12;
+          const deltaY = (y - cardY) * 12;
+          
+          card.style.transform = `perspective(1000px) rotateY(${deltaX}deg) rotateX(${-deltaY}deg)`;
+        });
       });
-    });
+
+      // Reset transform on mouse leave
+      document.addEventListener('mouseleave', () => {
+        document.querySelectorAll('.card').forEach(card => {
+          card.style.transform = '';
+        });
+      });
+    }
   </script>
 </body>
 </html>
