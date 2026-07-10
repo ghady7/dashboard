@@ -277,7 +277,16 @@
     rgba(16, 185, 129, 0.2)
   );
 }
-
+.card-8 {
+  --glow-color: rgba(255, 215, 0, 0.3);
+}
+.card-8 .gradient-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.2),
+    rgba(212, 175, 55, 0.2)
+  );
+}
     .gradient-overlay {
       position: absolute;
       top: 0;
@@ -946,6 +955,30 @@
           </div>
         </div>
       </div>
+
+      <div class="card card-8">
+  <div class="gradient-overlay"></div>
+  <div class="badge">Data Analytics</div>
+  <div class="card-content">
+    <div class="icon-wrapper">
+      <div class="icon-bg"></div>
+      <i class="fas fa-chart-line icon"></i>
+    </div>
+    <h2>Hotel Revenue Analytics</h2>
+    <p>End-to-end SQL/Python cleaning pipeline and interactive Power BI dashboard tracking booking trends and KPIs.</p>
+    <a href="https://github.com/ghady7/hotel-booking-eda" target="_blank" class="card-link" onclick="event.stopPropagation()">
+      View Repository
+      <i class="fab fa-github"></i>
+    </a>
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-value">100K+</span>
+        <span class="stat-label">Records</span>
+      </div>
+      
+    </div>
+  </div>
+</div>
 
       <!-- Inventory Ease Card -->
       <div class="card card-5" >
