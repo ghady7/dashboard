@@ -147,6 +147,8 @@
     hamburger.addEventListener('click', toggleMenu);
     document.querySelectorAll('.nav-link, a[href^="#"]').forEach(l => l.addEventListener('click', smoothScroll));
     if (contactForm) contactForm.addEventListener('submit', handleSubmit);
+    const yrElem = document.getElementById('cvYear');
+    if (yrElem) yrElem.textContent = new Date().getFullYear();
     setupReveal();
     setupHero();
     setupBars();

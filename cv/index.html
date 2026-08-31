@@ -3,16 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Ghady Tayeh - Computer Science Graduate, Full-Stack Developer & IT Specialist based in Lebanon.">
-<meta name="keywords" content="Ghady Tayeh, portfolio, full-stack developer, IT specialist, computer science, Lebanon">
+<meta name="description" content="Ghady Tayeh - Computer Science Graduate, Data Engineering & Analytics Specialist, Full-Stack Developer based in Lebanon.">
+<meta name="keywords" content="Ghady Tayeh, portfolio, CV, data engineering, data analytics, full-stack developer, IT specialist, computer science, Lebanon">
 <meta name="author" content="Ghady Tayeh">
-<meta property="og:title" content="Ghady Tayeh — Developer & IT Specialist">
-<meta property="og:description" content="Computer Science graduate with expertise in full-stack development and IT operations.">
+<meta property="og:title" content="Ghady Tayeh — Software Developer & Data Analytics Specialist">
+<meta property="og:description" content="Computer Science graduate with expertise in Data Engineering, Analytics, AI/ML, and Full-Stack Development.">
 <meta property="og:type" content="website">
-<title>Ghady Tayeh — Developer & IT Specialist</title>
+<title>Ghady Tayeh — Software Developer &amp; Data Specialist</title>
+
+<!-- Fonts & Icons -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
 <link rel="stylesheet" href="style.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="text/javascript">
@@ -24,10 +28,12 @@
 <div class="noise-overlay"></div>
 <div class="grid-bg"></div>
 
+<!-- Navigation Bar -->
 <header class="header" id="header">
   <nav class="nav container">
     <a href="#hero" class="nav-logo">
       <span class="logo-bracket">[</span>GT<span class="logo-bracket">]</span>
+      <span class="logo-text">Ghady Tayeh</span>
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about" class="nav-link">About</a></li>
@@ -36,6 +42,7 @@
       <li><a href="#education" class="nav-link">Education</a></li>
       <li><a href="#projects" class="nav-link">Projects</a></li>
       <li><a href="#contact" class="nav-link">Contact</a></li>
+      <li><a href="../index.html" class="nav-dashboard-btn"><i class="fas fa-arrow-left"></i> Dashboard</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -44,6 +51,7 @@
 </header>
 
 <main>
+  <!-- Hero Section -->
   <section class="hero" id="hero">
     <div class="hero-content container">
       <div class="hero-eyebrow">
@@ -54,11 +62,14 @@
         <span class="name-line reveal-up" style="--delay:0.1s">Ghady</span>
         <span class="name-line accent-line reveal-up" style="--delay:0.2s">Tayeh</span>
       </h1>
-      <p class="hero-title mono reveal-up" style="--delay:0.3s">// Software Developer &amp; IT Specialist</p>
-      <p class="hero-bio reveal-up" style="--delay:0.4s">Computer Science professional designing and delivering scalable, high-performance technology solutions, with expertise in software development and a strategic focus on Artificial Intelligence.</p>
+      <p class="hero-title mono reveal-up" style="--delay:0.3s">// Software Developer • Data &amp; AI Specialist</p>
+      <p class="hero-bio reveal-up" style="--delay:0.4s">
+        Computer Science graduate specializing in scalable Data Engineering pipelines, Business Intelligence dashboards, Machine Learning solutions, and high-performance Full-Stack Web Development.
+      </p>
       <div class="hero-cta reveal-up" style="--delay:0.5s">
-        <a href="#contact" class="btn btn-primary">Get in Touch</a>
-        <a href="#projects" class="btn btn-ghost">View Work</a>
+        <a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Get in Touch</a>
+        <a href="#projects" class="btn btn-ghost"><i class="fas fa-layer-group"></i> View Work</a>
+        <a href="../index.html" class="btn btn-ghost"><i class="fas fa-th-large"></i> Project Dashboard</a>
       </div>
       <div class="hero-location mono reveal-up" style="--delay:0.6s">
         <span class="location-icon">◈</span> Nahr Ibrahim, Lebanon
@@ -71,36 +82,42 @@
     </div>
   </section>
 
+  <!-- About Section -->
   <section class="about" id="about">
     <div class="container">
       <div class="section-header reveal-fade">
         <span class="section-num mono">01</span>
-        <h2 class="section-title">About</h2>
+        <h2 class="section-title">About Me</h2>
         <div class="section-line"></div>
       </div>
       <div class="about-grid">
         <div class="about-text reveal-left">
-          <p>Computer Science graduate with a strong foundation in software development and technology-driven problem solving. Experienced in full-stack development as well as IT operations and system support through academic projects, internships, and professional roles.</p>
-          <p>Actively enhancing technical expertise through continuous learning and hands-on experience, with a growing interest in Artificial Intelligence. Motivated to deliver effective, innovative solutions while advancing in the technology field.</p>
+          <p>
+            Computer Science graduate (GPA 88/100) with proven capabilities in building end-to-end data architectures, analytical dashboards, predictive machine learning models, and modern full-stack web applications.
+          </p>
+          <p>
+            Certified in <strong>Google Data Analytics</strong> and <strong>Python Programming</strong>, with hands-on experience designing automated ELT data pipelines, SQL Server star-schemas, interactive Power BI KPI dashboards, and AI-driven workflow automations.
+          </p>
           <div class="about-links">
-            <a href="mailto:Ghadytayeh7@gmail.com" class="about-link mono">Ghadytayeh7@gmail.com</a>
-            <a href="tel:+96176966369" class="about-link mono">+961 76 966 369</a>
-            <a href="https://www.linkedin.com/in/ghady-tayeh-a0711a339" target="_blank" rel="noopener" class="about-link mono">LinkedIn ↗</a>
-            <a href="https://ghady7.github.io/dashboard/index.html" target="_blank" rel="noopener" class="about-link mono">Portfolio ↗</a>
+            <a href="mailto:Ghadytayeh7@gmail.com" class="about-link mono"><i class="fas fa-envelope"></i> Ghadytayeh7@gmail.com</a>
+            <a href="tel:+96176966369" class="about-link mono"><i class="fas fa-phone"></i> +961 76 966 369</a>
+            <a href="https://www.linkedin.com/in/ghady-tayeh-a0711a339" target="_blank" rel="noopener" class="about-link mono"><i class="fab fa-linkedin"></i> LinkedIn Profile ↗</a>
+            <a href="https://github.com/ghady7" target="_blank" rel="noopener" class="about-link mono"><i class="fab fa-github"></i> GitHub Repositories ↗</a>
+            <a href="../index.html" class="about-link mono"><i class="fas fa-th"></i> Interactive Portfolio Hub ↗</a>
           </div>
         </div>
         <div class="about-stats reveal-right">
           <div class="stat-card">
             <span class="stat-num">88<span class="stat-unit">/100</span></span>
-            <span class="stat-label">GPA</span>
+            <span class="stat-label">Bachelor GPA</span>
           </div>
           <div class="stat-card">
             <span class="stat-num">2+</span>
             <span class="stat-label">Years Experience</span>
           </div>
           <div class="stat-card">
-            <span class="stat-num">12+</span>
-            <span class="stat-label">Tech Stacks</span>
+            <span class="stat-num">13+</span>
+            <span class="stat-label">Built Projects</span>
           </div>
           <div class="stat-card">
             <span class="stat-num">3</span>
@@ -111,60 +128,70 @@
     </div>
   </section>
 
+  <!-- Skills Section -->
   <section class="skills" id="skills">
     <div class="container">
       <div class="section-header reveal-fade">
         <span class="section-num mono">02</span>
-        <h2 class="section-title">Skills</h2>
+        <h2 class="section-title">Technical Skills</h2>
         <div class="section-line"></div>
       </div>
       <div class="skills-grid">
         <div class="skill-group reveal-up" style="--delay:0.1s">
-          <h3 class="skill-group-title">Programming</h3>
+          <h3 class="skill-group-title"><i class="fas fa-database"></i> Data Engineering &amp; BI</h3>
           <div class="skill-tags">
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">Java</span>
-            <span class="skill-tag">C#</span>
-            <span class="skill-tag">C++</span>
-            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">SQL Server</span>
+            <span class="skill-tag">Power BI</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">ELT / ETL Pipelines</span>
+            <span class="skill-tag">Star Schema Modeling</span>
+            <span class="skill-tag">Data Warehousing</span>
+            <span class="skill-tag">DAX &amp; Power Query</span>
           </div>
         </div>
         <div class="skill-group reveal-up" style="--delay:0.2s">
-          <h3 class="skill-group-title">Web Development</h3>
+          <h3 class="skill-group-title"><i class="fas fa-brain"></i> AI &amp; Machine Learning</h3>
           <div class="skill-tags">
-            <span class="skill-tag">HTML5</span>
-            <span class="skill-tag">CSS3</span>
-            <span class="skill-tag">JavaScript</span>
-            <span class="skill-tag">PHP</span>
-            <span class="skill-tag">Laravel</span>
-            <span class="skill-tag">FastAPI</span>
+            <span class="skill-tag">Python (Pandas, NumPy)</span>
+            <span class="skill-tag">Scikit-Learn</span>
+            <span class="skill-tag">Jupyter Notebooks</span>
+            <span class="skill-tag">Predictive Modeling</span>
+            <span class="skill-tag">NLP Resume Matching</span>
+            <span class="skill-tag">Anomaly Detection</span>
+            <span class="skill-tag">Exploratory Data Analysis</span>
           </div>
         </div>
         <div class="skill-group reveal-up" style="--delay:0.3s">
-          <h3 class="skill-group-title">Tools & Systems</h3>
+          <h3 class="skill-group-title"><i class="fas fa-code"></i> Full-Stack &amp; Software</h3>
           <div class="skill-tags">
-            <span class="skill-tag">PostgreSQL</span>
-            <span class="skill-tag">MySQL</span>
-            <span class="skill-tag">Pandas</span>
-            <span class="skill-tag">NumPy</span>
-            <span class="skill-tag">System Admin</span>
-            <span class="skill-tag">SharePoint</span>
-            <span class="skill-tag">POS Systems</span>
-            <span class="skill-tag">Git</span>
+            <span class="skill-tag">JavaScript (ES6+)</span>
+            <span class="skill-tag">HTML5 / CSS3</span>
+            <span class="skill-tag">PHP</span>
+            <span class="skill-tag">Laravel MVC</span>
+            <span class="skill-tag">FastAPI</span>
+            <span class="skill-tag">RESTful APIs</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">C# / C++</span>
+            <span class="skill-tag">Git &amp; GitHub</span>
           </div>
         </div>
         <div class="skill-group reveal-up" style="--delay:0.4s">
-          <h3 class="skill-group-title">Core Competencies</h3>
+          <h3 class="skill-group-title"><i class="fas fa-server"></i> Systems &amp; Core Strengths</h3>
           <div class="skill-tags">
-            <span class="skill-tag">Analytical Thinking</span>
-            <span class="skill-tag">Communication</span>
-            <span class="skill-tag">Curiosity</span>
+            <span class="skill-tag">System Administration</span>
+            <span class="skill-tag">SharePoint &amp; POS</span>
+            <span class="skill-tag">Batch Scripting &amp; Automation</span>
+            <span class="skill-tag">Analytical Problem Solving</span>
+            <span class="skill-tag">Technical Leadership</span>
             <span class="skill-tag">Continuous Learning</span>
           </div>
         </div>
       </div>
+
+      <!-- Spoken Languages -->
       <div class="languages-section reveal-fade">
-        <h3 class="skill-group-title">Languages Spoken</h3>
+        <h3 class="skill-group-title"><i class="fas fa-language"></i> Spoken Languages</h3>
         <div class="lang-bars">
           <div class="lang-bar">
             <span class="lang-name mono">Arabic</span>
@@ -173,12 +200,12 @@
           </div>
           <div class="lang-bar">
             <span class="lang-name mono">English</span>
-            <div class="bar-track"><div class="bar-fill" data-width="85"></div></div>
-            <span class="lang-level mono">Advanced</span>
+            <div class="bar-track"><div class="bar-fill" data-width="90"></div></div>
+            <span class="lang-level mono">Professional / Fluent</span>
           </div>
           <div class="lang-bar">
             <span class="lang-name mono">French</span>
-            <div class="bar-track"><div class="bar-fill" data-width="55"></div></div>
+            <div class="bar-track"><div class="bar-fill" data-width="60"></div></div>
             <span class="lang-level mono">Intermediate</span>
           </div>
         </div>
@@ -186,11 +213,12 @@
     </div>
   </section>
 
+  <!-- Experience Section -->
   <section class="experience" id="experience">
     <div class="container">
       <div class="section-header reveal-fade">
         <span class="section-num mono">03</span>
-        <h2 class="section-title">Experience</h2>
+        <h2 class="section-title">Work Experience</h2>
         <div class="section-line"></div>
       </div>
       <div class="timeline">
@@ -199,19 +227,20 @@
           <div class="timeline-card">
             <div class="timeline-meta">
               <span class="timeline-date mono">Sep 2025 — Present</span>
-              <span class="timeline-badge current">Current</span>
+              <span class="timeline-badge current">Current Position</span>
             </div>
-            <h3 class="timeline-role">IT Support</h3>
-            <span class="timeline-company">Le Royal Hotel</span>
+            <h3 class="timeline-role">IT Support Specialist</h3>
+            <span class="timeline-company"><i class="fas fa-hotel"></i> Le Royal Hotel</span>
             <ul class="timeline-list">
-              <li>System monitoring and daily IT operations oversight</li>
-              <li>Managed SharePoint, POS, stock management, and internal applications</li>
-              <li>Installed, configured, and maintained hardware and software systems</li>
-              <li>Debugged software issues, identified root causes, and implemented fixes</li>
-              <li>Assisted in IT projects and workflow optimization</li>
+              <li>Oversee daily IT infrastructure operations, system health monitoring, and network reliability.</li>
+              <li>Administer SharePoint, POS systems, inventory databases, and proprietary hotel applications.</li>
+              <li>Install, configure, and maintain enterprise hardware, server nodes, and software suites.</li>
+              <li>Perform root-cause diagnostics on software anomalies, applying rapid patches and permanent fixes.</li>
+              <li>Spearhead digital workflow optimizations and technical onboarding across departments.</li>
             </ul>
           </div>
         </div>
+
         <div class="timeline-item reveal-right">
           <div class="timeline-marker"></div>
           <div class="timeline-card">
@@ -219,14 +248,15 @@
               <span class="timeline-date mono">Aug 2025 — Sep 2025</span>
             </div>
             <h3 class="timeline-role">AI Research Specialist</h3>
-            <span class="timeline-company">LeadersMaker Academy</span>
+            <span class="timeline-company"><i class="fas fa-graduation-cap"></i> LeadersMaker Academy</span>
             <ul class="timeline-list">
-              <li>Created and optimized AI prompts for thesis, reports, and research content</li>
-              <li>Analyzed and refined AI outputs for accuracy, coherence, and relevance</li>
-              <li>Integrated AI-assisted workflows for reporting and documentation</li>
+              <li>Engineered and evaluated advanced prompt chains and LLM workflows for analytical research content.</li>
+              <li>Conducted verification and benchmark testing on AI outputs for accuracy, semantic coherence, and relevance.</li>
+              <li>Integrated AI-assisted automated pipelines for academic documentation and research summaries.</li>
             </ul>
           </div>
         </div>
+
         <div class="timeline-item reveal-left">
           <div class="timeline-marker"></div>
           <div class="timeline-card">
@@ -234,14 +264,15 @@
               <span class="timeline-date mono">Oct 2022 — Jul 2025</span>
             </div>
             <h3 class="timeline-role">Team Leader</h3>
-            <span class="timeline-company">Sidewalks Group</span>
+            <span class="timeline-company"><i class="fas fa-users-cog"></i> Sidewalks Group</span>
             <ul class="timeline-list">
-              <li>Led and motivated team, set goals, tracked performance, and provided feedback</li>
-              <li>Organized and prioritized tasks, managed inventory and daily operations</li>
-              <li>Developed and implemented sales strategies to exceed targets</li>
+              <li>Led a multidisciplinary operations team, defining operational KPIs and performance tracking systems.</li>
+              <li>Managed end-to-end inventory logistics, operational schedules, and resource allocations.</li>
+              <li>Formulated and executed client retention and revenue-growth strategies that consistently exceeded targets.</li>
             </ul>
           </div>
         </div>
+
         <div class="timeline-item reveal-right">
           <div class="timeline-marker"></div>
           <div class="timeline-card">
@@ -249,11 +280,11 @@
               <span class="timeline-date mono">Aug 2024 — Sep 2024</span>
             </div>
             <h3 class="timeline-role">IT Specialist — Intern</h3>
-            <span class="timeline-company">ABC Lebanon</span>
+            <span class="timeline-company"><i class="fas fa-building"></i> ABC Lebanon</span>
             <ul class="timeline-list">
-              <li>Gained insights into IT workflows, sales checks, and system follow-ups</li>
-              <li>Worked with MMS, JDE, ETL, BI, SharePoint, POS, and stock management systems</li>
-              <li>Identified improvement areas and supported IT operation optimizations</li>
+              <li>Gained deep operational exposure to enterprise IT architectures, system auditing, and transaction validation.</li>
+              <li>Collaborated with MMS, JDE ERP, ETL pipelines, Power BI reporting, and store POS platforms.</li>
+              <li>Analyzed operational bottlenecks and assisted IT engineers in database maintenance and workflow automation.</li>
             </ul>
           </div>
         </div>
@@ -261,6 +292,7 @@
     </div>
   </section>
 
+  <!-- Education & Certifications Section -->
   <section class="education" id="education">
     <div class="container">
       <div class="section-header reveal-fade">
@@ -269,168 +301,234 @@
         <div class="section-line"></div>
       </div>
       <div class="edu-grid">
+        
+        <!-- Academic Degree -->
         <div class="edu-card reveal-up" style="--delay:0.1s">
+          <div class="card-badge-pill degree"><i class="fas fa-graduation-cap"></i> Degree</div>
           <div class="cert-provider mono">Lebanese Canadian University — Aintoura</div>
           <div class="edu-content">
-            <h3 class="cert-title">Bachelor of Computer Science</h3>
+            <h3 class="cert-title">Bachelor of Science in Computer Science</h3>
             <span class="edu-date mono">Dec 2021 — Dec 2024</span>
-            
+            <p class="edu-desc">Comprehensive academic curriculum in data structures, algorithms, database architectures, software engineering, operating systems, and computer networks.</p>
             <div class="edu-gpa">
-              <span class="mono">GPA:</span>
-              <span class="gpa-value">88/100</span>
+              <span class="mono">Graduation GPA:</span>
+              <span class="gpa-value">88 / 100</span>
             </div>
           </div>
         </div>
+
+        <!-- Google Data Analytics Professional Certificate (NEW) -->
         <div class="cert-card reveal-up" style="--delay:0.2s">
+          <div class="card-badge-pill cert-google"><i class="fab fa-google"></i> Professional Certificate</div>
+          <div class="cert-provider mono">Google (Coursera)</div>
+          <h3 class="cert-title">Google Data Analytics Professional Certificate</h3>
+          <ul class="cert-list">
+            <li>End-to-end data analytics lifecycle: ask, prepare, process, analyze, share, and act.</li>
+            <li>Advanced data cleaning, structuring, and complex queries using SQL &amp; spreadsheets.</li>
+            <li>Interactive data visualization and executive dashboard design with Tableau &amp; Power BI.</li>
+            <li>Statistical programming, data transformation, and comprehensive analytical case studies.</li>
+          </ul>
+        </div>
+
+        <!-- Python for Everybody Specialization -->
+        <div class="cert-card reveal-up" style="--delay:0.3s">
+          <div class="card-badge-pill cert-python"><i class="fab fa-python"></i> Specialization</div>
           <div class="cert-provider mono">University of Michigan (Coursera)</div>
           <h3 class="cert-title">Python for Everybody Specialization</h3>
           <ul class="cert-list">
-            <li>Advanced Python programming &amp; structured coding practices</li>
-            <li>Data structures, file processing &amp; algorithmic problem solving</li>
-            <li>Python-based applications with APIs &amp; external data sources</li>
-            <li>Practical, project-based real-world implementations</li>
+            <li>Core to advanced Python programming, data structures, and algorithmic logic.</li>
+            <li>Web scraping, accessing RESTful web services, and XML/JSON data parsing.</li>
+            <li>Relational database design and multi-table data modeling with SQLite/SQL.</li>
+            <li>Data visualization and automated data processing pipeline implementations.</li>
           </ul>
         </div>
-        <div class="cert-card reveal-up" style="--delay:0.3s">
+
+        <!-- Full-Stack Web Development Program -->
+        <div class="cert-card reveal-up" style="--delay:0.4s">
+          <div class="card-badge-pill cert-web"><i class="fas fa-laptop-code"></i> Professional Program</div>
           <div class="cert-provider mono">Youbee.ai</div>
           <h3 class="cert-title">Full-Stack Web Development Program</h3>
           <ul class="cert-list">
-            <li>Front-end development using HTML, CSS, and JavaScript</li>
-            <li>Back-end development with PHP</li>
-            <li>Application development using the Laravel framework</li>
-            <li>Cybersecurity fundamentals and secure coding concepts</li>
+            <li>Modern responsive front-end engineering using HTML5, CSS3, and JavaScript.</li>
+            <li>Server-side web architecture and object-oriented backend programming in PHP.</li>
+            <li>MVC application development, routing, and database migrations with Laravel.</li>
+            <li>Web security fundamentals, authentication protocols, and secure coding practices.</li>
           </ul>
         </div>
+
       </div>
     </div>
   </section>
 
+  <!-- Featured Projects Section -->
   <section class="projects" id="projects">
     <div class="container">
       <div class="section-header reveal-fade">
         <span class="section-num mono">05</span>
-        <h2 class="section-title">Projects</h2>
+        <h2 class="section-title">Featured Projects</h2>
         <div class="section-line"></div>
       </div>
       <div class="projects-grid">
+        
+        <!-- Project 1: Traffic & Weather Monitor -->
         <article class="project-card reveal-up" style="--delay:0.1s">
-          <div class="project-num mono">01</div>
+          <div class="project-top-row">
+            <span class="project-num mono">01</span>
+            <span class="project-cat-badge data-eng">Data Engineering</span>
+          </div>
           <div class="project-tags">
             <span class="ptag">Python</span>
-            <span class="ptag">FastAPI</span>
-            <span class="ptag">PostgreSQL</span>
-            <span class="ptag">NLP</span>
+            <span class="ptag">SQL Server</span>
+            <span class="ptag">Power BI</span>
+            <span class="ptag">TomTom API</span>
+            <span class="ptag">ML</span>
           </div>
-          <h3 class="project-title">HR Recruitment System</h3>
-          <p class="project-desc">Developed an AI-powered recruitment system that automates CV parsing, candidate–job matching, and ranking using NLP. Enables HR to create job posts, upload and evaluate multiple resumes, and manage the hiring workflow through a centralized database-driven platform.</p>
+          <h3 class="project-title">Traffic &amp; Weather Intelligence Monitor</h3>
+          <p class="project-desc">
+            Production-style automated ELT data pipeline collecting real-time TomTom and OpenWeather API data across 10 key Lebanese corridors, storing in SQL Server star-schema with ML prediction layers and interactive Power BI dashboards.
+          </p>
           <div class="project-footer">
-            <a href="https://hr-recruitment-app-0551.onrender.com/" target="_blank" rel="noopener" class="project-link mono">View System Live ↗</a>
-            <a href="https://github.com/ghady7/hr-recruitment-app" target="_blank" rel="noopener" class="project-link mono">View On Github ↗</a>
+            <a href="https://github.com/ghady7/lebanon-traffic-weather-monitor" target="_blank" rel="noopener" class="project-link mono"><i class="fab fa-github"></i> View Repository ↗</a>
+            <a href="../index.html" class="project-link mono"><i class="fas fa-th"></i> View on Hub ↗</a>
+          </div>
+        </article>
 
-          </div>
-        </article>
+        <!-- Project 2: Olist E-Commerce Churn -->
         <article class="project-card reveal-up" style="--delay:0.2s">
-          <div class="project-num mono">02</div>
-          <div class="project-tags">
-            <span class="ptag">HTML5</span>
-            <span class="ptag">CSS</span>
-            <span class="ptag">JavaScript</span>
-            <span class="ptag">PHP</span>
+          <div class="project-top-row">
+            <span class="project-num mono">02</span>
+            <span class="project-cat-badge analytics">Data Analytics</span>
           </div>
-          <h3 class="project-title">Inventory Management System</h3>
-          <p class="project-desc">A stock management web app featuring a dashboard, product and order management, and supplier order tracking. Users can add/delete products and place orders. Admins have extended options and control. Includes a secure login system for different user roles.</p>
+          <div class="project-tags">
+            <span class="ptag">SQL Server</span>
+            <span class="ptag">Python</span>
+            <span class="ptag">Power BI</span>
+            <span class="ptag">Star Schema</span>
+            <span class="ptag">EDA</span>
+          </div>
+          <h3 class="project-title">Olist E-Commerce Churn Analytics</h3>
+          <p class="project-desc">
+            End-to-end ELT data pipeline and customer churn analysis on 100K+ Brazilian e-commerce transactions using SQL Server staging/star-schema, Python transformations, and interactive Power BI KPI dashboards.
+          </p>
           <div class="project-footer">
-            <a href="https://github.com/ghady7/Inventory_Manager" target="_blank" rel="noopener" class="project-link mono">View On Github ↗</a>
+            <a href="https://github.com/ghady7/olist-ecommerce-churn-analysis" target="_blank" rel="noopener" class="project-link mono"><i class="fab fa-github"></i> View Repository ↗</a>
+            <a href="../index.html" class="project-link mono"><i class="fas fa-th"></i> View on Hub ↗</a>
           </div>
         </article>
+
+        <!-- Project 3: AI HR Recruitment -->
         <article class="project-card reveal-up" style="--delay:0.3s">
-          <div class="project-num mono">03</div>
-          <div class="project-tags">
-            <span class="ptag">Html5</span>
-            <span class="ptag">CSS</span>
-            <span class="ptag">JavaScript</span>
-            <span class="ptag">Web Storage API</span>
+          <div class="project-top-row">
+            <span class="project-num mono">03</span>
+            <span class="project-cat-badge ai">AI &amp; NLP</span>
           </div>
-          <h3 class="project-title">Customer Order App</h3>
-          <p class="project-desc">Nike Customer Order App streamlines order tracking and automates customer messaging with one-click communication. All data is securely stored on a localhost database for fast, reliable access. Built for small businesses seeking efficient and simple order management.</p>
-          <div class="project-footer">
-            <a href="https://ghady7.github.io/dashboard/nike-CO/index.html" target="_blank" rel="noopener" class="project-link mono">View System Live ↗</a>
-            <a href="https://github.com/ghady7/Order_Manager" target="_blank" rel="noopener" class="project-link mono">View On Github ↗</a>
-          </div>
-        </article>
-        <article class="project-card reveal-up" style="--delay:0.4s">
-          <div class="project-num mono">04</div>
           <div class="project-tags">
             <span class="ptag">Python</span>
-            <span class="ptag">Pandas</span>
-            <span class="ptag">NumPy</span>
-            <span class="ptag">Jupyter Notebook</span>
-            <span class="ptag">Machine Learning / Linear Regression</span>
+            <span class="ptag">NLP</span>
+            <span class="ptag">FastAPI</span>
+            <span class="ptag">Render Cloud</span>
           </div>
-          <h3 class="project-title">StrokeRisk Predictor</h3>
-          <p class="project-desc">Collects user health information and predicts their risk of stroke based on real-world medical data, providing a clear, personalized assessment. The system analyzes key health indicators to help users understand their risk factors and make informed decisions for preventive care.</p>
+          <h3 class="project-title">AI-Powered HR Recruitment System</h3>
+          <p class="project-desc">
+            AI recruitment system that automates CV parsing, candidate ranking, and semantic job matching using NLP. Enables batch resume uploads, scoring against job descriptions, and hiring workflow management.
+          </p>
           <div class="project-footer">
-            <a href="https://github.com/ghady7/machine-learning-projects/tree/master/strok_risk" target="_blank" rel="noopener" class="project-link mono">View On Github ↗</a>
+            <a href="https://hr-recruitment-app-0551.onrender.com/" target="_blank" rel="noopener" class="project-link mono"><i class="fas fa-external-link-alt"></i> Live Demo ↗</a>
+            <a href="https://github.com/ghady7/hr-recruitment-app" target="_blank" rel="noopener" class="project-link mono"><i class="fab fa-github"></i> GitHub ↗</a>
           </div>
         </article>
+
+        <!-- Project 4: Stroke Risk Prediction -->
+        <article class="project-card reveal-up" style="--delay:0.4s">
+          <div class="project-top-row">
+            <span class="project-num mono">04</span>
+            <span class="project-cat-badge ai">Machine Learning</span>
+          </div>
+          <div class="project-tags">
+            <span class="ptag">Python</span>
+            <span class="ptag">Scikit-Learn</span>
+            <span class="ptag">Pandas</span>
+            <span class="ptag">Streamlit</span>
+          </div>
+          <h3 class="project-title">Stroke Risk Prediction App</h3>
+          <p class="project-desc">
+            Machine learning diagnostic application that evaluates multiple patient biometric and medical indicators to calculate personalized stroke probabilities in real time for clinical preventive guidance.
+          </p>
+          <div class="project-footer">
+            <a href="https://machine-learning-projects-9d3i.onrender.com/" target="_blank" rel="noopener" class="project-link mono"><i class="fas fa-external-link-alt"></i> Live Demo ↗</a>
+            <a href="https://github.com/ghady7/machine-learning-projects/tree/master/strok_risk" target="_blank" rel="noopener" class="project-link mono"><i class="fab fa-github"></i> GitHub ↗</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="projects-cta reveal-up" style="text-align: center; margin-top: 3rem;">
+        <a href="../index.html" class="btn btn-primary"><i class="fas fa-th-large"></i> Explore All 13+ Projects on Dashboard</a>
       </div>
     </div>
   </section>
 
+  <!-- Contact Section -->
   <section class="contact" id="contact">
     <div class="container">
       <div class="section-header reveal-fade">
         <span class="section-num mono">06</span>
-        <h2 class="section-title">Contact</h2>
+        <h2 class="section-title">Contact &amp; Connect</h2>
         <div class="section-line"></div>
       </div>
       <div class="contact-grid">
         <div class="contact-info reveal-left">
-          <p class="contact-tagline">Let's build something great together.</p>
+          <p class="contact-tagline">Let's build innovative, data-driven solutions together.</p>
           <div class="contact-details">
             <a href="mailto:Ghadytayeh7@gmail.com" class="contact-item">
-              <span class="ci-label mono">Email</span>
+              <span class="ci-label mono"><i class="fas fa-envelope"></i> Email</span>
               <span class="ci-value">Ghadytayeh7@gmail.com</span>
             </a>
             <a href="tel:+96176966369" class="contact-item">
-              <span class="ci-label mono">Phone</span>
+              <span class="ci-label mono"><i class="fas fa-phone"></i> Phone</span>
               <span class="ci-value">+961 76 966 369</span>
             </a>
             <a href="https://www.linkedin.com/in/ghady-tayeh-a0711a339" target="_blank" rel="noopener" class="contact-item">
-              <span class="ci-label mono">LinkedIn</span>
+              <span class="ci-label mono"><i class="fab fa-linkedin"></i> LinkedIn</span>
               <span class="ci-value">ghady-tayeh ↗</span>
             </a>
+            <a href="https://github.com/ghady7" target="_blank" rel="noopener" class="contact-item">
+              <span class="ci-label mono"><i class="fab fa-github"></i> GitHub</span>
+              <span class="ci-value">github.com/ghady7 ↗</span>
+            </a>
             <div class="contact-item">
-              <span class="ci-label mono">Location</span>
+              <span class="ci-label mono"><i class="fas fa-map-marker-alt"></i> Location</span>
               <span class="ci-value">Nahr Ibrahim, Lebanon</span>
             </div>
           </div>
         </div>
+        
+        <!-- Contact Form -->
         <form class="contact-form reveal-right" id="contactForm" novalidate>
           <div class="form-group">
-            <label for="name" class="form-label mono">Name</label>
-            <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required>
+            <label for="name" class="form-label mono">Your Name</label>
+            <input type="text" id="name" name="name" class="form-input" placeholder="e.g. John Doe" required>
             <span class="form-error" id="nameError"></span>
           </div>
           <div class="form-group">
-            <label for="email" class="form-label mono">Email</label>
-            <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
+            <label for="email" class="form-label mono">Email Address</label>
+            <input type="email" id="email" name="email" class="form-input" placeholder="e.g. john@example.com" required>
             <span class="form-error" id="emailError"></span>
           </div>
           <div class="form-group">
             <label for="subject" class="form-label mono">Subject</label>
-            <input type="text" id="subject" name="subject" class="form-input" placeholder="What's this about?">
+            <input type="text" id="subject" name="subject" class="form-input" placeholder="Project inquiry, Opportunity, etc.">
           </div>
           <div class="form-group">
             <label for="message" class="form-label mono">Message</label>
-            <textarea id="message" name="message" class="form-input form-textarea" placeholder="Tell me about your project..." required rows="5"></textarea>
+            <textarea id="message" name="message" class="form-input form-textarea" placeholder="Tell me about your project or opportunity..." required rows="5"></textarea>
             <span class="form-error" id="messageError"></span>
           </div>
           <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
-            <span class="btn-text">Send Message</span>
+            <span class="btn-text"><i class="fas fa-paper-plane"></i> Send Message</span>
           </button>
           <div class="form-success" id="formSuccess">
-            <span>◈</span> Message sent successfully! I'll get back to you soon.
+            <span>◈</span> Message sent successfully! I will get back to you shortly.
           </div>
         </form>
       </div>
@@ -438,13 +536,15 @@
   </section>
 </main>
 
+<!-- Footer -->
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-logo mono">[GT] — Ghady Tayeh</div>
-    <p class="footer-copy mono">© 2025 Ghady Tayeh. All rights reserved.</p>
+    <p class="footer-copy mono">© <span id="cvYear">2026</span> Ghady Tayeh. All rights reserved.</p>
     <div class="footer-links">
+      <a href="https://github.com/ghady7" target="_blank" rel="noopener" class="footer-link mono">GitHub</a>
       <a href="https://www.linkedin.com/in/ghady-tayeh-a0711a339" target="_blank" rel="noopener" class="footer-link mono">LinkedIn</a>
-      <a href="https://ghady7.github.io/dashboard/index.html" target="_blank" rel="noopener" class="footer-link mono">Portfolio</a>
+      <a href="../index.html" class="footer-link mono">Dashboard</a>
       <a href="mailto:Ghadytayeh7@gmail.com" class="footer-link mono">Email</a>
     </div>
   </div>
