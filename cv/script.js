@@ -1,412 +1,160 @@
-/**
- * GHADY TAYEH — DIGITAL PRODUCT ARCHITECTURE SCRIPT
- * Pure ES6+ Vanilla JavaScript — Production Grade / Zero Dependencies
- *
- * Architecture Modules:
- *  1. Theme Engine (Persistent dark/light mode)
- *  2. Terminal & Architecture Inspector Tabs
- *  3. Live Ingestion Telemetry Simulator
- *  4. One-Click Clipboard API with Toast Notification
- *  5. Numerical KPI Counter on Viewport Intersection
- *  6. Project Category Filter
- *  7. Scroll Spy & Accessible Sticky Navigation
- *  8. Form Validation & EmailJS Dispatch
- */
-
 (function () {
   'use strict';
 
-  /* ── DOM Elements ── */
-  const masthead        = document.getElementById('masthead');
-  const menuToggle      = document.getElementById('menuToggle');
-  const navList         = document.getElementById('navList');
-  const themeToggle     = document.getElementById('themeToggle');
-  const toastContainer  = document.getElementById('toastContainer');
-  const contactForm     = document.getElementById('contactForm');
-  const currentYearElem = document.getElementById('currentYear');
-  const EMAIL_ADDRESS   = 'Ghadytayeh7@gmail.com';
+  const header = document.getElementById('header');
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  const contactForm = document.getElementById('contactForm');
 
-  /* ═══════════════════════════════════════════════════════════
-     1. THEME ENGINE — Dark / Light (System / LocalStorage)
-     ═══════════════════════════════════════════════════════════ */
-  function initTheme() {
-    const saved = localStorage.getItem('gt-theme');
-    if (saved) {
-      document.documentElement.setAttribute('data-theme', saved);
-    } else {
-      // Respect user OS preference if no stored preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    }
+  /* scroll header */
+  function onScroll() {
+    header.classList.toggle('scrolled', window.scrollY > 40);
   }
 
-  function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme');
-    const next    = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('gt-theme', next);
+  /* menu */
+  function toggleMenu() {
+    const open = navLinks.classList.toggle('open');
+    hamburger.classList.toggle('active', open);
+    hamburger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
   }
 
-  /* ═══════════════════════════════════════════════════════════
-     2. TOAST NOTIFICATION SYSTEM
-     ═══════════════════════════════════════════════════════════ */
-  function showToast(message, type = 'success', duration = 3200) {
-    if (!toastContainer) return;
+  /* smooth scroll */
+  function smoothScroll(e) {
+    const href = e.currentTarget.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    e.preventDefault();
+    const el = document.querySelector(href);
+    if (!el) return;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' });
+    closeMenu();
+  }
 
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.setAttribute('role', 'status');
+  /* intersection reveal */
+  function setupReveal() {
+    const els = document.querySelectorAll('.reveal-up,.reveal-left,.reveal-right,.reveal-fade');
+    if (!window.IntersectionObserver) { els.forEach(el => el.classList.add('in-view')); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => io.observe(el));
+  }
 
-    const icon = document.createElement('span');
-    icon.className = 'toast-icon' + (type === 'error' ? ' error' : '');
-    icon.textContent = type === 'success' ? '✓' : '✕';
-
-    const text = document.createElement('span');
-    text.textContent = message;
-
-    toast.appendChild(icon);
-    toast.appendChild(text);
-    toastContainer.appendChild(toast);
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => toast.classList.add('show'));
-    });
-
+  /* hero text entrance */
+  function setupHero() {
     setTimeout(() => {
-      toast.classList.remove('show');
-      toast.addEventListener('transitionend', () => toast.remove(), { once: true });
-    }, duration);
+      document.querySelectorAll('.name-line').forEach(el => el.classList.add('animated'));
+      document.querySelectorAll('.hero-title,.hero-bio,.hero-cta,.hero-location').forEach(el => el.classList.add('animated'));
+    }, 80);
   }
 
-  /* ═══════════════════════════════════════════════════════════
-     3. ONE-CLICK CLIPBOARD COPY
-     ═══════════════════════════════════════════════════════════ */
-  function setupClipboardCopy() {
-    const heroBtn = document.getElementById('copyHeroEmailBtn');
-    const contactBtn = document.getElementById('copyContactEmailBtn');
-
-    const copyHandler = async (btn) => {
-      try {
-        await navigator.clipboard.writeText(EMAIL_ADDRESS);
-        showToast('Email copied to clipboard (' + EMAIL_ADDRESS + ')', 'success');
-        
-        // Temporary feedback on button if applicable
-        const label = document.getElementById('heroEmailLabel');
-        if (label && btn === heroBtn) {
-          const original = label.textContent;
-          label.textContent = 'Copied to clipboard!';
-          setTimeout(() => { label.textContent = original; }, 2200);
-        }
-      } catch {
-        // Fallback for non-secure contexts
-        const ta = document.createElement('textarea');
-        ta.value = EMAIL_ADDRESS;
-        ta.style.position = 'fixed';
-        ta.style.top = '-9999px';
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-        showToast('Email copied to clipboard (' + EMAIL_ADDRESS + ')', 'success');
-      }
-    };
-
-    if (heroBtn) heroBtn.addEventListener('click', () => copyHandler(heroBtn));
-    if (contactBtn) contactBtn.addEventListener('click', () => copyHandler(contactBtn));
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     4. ARCHITECTURE INSPECTOR TABS
-     ═══════════════════════════════════════════════════════════ */
-  function setupArchitectureTabs() {
-    const tabs = document.querySelectorAll('.terminal-tab');
-    if (!tabs.length) return;
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-
-        const tabKey = tab.dataset.tab;
-        document.querySelectorAll('.terminal-body').forEach(b => b.classList.remove('active'));
-        const targetBody = document.getElementById('tab-' + tabKey);
-        if (targetBody) targetBody.classList.add('active');
-      });
-    });
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     5. TELEMETRY LOG STREAM SIMULATOR
-     ═══════════════════════════════════════════════════════════ */
-  function setupTelemetryLogStream() {
-    const stream = document.getElementById('logStream');
-    if (!stream) return;
-
-    const realisticEvents = [
-      { tag: 'OK', text: 'Power BI dataset refresh: 100,000+ Olist transactions processed (0 errors).' },
-      { tag: 'INFO', text: 'Recalculating RFM Customer Churn cohort matrices in memory...' },
-      { tag: 'OK', text: 'Hotel Booking EDA: Fact_HotelReservations index hit ratio 99.8%.' },
-      { tag: 'OK', text: 'DAX KPI Measure evaluation: RevPAR & Cancellation Probability computed in 14ms.' },
-      { tag: 'INFO', text: 'TomTom Traffic API: Ingested telemetry from 10 Lebanese highway corridors.' },
-      { tag: 'OK', text: 'FIFA 2020 Analytics: Player valuation regression updated (R² = 0.912).' },
-      { tag: 'OK', text: 'Automated data validation checks passed: 100% integrity across star schemas.' },
-      { tag: 'INFO', text: 'Incremental partition merge completed: Fact_TrafficFlow updated.' }
-    ];
-
-    let eventIndex = 0;
-    setInterval(() => {
-      // Only append if tab is currently active and document is visible
-      if (document.hidden) return;
-
-      const activeLine = stream.querySelector('.log-line.active');
-      const now = new Date();
-      const timeStr = [
-        now.getHours().toString().padStart(2, '0'),
-        now.getMinutes().toString().padStart(2, '0'),
-        now.getSeconds().toString().padStart(2, '0')
-      ].join(':');
-
-      const ev = realisticEvents[eventIndex % realisticEvents.length];
-      eventIndex++;
-
-      const newLine = document.createElement('div');
-      newLine.className = 'log-line';
-      newLine.innerHTML = `<span class="log-time">${timeStr}</span> <span class="log-tag ${ev.tag === 'OK' ? 'tag-ok' : 'tag-info'}">${ev.tag}</span> ${ev.text}`;
-
-      if (activeLine) {
-        stream.insertBefore(newLine, activeLine);
-      } else {
-        stream.appendChild(newLine);
-      }
-
-      // Keep maximum 8 lines in DOM
-      const allLines = stream.querySelectorAll('.log-line:not(.active)');
-      if (allLines.length > 7) {
-        allLines[0].remove();
-      }
-    }, 4200);
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     6. KPI NUMERICAL COUNTER
-     ═══════════════════════════════════════════════════════════ */
-  function setupCounters() {
-    const counterElements = document.querySelectorAll('.metric-number[data-target]');
-    if (!counterElements.length || !window.IntersectionObserver) return;
-
-    function runCounter(el) {
-      const target = parseFloat(el.dataset.target);
-      const suffix = el.dataset.suffix || '';
-      const duration = 1400;
-      const start = performance.now();
-
-      function step(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3); // Ease out cubic
-        const current = Math.round(eased * target);
-        el.textContent = current + suffix;
-        if (progress < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }
-
-    const observer = new IntersectionObserver((entries) => {
+  /* language bar fill */
+  function setupBars() {
+    const bars = document.querySelectorAll('.bar-fill');
+    if (!window.IntersectionObserver) { bars.forEach(b => { b.style.width = b.dataset.width + '%'; }); return; }
+    const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          runCounter(entry.target);
-          observer.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) { entry.target.style.width = entry.target.dataset.width + '%'; io.unobserve(entry.target); }
       });
-    }, { threshold: 0.6 });
-
-    counterElements.forEach(el => observer.observe(el));
+    }, { threshold: 0.4 });
+    bars.forEach(b => io.observe(b));
   }
 
-  /* ═══════════════════════════════════════════════════════════
-     7. PROJECT CATEGORY FILTERING
-     ═══════════════════════════════════════════════════════════ */
-  function setupProjectFilters() {
-    const tabs  = document.querySelectorAll('.filter-tab');
-    const items = document.querySelectorAll('.project-item');
-    if (!tabs.length || !items.length) return;
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-
-        const filter = tab.dataset.filter;
-
-        items.forEach(item => {
-          const category = item.dataset.category;
-          if (filter === 'all' || category === filter) {
-            item.classList.remove('hidden');
-          } else {
-            item.classList.add('hidden');
-          }
-        });
-      });
-    });
+  /* form */
+  function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function fieldError(inputId, errId, msg) {
+    const inp = document.getElementById(inputId);
+    const err = document.getElementById(errId);
+    if (!inp || !err) return;
+    inp.classList.toggle('error', !!msg);
+    err.textContent = msg || '';
   }
 
-  /* ═══════════════════════════════════════════════════════════
-     8. SCROLL SPY & NAVIGATION
-     ═══════════════════════════════════════════════════════════ */
-  function setupScrollSpy() {
+  function handleSubmit(e) {
+  e.preventDefault();
+
+  let ok = true;
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const subject = document.getElementById('subject').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  // validation
+  if (!name) { fieldError('name', 'nameError', 'Name is required.'); ok = false; } else { fieldError('name', 'nameError', ''); }
+  if (!email) { fieldError('email', 'emailError', 'Email is required.'); ok = false; }
+  else if (!validateEmail(email)) { fieldError('email', 'emailError', 'Enter a valid email.'); ok = false; }
+  else { fieldError('email', 'emailError', ''); }
+  if (!message) { fieldError('message', 'messageError', 'Message is required.'); ok = false; } else { fieldError('message', 'messageError', ''); }
+
+  if (!ok) return;
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.querySelector('.btn-text').textContent = 'Sending…';
+
+  // send email using EmailJS
+  emailjs.send(
+    'service_hou8hgs',    // replace with your EmailJS service ID
+    'template_54l8jur',   // replace with your EmailJS template ID
+    {
+      from_name: name,
+      from_email: email,
+      subject: subject,
+      message: message
+    }
+  )
+  .then(() => {
+    // success feedback
+    contactForm.reset();
+    btn.disabled = false;
+    btn.querySelector('.btn-text').textContent = 'Send Message';
+    const suc = document.getElementById('formSuccess');
+    suc.classList.add('show');
+    setTimeout(() => suc.classList.remove('show'), 5000);
+  })
+  .catch((err) => {
+    console.error('Email send error:', err);
+    btn.disabled = false;
+    btn.querySelector('.btn-text').textContent = 'Send Message';
+    alert('Failed to send message. Try again.');
+  });
+}
+  /* active nav highlight */
+  function setupActiveNav() {
     const sections = document.querySelectorAll('section[id]');
-    const navItems = document.querySelectorAll('.nav-item');
-    if (!sections.length || !window.IntersectionObserver) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          navItems.forEach(item => {
-            const href = item.getAttribute('href');
-            item.classList.toggle('active', href === '#' + id);
-          });
+    const links = document.querySelectorAll('.nav-link');
+    if (!window.IntersectionObserver) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
         }
       });
-    }, { threshold: 0.35, rootMargin: '-10% 0px -40% 0px' });
-
-    sections.forEach(s => observer.observe(s));
+    }, { threshold: 0.45 });
+    sections.forEach(s => io.observe(s));
   }
 
-  /* ═══════════════════════════════════════════════════════════
-     9. MOBILE MENU
-     ═══════════════════════════════════════════════════════════ */
-  function setupMobileMenu() {
-    if (!menuToggle || !navList) return;
-
-    const navContainer = navList.closest('.masthead-nav');
-
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navContainer.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-
-    // Close on link click
-    navList.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        navContainer.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     10. CONTACT FORM DISPATCH (EmailJS + Validation)
-     ═══════════════════════════════════════════════════════════ */
-  function setupContactForm() {
-    if (!contactForm) return;
-
-    function validateEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    function setFieldError(fieldId, errorId, msg) {
-      const field = document.getElementById(fieldId);
-      const error = document.getElementById(errorId);
-      if (!field || !error) return;
-      field.classList.toggle('error', !!msg);
-      error.textContent = msg || '';
-    }
-
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      let valid = true;
-
-      const name    = document.getElementById('name').value.trim();
-      const email   = document.getElementById('email').value.trim();
-      const subject = document.getElementById('subject').value.trim();
-      const message = document.getElementById('message').value.trim();
-
-      // Field Validations
-      if (!name) {
-        setFieldError('name', 'nameError', 'Full name is required.');
-        valid = false;
-      } else {
-        setFieldError('name', 'nameError', '');
-      }
-
-      if (!email) {
-        setFieldError('email', 'emailError', 'Business email is required.');
-        valid = false;
-      } else if (!validateEmail(email)) {
-        setFieldError('email', 'emailError', 'Enter a valid corporate email address.');
-        valid = false;
-      } else {
-        setFieldError('email', 'emailError', '');
-      }
-
-      if (!message) {
-        setFieldError('message', 'messageError', 'Message details are required.');
-        valid = false;
-      } else {
-        setFieldError('message', 'messageError', '');
-      }
-
-      if (!valid) return;
-
-      const submitBtn = document.getElementById('submitBtn');
-      const btnText = submitBtn.querySelector('.btn-text');
-      submitBtn.disabled = true;
-      if (btnText) btnText.textContent = 'Transmitting...';
-
-      // EmailJS Send
-      emailjs.send('service_hou8hgs', 'template_54l8jur', {
-        from_name: name,
-        from_email: email,
-        subject: subject || 'Portfolio Contact Inquiry',
-        message: message
-      })
-      .then(() => {
-        contactForm.reset();
-        submitBtn.disabled = false;
-        if (btnText) btnText.textContent = 'Send Verified Message';
-
-        const successBanner = document.getElementById('formSuccess');
-        if (successBanner) {
-          successBanner.classList.add('show');
-          setTimeout(() => successBanner.classList.remove('show'), 6000);
-        }
-        showToast('Message transmitted successfully. I will be in touch.', 'success');
-      })
-      .catch((err) => {
-        console.error('EmailJS Transmission Error:', err);
-        submitBtn.disabled = false;
-        if (btnText) btnText.textContent = 'Send Verified Message';
-        showToast('Transmission failure. Please email Ghadytayeh7@gmail.com directly.', 'error', 4500);
-      });
-    });
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     11. BOOTSTRAP INITIALIZATION
-     ═══════════════════════════════════════════════════════════ */
   function init() {
-    initTheme();
-    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-    if (currentYearElem) currentYearElem.textContent = new Date().getFullYear();
-
-    setupClipboardCopy();
-    setupArchitectureTabs();
-    setupTelemetryLogStream();
-    setupCounters();
-    setupProjectFilters();
-    setupScrollSpy();
-    setupMobileMenu();
-    setupContactForm();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    hamburger.addEventListener('click', toggleMenu);
+    document.querySelectorAll('.nav-link, a[href^="#"]').forEach(l => l.addEventListener('click', smoothScroll));
+    if (contactForm) contactForm.addEventListener('submit', handleSubmit);
+    const yrElem = document.getElementById('cvYear');
+    if (yrElem) yrElem.textContent = new Date().getFullYear();
+    setupReveal();
+    setupHero();
+    setupBars();
+    setupActiveNav();
+    onScroll();
   }
 
-  document.readyState === 'loading'
-    ? document.addEventListener('DOMContentLoaded', init)
-    : init();
-
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
 })();
