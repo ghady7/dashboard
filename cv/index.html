@@ -1,555 +1,925 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Ghady Tayeh - Computer Science Graduate, Data Engineering & Analytics Specialist, Full-Stack Developer based in Lebanon.">
-<meta name="keywords" content="Ghady Tayeh, portfolio, CV, data engineering, data analytics, full-stack developer, IT specialist, computer science, Lebanon">
-<meta name="author" content="Ghady Tayeh">
-<meta property="og:title" content="Ghady Tayeh — Software Developer & Data Analytics Specialist">
-<meta property="og:description" content="Computer Science graduate with expertise in Data Engineering, Analytics, AI/ML, and Full-Stack Development.">
-<meta property="og:type" content="website">
-<title>Ghady Tayeh — Software Developer &amp; Data Specialist</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ghady Tayeh — Data Analyst & Business Intelligence Specialist. Computer Science graduate specializing in Power BI executive dashboards, advanced SQL modeling, exploratory data analysis, and predictive customer analytics.">
+  <meta name="keywords" content="Ghady Tayeh, Data Analyst, Business Intelligence, Power BI, DAX, SQL Server, Python, Data Analytics, Lebanon, Star Schema, Churn Analytics, Exploratory Data Analysis">
+  <meta name="author" content="Ghady Tayeh">
+  <title>Ghady Tayeh — Data Analyst &amp; Business Intelligence Specialist</title>
 
-<!-- Fonts & Icons -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+  <!-- Typography: Space Grotesk (Editorial Headers) + Inter (Crisp Body) + JetBrains Mono (Technical Spec) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css">
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="text/javascript">
-  emailjs.init('Tx_uyCr0k5bQdTLhC'); 
-</script>
+  <!-- EmailJS Integration -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init('Tx_uyCr0k5bQdTLhC');</script>
 
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="noise-overlay"></div>
-<div class="grid-bg"></div>
 
-<!-- Navigation Bar -->
-<header class="header" id="header">
-  <nav class="nav container">
-    <a href="#hero" class="nav-logo">
-      <span class="logo-bracket">[</span>GT<span class="logo-bracket">]</span>
-      <span class="logo-text">Ghady Tayeh</span>
-    </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#about" class="nav-link">About</a></li>
-      <li><a href="#skills" class="nav-link">Skills</a></li>
-      <li><a href="#experience" class="nav-link">Experience</a></li>
-      <li><a href="#education" class="nav-link">Education</a></li>
-      <li><a href="#projects" class="nav-link">Projects</a></li>
-      <li><a href="#contact" class="nav-link">Contact</a></li>
-      <li><a href="../index.html" class="nav-dashboard-btn"><i class="fas fa-arrow-left"></i> Dashboard</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-</header>
+  <!-- Minimal accessible skip link -->
+  <a href="#main" class="skip-link">Skip to main content</a>
 
-<main>
-  <!-- Hero Section -->
-  <section class="hero" id="hero">
-    <div class="hero-content container">
-      <div class="hero-eyebrow">
-        <span class="dot pulse"></span>
-        <span class="mono">Available for opportunities</span>
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       EXECUTIVE MASTHEAD / NAVIGATION BAR
+       ═══════════════════════════════════════════════════════════ -->
+  <header class="masthead" id="masthead">
+    <div class="masthead-inner container">
+      <!-- Identity & Status -->
+      <div class="masthead-brand">
+        <a href="#hero" class="brand-link" aria-label="Ghady Tayeh home">
+          <span class="brand-monogram">[GT]</span>
+          <span class="brand-name">Ghady Tayeh</span>
+        </a>
+        <div class="status-indicator" title="Current status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span class="status-label">Available for Hire</span>
+        </div>
       </div>
-      <h1 class="hero-name">
-        <span class="name-line reveal-up" style="--delay:0.1s">Ghady</span>
-        <span class="name-line accent-line reveal-up" style="--delay:0.2s">Tayeh</span>
-      </h1>
-      <p class="hero-title mono reveal-up" style="--delay:0.3s">// Software Developer • Data &amp; AI Specialist</p>
-      <p class="hero-bio reveal-up" style="--delay:0.4s">
-        Computer Science graduate specializing in scalable Data Engineering pipelines, Business Intelligence dashboards, Machine Learning solutions, and high-performance Full-Stack Web Development.
-      </p>
-      <div class="hero-cta reveal-up" style="--delay:0.5s">
-        <a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Get in Touch</a>
-        <a href="#projects" class="btn btn-ghost"><i class="fas fa-layer-group"></i> View Work</a>
-        <a href="../index.html" class="btn btn-ghost"><i class="fas fa-th-large"></i> Project Dashboard</a>
-      </div>
-      <div class="hero-location mono reveal-up" style="--delay:0.6s">
-        <span class="location-icon">◈</span> Nahr Ibrahim, Lebanon
+
+      <!-- Segmented Navigation Links -->
+      <nav class="masthead-nav" aria-label="Primary navigation">
+        <ul class="nav-list" id="navList">
+          <li><a href="#about" class="nav-item">About</a></li>
+          <li><a href="#experience" class="nav-item">Experience</a></li>
+          <li><a href="#projects" class="nav-item">Projects</a></li>
+          <li><a href="#skills" class="nav-item">Skills</a></li>
+          <li><a href="#education" class="nav-item">Credentials</a></li>
+          <li><a href="#contact" class="nav-item">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Utility Actions -->
+      <div class="masthead-actions">
+        <a href="../index.html" class="action-btn action-hub" title="Open interactive portfolio hub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard Hub</span>
+        </a>
+
+        <button class="theme-toggle" id="themeToggle" aria-label="Switch visual theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span><span></span>
+        </button>
       </div>
     </div>
-    <div class="hero-deco"></div>
-    <div class="scroll-indicator">
-      <span class="mono">scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
+  </header>
 
-  <!-- About Section -->
-  <section class="about" id="about">
-    <div class="container">
-      <div class="section-header reveal-fade">
-        <span class="section-num mono">01</span>
-        <h2 class="section-title">About Me</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="about-grid">
-        <div class="about-text reveal-left">
-          <p>
-            Computer Science graduate (GPA 88/100) with proven capabilities in building end-to-end data architectures, analytical dashboards, predictive machine learning models, and modern full-stack web applications.
-          </p>
-          <p>
-            Certified in <strong>Google Data Analytics</strong> and <strong>Python Programming</strong>, with hands-on experience designing automated ELT data pipelines, SQL Server star-schemas, interactive Power BI KPI dashboards, and AI-driven workflow automations.
-          </p>
-          <div class="about-links">
-            <a href="mailto:Ghadytayeh7@gmail.com" class="about-link mono"><i class="fas fa-envelope"></i> Ghadytayeh7@gmail.com</a>
-            <a href="tel:+96176966369" class="about-link mono"><i class="fas fa-phone"></i> +961 76 966 369</a>
-            <a href="https://www.linkedin.com/in/ghady-tayeh-a0711a339" target="_blank" rel="noopener" class="about-link mono"><i class="fab fa-linkedin"></i> LinkedIn Profile ↗</a>
-            <a href="https://github.com/ghady7" target="_blank" rel="noopener" class="about-link mono"><i class="fab fa-github"></i> GitHub Repositories ↗</a>
-            <a href="../index.html" class="about-link mono"><i class="fas fa-th"></i> Interactive Portfolio Hub ↗</a>
-          </div>
-        </div>
-        <div class="about-stats reveal-right">
-          <div class="stat-card">
-            <span class="stat-num">88<span class="stat-unit">/100</span></span>
-            <span class="stat-label">Bachelor GPA</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-num">2+</span>
-            <span class="stat-label">Years Experience</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-num">13+</span>
-            <span class="stat-label">Built Projects</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-num">3</span>
-            <span class="stat-label">Languages Spoken</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ -->
+  <main id="main">
 
-  <!-- Skills Section -->
-  <section class="skills" id="skills">
-    <div class="container">
-      <div class="section-header reveal-fade">
-        <span class="section-num mono">02</span>
-        <h2 class="section-title">Technical Skills</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="skills-grid">
-        <div class="skill-group reveal-up" style="--delay:0.1s">
-          <h3 class="skill-group-title"><i class="fas fa-database"></i> Data Engineering &amp; BI</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">SQL Server</span>
-            <span class="skill-tag">Power BI</span>
-            <span class="skill-tag">PostgreSQL</span>
-            <span class="skill-tag">MySQL</span>
-            <span class="skill-tag">ELT / ETL Pipelines</span>
-            <span class="skill-tag">Star Schema Modeling</span>
-            <span class="skill-tag">Data Warehousing</span>
-            <span class="skill-tag">DAX &amp; Power Query</span>
-          </div>
-        </div>
-        <div class="skill-group reveal-up" style="--delay:0.2s">
-          <h3 class="skill-group-title"><i class="fas fa-brain"></i> AI &amp; Machine Learning</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Python (Pandas, NumPy)</span>
-            <span class="skill-tag">Scikit-Learn</span>
-            <span class="skill-tag">Jupyter Notebooks</span>
-            <span class="skill-tag">Predictive Modeling</span>
-            <span class="skill-tag">NLP Resume Matching</span>
-            <span class="skill-tag">Anomaly Detection</span>
-            <span class="skill-tag">Exploratory Data Analysis</span>
-          </div>
-        </div>
-        <div class="skill-group reveal-up" style="--delay:0.3s">
-          <h3 class="skill-group-title"><i class="fas fa-code"></i> Full-Stack &amp; Software</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">JavaScript (ES6+)</span>
-            <span class="skill-tag">HTML5 / CSS3</span>
-            <span class="skill-tag">PHP</span>
-            <span class="skill-tag">Laravel MVC</span>
-            <span class="skill-tag">FastAPI</span>
-            <span class="skill-tag">RESTful APIs</span>
-            <span class="skill-tag">Java</span>
-            <span class="skill-tag">C# / C++</span>
-            <span class="skill-tag">Git &amp; GitHub</span>
-          </div>
-        </div>
-        <div class="skill-group reveal-up" style="--delay:0.4s">
-          <h3 class="skill-group-title"><i class="fas fa-server"></i> Systems &amp; Core Strengths</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">System Administration</span>
-            <span class="skill-tag">SharePoint &amp; POS</span>
-            <span class="skill-tag">Batch Scripting &amp; Automation</span>
-            <span class="skill-tag">Analytical Problem Solving</span>
-            <span class="skill-tag">Technical Leadership</span>
-            <span class="skill-tag">Continuous Learning</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spoken Languages -->
-      <div class="languages-section reveal-fade">
-        <h3 class="skill-group-title"><i class="fas fa-language"></i> Spoken Languages</h3>
-        <div class="lang-bars">
-          <div class="lang-bar">
-            <span class="lang-name mono">Arabic</span>
-            <div class="bar-track"><div class="bar-fill" data-width="100"></div></div>
-            <span class="lang-level mono">Native</span>
-          </div>
-          <div class="lang-bar">
-            <span class="lang-name mono">English</span>
-            <div class="bar-track"><div class="bar-fill" data-width="90"></div></div>
-            <span class="lang-level mono">Professional / Fluent</span>
-          </div>
-          <div class="lang-bar">
-            <span class="lang-name mono">French</span>
-            <div class="bar-track"><div class="bar-fill" data-width="60"></div></div>
-            <span class="lang-level mono">Intermediate</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Experience Section -->
-  <section class="experience" id="experience">
-    <div class="container">
-      <div class="section-header reveal-fade">
-        <span class="section-num mono">03</span>
-        <h2 class="section-title">Work Experience</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="timeline">
-        <div class="timeline-item reveal-left">
-          <div class="timeline-marker"></div>
-          <div class="timeline-card">
-            <div class="timeline-meta">
-              <span class="timeline-date mono">Sep 2025 — Present</span>
-              <span class="timeline-badge current">Current Position</span>
-            </div>
-            <h3 class="timeline-role">IT Support Specialist</h3>
-            <span class="timeline-company"><i class="fas fa-hotel"></i> Le Royal Hotel</span>
-            <ul class="timeline-list">
-              <li>Oversee daily IT infrastructure operations, system health monitoring, and network reliability.</li>
-              <li>Administer SharePoint, POS systems, inventory databases, and proprietary hotel applications.</li>
-              <li>Install, configure, and maintain enterprise hardware, server nodes, and software suites.</li>
-              <li>Perform root-cause diagnostics on software anomalies, applying rapid patches and permanent fixes.</li>
-              <li>Spearhead digital workflow optimizations and technical onboarding across departments.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="timeline-item reveal-right">
-          <div class="timeline-marker"></div>
-          <div class="timeline-card">
-            <div class="timeline-meta">
-              <span class="timeline-date mono">Aug 2025 — Sep 2025</span>
-            </div>
-            <h3 class="timeline-role">AI Research Specialist</h3>
-            <span class="timeline-company"><i class="fas fa-graduation-cap"></i> LeadersMaker Academy</span>
-            <ul class="timeline-list">
-              <li>Engineered and evaluated advanced prompt chains and LLM workflows for analytical research content.</li>
-              <li>Conducted verification and benchmark testing on AI outputs for accuracy, semantic coherence, and relevance.</li>
-              <li>Integrated AI-assisted automated pipelines for academic documentation and research summaries.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="timeline-item reveal-left">
-          <div class="timeline-marker"></div>
-          <div class="timeline-card">
-            <div class="timeline-meta">
-              <span class="timeline-date mono">Oct 2022 — Jul 2025</span>
-            </div>
-            <h3 class="timeline-role">Team Leader</h3>
-            <span class="timeline-company"><i class="fas fa-users-cog"></i> Sidewalks Group</span>
-            <ul class="timeline-list">
-              <li>Led a multidisciplinary operations team, defining operational KPIs and performance tracking systems.</li>
-              <li>Managed end-to-end inventory logistics, operational schedules, and resource allocations.</li>
-              <li>Formulated and executed client retention and revenue-growth strategies that consistently exceeded targets.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="timeline-item reveal-right">
-          <div class="timeline-marker"></div>
-          <div class="timeline-card">
-            <div class="timeline-meta">
-              <span class="timeline-date mono">Aug 2024 — Sep 2024</span>
-            </div>
-            <h3 class="timeline-role">IT Specialist — Intern</h3>
-            <span class="timeline-company"><i class="fas fa-building"></i> ABC Lebanon</span>
-            <ul class="timeline-list">
-              <li>Gained deep operational exposure to enterprise IT architectures, system auditing, and transaction validation.</li>
-              <li>Collaborated with MMS, JDE ERP, ETL pipelines, Power BI reporting, and store POS platforms.</li>
-              <li>Analyzed operational bottlenecks and assisted IT engineers in database maintenance and workflow automation.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Education & Certifications Section -->
-  <section class="education" id="education">
-    <div class="container">
-      <div class="section-header reveal-fade">
-        <span class="section-num mono">04</span>
-        <h2 class="section-title">Education &amp; Certifications</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="edu-grid">
+    <!-- HERO: Asymmetric Editorial Split with Architecture Inspector -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-grid">
         
-        <!-- Academic Degree -->
-        <div class="edu-card reveal-up" style="--delay:0.1s">
-          <div class="card-badge-pill degree"><i class="fas fa-graduation-cap"></i> Degree</div>
-          <div class="cert-provider mono">Lebanese Canadian University — Aintoura</div>
-          <div class="edu-content">
-            <h3 class="cert-title">Bachelor of Science in Computer Science</h3>
-            <span class="edu-date mono">Dec 2021 — Dec 2024</span>
-            <p class="edu-desc">Comprehensive academic curriculum in data structures, algorithms, database architectures, software engineering, operating systems, and computer networks.</p>
-            <div class="edu-gpa">
-              <span class="mono">Graduation GPA:</span>
-              <span class="gpa-value">88 / 100</span>
+        <!-- Left: Concrete Executive Positioning -->
+        <div class="hero-primary">
+          <div class="position-badge">
+            <span class="badge-accent">ACTIVE ROLE</span>
+            <span class="badge-text">IT Support Specialist at Le Royal Hotel</span>
+          </div>
+
+          <h1 class="hero-headline">
+            Data Analyst &amp; Business Intelligence Specialist.
+          </h1>
+
+          <p class="hero-lead">
+            I transform complex transactional datasets into high-impact executive dashboards, predictive customer models, and strategic business intelligence. Computer Science graduate (GPA 88/100) certified by Google in Data Analytics, specializing in Power BI, advanced SQL, exploratory data analysis, and dimensional modeling.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+              <span>Explore Projects</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <button class="btn btn-secondary" id="copyHeroEmailBtn" aria-label="Copy email address to clipboard">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span id="heroEmailLabel">Ghadytayeh7@gmail.com</span>
+            </button>
+            <a href="#contact" class="btn btn-tertiary">Direct Inquiry</a>
+          </div>
+
+          <!-- Quantitative Performance Metrics -->
+          <div class="hero-metrics">
+            <div class="metric-cell">
+              <span class="metric-number" data-target="13" data-suffix="+">13+</span>
+              <span class="metric-caption">Engineered Repositories</span>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-number">88<span class="metric-unit">/100</span></span>
+              <span class="metric-caption">B.S. Computer Science GPA</span>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-number" data-target="100" data-suffix="K+">100K+</span>
+              <span class="metric-caption">Commercial Records Modeled</span>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-number">Google</span>
+              <span class="metric-caption">Certified Data Analyst</span>
             </div>
           </div>
         </div>
 
-        <!-- Google Data Analytics Professional Certificate (NEW) -->
-        <div class="cert-card reveal-up" style="--delay:0.2s">
-          <div class="card-badge-pill cert-google"><i class="fab fa-google"></i> Professional Certificate</div>
-          <div class="cert-provider mono">Google (Coursera)</div>
-          <h3 class="cert-title">Google Data Analytics Professional Certificate</h3>
-          <ul class="cert-list">
-            <li>End-to-end data analytics lifecycle: ask, prepare, process, analyze, share, and act.</li>
-            <li>Advanced data cleaning, structuring, and complex queries using SQL &amp; spreadsheets.</li>
-            <li>Interactive data visualization and executive dashboard design with Tableau &amp; Power BI.</li>
-            <li>Statistical programming, data transformation, and comprehensive analytical case studies.</li>
-          </ul>
-        </div>
+        <!-- Right: Technical Artifact — Interactive System Architecture Inspector -->
+        <div class="hero-artifact">
+          <div class="terminal-panel" id="archInspector" role="region" aria-label="Interactive architecture inspector">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="terminal-title">analytics-kpi-engine.sql</div>
+              <div class="terminal-meta">REFRESHED · 0.04s</div>
+            </div>
 
-        <!-- Python for Everybody Specialization -->
-        <div class="cert-card reveal-up" style="--delay:0.3s">
-          <div class="card-badge-pill cert-python"><i class="fab fa-python"></i> Specialization</div>
-          <div class="cert-provider mono">University of Michigan (Coursera)</div>
-          <h3 class="cert-title">Python for Everybody Specialization</h3>
-          <ul class="cert-list">
-            <li>Core to advanced Python programming, data structures, and algorithmic logic.</li>
-            <li>Web scraping, accessing RESTful web services, and XML/JSON data parsing.</li>
-            <li>Relational database design and multi-table data modeling with SQLite/SQL.</li>
-            <li>Data visualization and automated data processing pipeline implementations.</li>
-          </ul>
-        </div>
+            <!-- Segmented Inspector Tabs -->
+            <div class="terminal-tabs" role="tablist">
+              <button class="terminal-tab active" role="tab" aria-selected="true" data-tab="pipeline">1. Analytics Flow</button>
+              <button class="terminal-tab" role="tab" aria-selected="false" data-tab="schema">2. SQL &amp; DAX Engine</button>
+              <button class="terminal-tab" role="tab" aria-selected="false" data-tab="telemetry">3. Live Telemetry Log</button>
+            </div>
 
-        <!-- Full-Stack Web Development Program -->
-        <div class="cert-card reveal-up" style="--delay:0.4s">
-          <div class="card-badge-pill cert-web"><i class="fas fa-laptop-code"></i> Professional Program</div>
-          <div class="cert-provider mono">Youbee.ai</div>
-          <h3 class="cert-title">Full-Stack Web Development Program</h3>
-          <ul class="cert-list">
-            <li>Modern responsive front-end engineering using HTML5, CSS3, and JavaScript.</li>
-            <li>Server-side web architecture and object-oriented backend programming in PHP.</li>
-            <li>MVC application development, routing, and database migrations with Laravel.</li>
-            <li>Web security fundamentals, authentication protocols, and secure coding practices.</li>
-          </ul>
-        </div>
+            <!-- Tab Content 1: Pipeline Flow -->
+            <div class="terminal-body active" id="tab-pipeline">
+              <div class="pipeline-flow">
+                
+                <div class="flow-stage">
+                  <div class="stage-tag">INGESTION &amp; RAW SOURCES</div>
+                  <div class="stage-card">
+                    <div class="stage-name">E-Commerce, Hospitality &amp; Telemetry Datasets</div>
+                    <div class="stage-desc">100K+ Olist Orders &bull; 119K+ Hotel Reservations &bull; 10 Transit Corridors</div>
+                  </div>
+                </div>
 
-      </div>
-    </div>
-  </section>
+                <div class="flow-arrow" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                </div>
 
-  <!-- Featured Projects Section -->
-  <section class="projects" id="projects">
-    <div class="container">
-      <div class="section-header reveal-fade">
-        <span class="section-num mono">05</span>
-        <h2 class="section-title">Featured Projects</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="projects-grid">
-        
-        <!-- Project 1: Traffic & Weather Monitor -->
-        <article class="project-card reveal-up" style="--delay:0.1s">
-          <div class="project-top-row">
-            <span class="project-num mono">01</span>
-            <span class="project-cat-badge data-eng">Data Engineering</span>
-          </div>
-          <div class="project-tags">
-            <span class="ptag">Python</span>
-            <span class="ptag">SQL Server</span>
-            <span class="ptag">Power BI</span>
-            <span class="ptag">TomTom API</span>
-            <span class="ptag">ML</span>
-          </div>
-          <h3 class="project-title">Traffic &amp; Weather Intelligence Monitor</h3>
-          <p class="project-desc">
-            Production-style automated ELT data pipeline collecting real-time TomTom and OpenWeather API data across 10 key Lebanese corridors, storing in SQL Server star-schema with ML prediction layers and interactive Power BI dashboards.
-          </p>
-          <div class="project-footer">
-            <a href="https://github.com/ghady7/lebanon-traffic-weather-monitor" target="_blank" rel="noopener" class="project-link mono"><i class="fab fa-github"></i> View Repository ↗</a>
-            <a href="../index.html" class="project-link mono"><i class="fas fa-th"></i> View on Hub ↗</a>
-          </div>
-        </article>
+                <div class="flow-stage">
+                  <div class="stage-tag">MODELING, ETL &amp; WAREHOUSE</div>
+                  <div class="stage-card highlight">
+                    <div class="stage-name">Python (Pandas / NumPy) &rarr; MS SQL Server Star-Schema</div>
+                    <div class="stage-desc">Staging Cleansing &bull; Dimensional Fact Tables &bull; RFM Clustering &bull; Indexed Views</div>
+                  </div>
+                </div>
 
-        <!-- Project 2: Olist E-Commerce Churn -->
-        <article class="project-card reveal-up" style="--delay:0.2s">
-          <div class="project-top-row">
-            <span class="project-num mono">02</span>
-            <span class="project-cat-badge analytics">Data Analytics</span>
-          </div>
-          <div class="project-tags">
-            <span class="ptag">SQL Server</span>
-            <span class="ptag">Python</span>
-            <span class="ptag">Power BI</span>
-            <span class="ptag">Star Schema</span>
-            <span class="ptag">EDA</span>
-          </div>
-          <h3 class="project-title">Olist E-Commerce Churn Analytics</h3>
-          <p class="project-desc">
-            End-to-end ELT data pipeline and customer churn analysis on 100K+ Brazilian e-commerce transactions using SQL Server staging/star-schema, Python transformations, and interactive Power BI KPI dashboards.
-          </p>
-          <div class="project-footer">
-            <a href="https://github.com/ghady7/olist-ecommerce-churn-analysis" target="_blank" rel="noopener" class="project-link mono"><i class="fab fa-github"></i> View Repository ↗</a>
-            <a href="../index.html" class="project-link mono"><i class="fas fa-th"></i> View on Hub ↗</a>
-          </div>
-        </article>
+                <div class="flow-arrow" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                </div>
 
-        <!-- Project 3: AI HR Recruitment -->
-        <article class="project-card reveal-up" style="--delay:0.3s">
-          <div class="project-top-row">
-            <span class="project-num mono">03</span>
-            <span class="project-cat-badge ai">AI &amp; NLP</span>
-          </div>
-          <div class="project-tags">
-            <span class="ptag">Python</span>
-            <span class="ptag">NLP</span>
-            <span class="ptag">FastAPI</span>
-            <span class="ptag">Render Cloud</span>
-          </div>
-          <h3 class="project-title">AI-Powered HR Recruitment System</h3>
-          <p class="project-desc">
-            AI recruitment system that automates CV parsing, candidate ranking, and semantic job matching using NLP. Enables batch resume uploads, scoring against job descriptions, and hiring workflow management.
-          </p>
-          <div class="project-footer">
-            <a href="https://hr-recruitment-app-0551.onrender.com/" target="_blank" rel="noopener" class="project-link mono"><i class="fas fa-external-link-alt"></i> Live Demo ↗</a>
-            <a href="https://github.com/ghady7/hr-recruitment-app" target="_blank" rel="noopener" class="project-link mono"><i class="fab fa-github"></i> GitHub ↗</a>
-          </div>
-        </article>
+                <div class="flow-stage">
+                  <div class="stage-tag">EXECUTIVE BI &amp; CONSUMPTION</div>
+                  <div class="stage-grid">
+                    <div class="stage-card">
+                      <div class="stage-name">Power BI Dashboards</div>
+                      <div class="stage-desc">Complex DAX &bull; Cohort Drill-downs &bull; Executive KPIs</div>
+                    </div>
+                    <div class="stage-card">
+                      <div class="stage-name">Predictive &amp; Statistical EDA</div>
+                      <div class="stage-desc">Scikit-Learn &bull; Churn &amp; Revenue Forecasting</div>
+                    </div>
+                  </div>
+                </div>
 
-        <!-- Project 4: Stroke Risk Prediction -->
-        <article class="project-card reveal-up" style="--delay:0.4s">
-          <div class="project-top-row">
-            <span class="project-num mono">04</span>
-            <span class="project-cat-badge ai">Machine Learning</span>
-          </div>
-          <div class="project-tags">
-            <span class="ptag">Python</span>
-            <span class="ptag">Scikit-Learn</span>
-            <span class="ptag">Pandas</span>
-            <span class="ptag">Streamlit</span>
-          </div>
-          <h3 class="project-title">Stroke Risk Prediction App</h3>
-          <p class="project-desc">
-            Machine learning diagnostic application that evaluates multiple patient biometric and medical indicators to calculate personalized stroke probabilities in real time for clinical preventive guidance.
-          </p>
-          <div class="project-footer">
-            <a href="https://machine-learning-projects-9d3i.onrender.com/" target="_blank" rel="noopener" class="project-link mono"><i class="fas fa-external-link-alt"></i> Live Demo ↗</a>
-            <a href="https://github.com/ghady7/machine-learning-projects/tree/master/strok_risk" target="_blank" rel="noopener" class="project-link mono"><i class="fab fa-github"></i> GitHub ↗</a>
-          </div>
-        </article>
+              </div>
+            </div>
 
-      </div>
+            <!-- Tab Content 2: SQL & DAX Analytics Engine -->
+            <div class="terminal-body" id="tab-schema">
+              <pre class="code-block"><code><span class="cm">-- 1. SQL Window Analysis: Customer Churn &amp; Order Retention</span>
+<span class="kw">WITH</span> CustomerOrderCohorts <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> 
+        CustomerID, OrderDate, OrderTotal,
+        <span class="fn">DATEDIFF</span>(day, <span class="fn">LAG</span>(OrderDate, 1) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> CustomerID <span class="kw">ORDER BY</span> OrderDate
+        ), OrderDate) <span class="kw">AS</span> DaysSincePriorOrder,
+        <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> CustomerID <span class="kw">ORDER BY</span> OrderDate <span class="kw">DESC</span>
+        ) <span class="kw">AS</span> RecencyRank
+    <span class="kw">FROM</span> Fact_CustomerOrders
+)
+<span class="kw">SELECT</span> 
+    <span class="fn">CASE WHEN</span> RecencyRank = 1 <span class="kw">AND</span> DaysSincePriorOrder > 90 
+         <span class="kw">THEN</span> <span class="str">'At Risk'</span> <span class="kw">ELSE</span> <span class="str">'Active'</span> <span class="kw">END AS</span> ChurnStatus,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> CustomerID) <span class="kw">AS</span> CohortCount,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(OrderTotal), 2)  <span class="kw">AS</span> AvgCustomerValue
+<span class="kw">FROM</span> CustomerOrderCohorts
+<span class="kw">GROUP BY</span> <span class="fn">CASE WHEN</span> RecencyRank = 1 <span class="kw">AND</span> DaysSincePriorOrder > 90 
+              <span class="kw">THEN</span> <span class="str">'At Risk'</span> <span class="kw">ELSE</span> <span class="str">'Active'</span> <span class="kw">END</span>;
 
-      <div class="projects-cta reveal-up" style="text-align: center; margin-top: 3rem;">
-        <a href="../index.html" class="btn btn-primary"><i class="fas fa-th-large"></i> Explore All 13+ Projects on Dashboard</a>
-      </div>
-    </div>
-  </section>
+<span class="cm">-- 2. Power BI DAX: Dynamic Customer Churn Rate %</span>
+ChurnRate% = 
+<span class="kw">VAR</span> <span class="var">ActiveBase</span> = <span class="fn">CALCULATE</span>([Total Customers], <span class="fn">DATEADD</span>(Dim_Date[Date], -90, DAY))
+<span class="kw">VAR</span> <span class="var">Lapsed</span>     = <span class="fn">CALCULATE</span>([Lost Customers], <span class="fn">DATESBETWEEN</span>(Dim_Date[Date], [PeriodStart], [PeriodEnd]))
+<span class="kw">RETURN</span> <span class="fn">DIVIDE</span>(<span class="var">Lapsed</span>, <span class="var">ActiveBase</span>, 0)</code></pre>
+            </div>
 
-  <!-- Contact Section -->
-  <section class="contact" id="contact">
-    <div class="container">
-      <div class="section-header reveal-fade">
-        <span class="section-num mono">06</span>
-        <h2 class="section-title">Contact &amp; Connect</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="contact-grid">
-        <div class="contact-info reveal-left">
-          <p class="contact-tagline">Let's build innovative, data-driven solutions together.</p>
-          <div class="contact-details">
-            <a href="mailto:Ghadytayeh7@gmail.com" class="contact-item">
-              <span class="ci-label mono"><i class="fas fa-envelope"></i> Email</span>
-              <span class="ci-value">Ghadytayeh7@gmail.com</span>
-            </a>
-            <a href="tel:+96176966369" class="contact-item">
-              <span class="ci-label mono"><i class="fas fa-phone"></i> Phone</span>
-              <span class="ci-value">+961 76 966 369</span>
-            </a>
-            <a href="https://www.linkedin.com/in/ghady-tayeh-a0711a339" target="_blank" rel="noopener" class="contact-item">
-              <span class="ci-label mono"><i class="fab fa-linkedin"></i> LinkedIn</span>
-              <span class="ci-value">ghady-tayeh ↗</span>
-            </a>
-            <a href="https://github.com/ghady7" target="_blank" rel="noopener" class="contact-item">
-              <span class="ci-label mono"><i class="fab fa-github"></i> GitHub</span>
-              <span class="ci-value">github.com/ghady7 ↗</span>
-            </a>
-            <div class="contact-item">
-              <span class="ci-label mono"><i class="fas fa-map-marker-alt"></i> Location</span>
-              <span class="ci-value">Nahr Ibrahim, Lebanon</span>
+            <!-- Tab Content 3: Ingestion Log Telemetry -->
+            <div class="terminal-body" id="tab-telemetry">
+              <div class="log-stream" id="logStream">
+                <div class="log-line"><span class="log-time">23:10:02</span> <span class="log-tag tag-ok">OK</span> Power BI dataset refresh: 100,000+ Olist transactions synced... [200 OK]</div>
+                <div class="log-line"><span class="log-time">23:10:03</span> <span class="log-tag tag-info">INFO</span> Recalculating RFM customer churn cohort matrices in memory.</div>
+                <div class="log-line"><span class="log-time">23:10:04</span> <span class="log-tag tag-ok">OK</span> Hotel Booking EDA: ADR &amp; RevPAR DAX measures evaluated (14ms).</div>
+                <div class="log-line"><span class="log-time">23:10:05</span> <span class="log-tag tag-info">INFO</span> SQL Server batch insert: 10 corridors into staging.TrafficStage.</div>
+                <div class="log-line"><span class="log-time">23:10:06</span> <span class="log-tag tag-ok">OK</span> Procedure dbo.Merge_Fact_TrafficFlow executed. Rows merged: 10.</div>
+                <div class="log-line"><span class="log-time">23:10:07</span> <span class="log-tag tag-info">INFO</span> FIFA 2020 Analytics: Player valuation regression updated (R² = 0.912).</div>
+                <div class="log-line active"><span class="log-time">23:10:08</span> <span class="log-tag tag-ok">IDLE</span> Power BI Service active. All semantic models synchronized. <span class="cursor-blink">_</span></div>
+              </div>
+            </div>
+
+            <!-- Terminal Footer -->
+            <div class="terminal-footer">
+              <span class="spec-label">WAREHOUSE:</span> MS SQL Server 2022 &bull; <span class="spec-label">BI STACK:</span> Power BI / DAX &bull; <span class="spec-label">ENGINE:</span> Python 3.11 (Pandas)
             </div>
           </div>
         </div>
-        
-        <!-- Contact Form -->
-        <form class="contact-form reveal-right" id="contactForm" novalidate>
-          <div class="form-group">
-            <label for="name" class="form-label mono">Your Name</label>
-            <input type="text" id="name" name="name" class="form-input" placeholder="e.g. John Doe" required>
-            <span class="form-error" id="nameError"></span>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         ABOUT & BACKGROUND: High-Context Professional Profile
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="content-section" id="about">
+      <div class="container">
+        <div class="section-lead-row">
+          <div class="section-label">01 / PROFILE</div>
+          <h2 class="section-heading">Translating complex operational data into executive intelligence.</h2>
+        </div>
+
+        <div class="about-dossier">
+          <div class="dossier-main">
+            <p class="lead-text">
+              I am a Data Analyst, Business Intelligence Specialist, and Computer Science graduate based in Nahr Ibrahim, Lebanon. Graduating with an <strong>88/100 GPA in Computer Science</strong>, I specialize in transforming raw, siloed transactional datasets into actionable executive dashboards, customer churn models, and dimensional data warehouses.
+            </p>
+            <p>
+              My focus is bridging the gap between raw business records and strategic decision-making. At <strong>Le Royal Hotel</strong>, I oversee enterprise IT systems, audit transactional POS and inventory data flows, and build operational tracking structures. In my analytical projects, I architect Microsoft SQL Server star schemas, calculate advanced DAX measures, conduct multivariate exploratory data analysis, and train predictive machine learning models.
+            </p>
+            <p>
+              Holding professional credentials from <strong>Google (Data Analytics Professional Certificate)</strong> and the <strong>University of Michigan (Python &amp; SQL)</strong>, I combine mathematical rigor with clear business storytelling to help executive stakeholders make data-driven decisions.
+            </p>
+
+            <div class="meta-links-group">
+              <a href="mailto:Ghadytayeh7@gmail.com" class="meta-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>Ghadytayeh7@gmail.com</span>
+              </a>
+              <a href="tel:+96176966369" class="meta-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span>+961 76 966 369</span>
+              </a>
+              <a href="https://www.linkedin.com/in/ghady-tayeh-a0711a339" target="_blank" rel="noopener" class="meta-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                <span>linkedin.com/in/ghady-tayeh</span>
+              </a>
+              <a href="https://github.com/ghady7" target="_blank" rel="noopener" class="meta-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <span>github.com/ghady7</span>
+              </a>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="email" class="form-label mono">Email Address</label>
-            <input type="email" id="email" name="email" class="form-input" placeholder="e.g. john@example.com" required>
-            <span class="form-error" id="emailError"></span>
+
+          <!-- Structured Quick Facts -->
+          <div class="dossier-sidebar">
+            <div class="sidebar-block">
+              <div class="block-label">CORE DISCIPLINES</div>
+              <ul class="block-list">
+                <li>Executive Power BI &amp; Interactive Dashboards</li>
+                <li>Advanced SQL &amp; Dimensional Star Schemas</li>
+                <li>Customer Churn, RFM &amp; Cohort Analytics</li>
+                <li>Exploratory Data Analysis (EDA) &amp; Statistics</li>
+                <li>Automated ELT/ETL Ingestion Pipelines</li>
+              </ul>
+            </div>
+            <div class="sidebar-block">
+              <div class="block-label">LOCATION &amp; MOBILITY</div>
+              <div class="block-text">Nahr Ibrahim, Lebanon &bull; Open to Remote and On-Site Enterprise Roles</div>
+            </div>
+            <div class="sidebar-block">
+              <div class="block-label">SPOKEN LANGUAGES</div>
+              <div class="lang-pill-row">
+                <span class="lang-chip"><strong>Arabic</strong> &middot; Native</span>
+                <span class="lang-chip"><strong>English</strong> &middot; Professional</span>
+                <span class="lang-chip"><strong>French</strong> &middot; Intermediate</span>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="subject" class="form-label mono">Subject</label>
-            <input type="text" id="subject" name="subject" class="form-input" placeholder="Project inquiry, Opportunity, etc.">
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         WORK EXPERIENCE: Structured Career Dossier
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="content-section section-bordered" id="experience">
+      <div class="container">
+        <div class="section-lead-row">
+          <div class="section-label">02 / TRACK RECORD</div>
+          <h2 class="section-heading">Professional Work Experience.</h2>
+        </div>
+
+        <div class="experience-dossier">
+          
+          <!-- Role 1: Le Royal Hotel -->
+          <article class="role-entry current">
+            <div class="role-timeline-meta">
+              <span class="meta-period">Sep 2025 &mdash; Present</span>
+              <span class="meta-tag tag-active">Current Position</span>
+            </div>
+            <div class="role-content">
+              <div class="role-header">
+                <h3 class="role-title">IT Support Specialist</h3>
+                <div class="role-employer">
+                  <span class="employer-name">Le Royal Hotel</span>
+                  <span class="employer-location">&bull; Dbayeh, Lebanon</span>
+                </div>
+              </div>
+              <ul class="role-deliverables">
+                <li>Direct daily IT operations and data integrity across 5-star hospitality infrastructure, auditing transactional records across Micros POS, PMS, and inventory databases.</li>
+                <li>Build automated SharePoint reporting dashboards tracking equipment maintenance schedules, department service SLAs, and hardware lifecycle metrics.</li>
+                <li>Perform systematic root-cause diagnostics on database sync anomalies, optimizing SQL transaction performance and ensuring 99.9% POS operational uptime.</li>
+                <li>Coordinate multi-departmental data workflows between food &amp; beverage, banqueting, and front desk, training staff on secure transactional procedures.</li>
+              </ul>
+              <div class="role-tech-tags">
+                <span class="t-tag">POS Data Auditing</span>
+                <span class="t-tag">Transactional Systems</span>
+                <span class="t-tag">Database Diagnostics</span>
+                <span class="t-tag">SharePoint Reporting</span>
+                <span class="t-tag">System Reliability</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Role 2: LeadersMaker Academy -->
+          <article class="role-entry">
+            <div class="role-timeline-meta">
+              <span class="meta-period">Aug 2025 &mdash; Sep 2025</span>
+            </div>
+            <div class="role-content">
+              <div class="role-header">
+                <h3 class="role-title">AI Research Specialist</h3>
+                <div class="role-employer">
+                  <span class="employer-name">LeadersMaker Academy</span>
+                  <span class="employer-location">&bull; Research &amp; Development</span>
+                </div>
+              </div>
+              <ul class="role-deliverables">
+                <li>Conducted quantitative benchmarking on NLP model evaluation datasets, evaluating output accuracy and variance across structured testing matrices.</li>
+                <li>Built automated data extraction scripts converting unstructured academic texts and research papers into structured analytical datasets.</li>
+                <li>Established statistical verification protocols to validate prompt output consistency and eliminate hallucination anomalies.</li>
+              </ul>
+              <div class="role-tech-tags">
+                <span class="t-tag">Quantitative Benchmarking</span>
+                <span class="t-tag">NLP Evaluation</span>
+                <span class="t-tag">Dataset Curation</span>
+                <span class="t-tag">Automated Pipelines</span>
+                <span class="t-tag">Statistical Analysis</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Role 3: Sidewalks Group -->
+          <article class="role-entry">
+            <div class="role-timeline-meta">
+              <span class="meta-period">Oct 2022 &mdash; Jul 2025</span>
+              <span class="meta-tag">2 yrs 10 mos</span>
+            </div>
+            <div class="role-content">
+              <div class="role-header">
+                <h3 class="role-title">Team Leader</h3>
+                <div class="role-employer">
+                  <span class="employer-name">Sidewalks Group</span>
+                  <span class="employer-location">&bull; Operations Leadership</span>
+                </div>
+              </div>
+              <ul class="role-deliverables">
+                <li>Directed operations teams while establishing quantitative KPI tracking models to monitor throughput, productivity metrics, and schedule compliance.</li>
+                <li>Supervised supply chain operations, inventory database auditing, and daily resource allocations across high-turnover retail cycles.</li>
+                <li>Analyzed customer retention trends and sales velocity, formulating data-backed promotional strategies that consistently exceeded quarterly revenue targets.</li>
+              </ul>
+              <div class="role-tech-tags">
+                <span class="t-tag">KPI Modeling</span>
+                <span class="t-tag">Inventory Analytics</span>
+                <span class="t-tag">Retention Modeling</span>
+                <span class="t-tag">Operations Leadership</span>
+                <span class="t-tag">Revenue Strategy</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Role 4: ABC Lebanon -->
+          <article class="role-entry">
+            <div class="role-timeline-meta">
+              <span class="meta-period">Aug 2024 &mdash; Sep 2024</span>
+              <span class="meta-tag">Internship</span>
+            </div>
+            <div class="role-content">
+              <div class="role-header">
+                <h3 class="role-title">IT Specialist &mdash; Intern</h3>
+                <div class="role-employer">
+                  <span class="employer-name">ABC Lebanon</span>
+                  <span class="employer-location">&bull; Enterprise IT Division</span>
+                </div>
+              </div>
+              <ul class="role-deliverables">
+                <li>Audited corporate retail transactional data flows between Merchandising Management System (MMS), JD Edwards (JDE) ERP, and store POS registers.</li>
+                <li>Assisted senior database administrators in evaluating data warehouse query performance, index health checks, and routine automated batch execution.</li>
+                <li>Collaborated with business intelligence specialists in validating retail data extracts and deploying Power BI executive sales reports.</li>
+              </ul>
+              <div class="role-tech-tags">
+                <span class="t-tag">Enterprise ERP (JDE)</span>
+                <span class="t-tag">MMS Retail Data</span>
+                <span class="t-tag">Transactional Auditing</span>
+                <span class="t-tag">Power BI Reporting</span>
+                <span class="t-tag">SQL Warehousing</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         PROJECTS: Engineering Case Studies
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="content-section" id="projects">
+      <div class="container">
+        <div class="section-lead-row section-split-header">
+          <div>
+            <div class="section-label">03 / CASE STUDIES</div>
+            <h2 class="section-heading">Featured Data Analytics Projects.</h2>
           </div>
-          <div class="form-group">
-            <label for="message" class="form-label mono">Message</label>
-            <textarea id="message" name="message" class="form-input form-textarea" placeholder="Tell me about your project or opportunity..." required rows="5"></textarea>
-            <span class="form-error" id="messageError"></span>
+          
+          <!-- Category Filter Tabs -->
+          <div class="project-filter-tabs" role="tablist" aria-label="Filter projects">
+            <button class="filter-tab active" data-filter="all">All Analytics (4)</button>
+            <button class="filter-tab" data-filter="bi">Business &amp; Revenue BI (2)</button>
+            <button class="filter-tab" data-filter="predictive">Predictive &amp; Telemetry (2)</button>
           </div>
-          <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
-            <span class="btn-text"><i class="fas fa-paper-plane"></i> Send Message</span>
-          </button>
-          <div class="form-success" id="formSuccess">
-            <span>◈</span> Message sent successfully! I will get back to you shortly.
+        </div>
+
+        <div class="projects-grid">
+
+          <!-- Project 1: Olist E-Commerce Churn Analytics -->
+          <article class="project-item" data-category="bi">
+            <div class="project-head">
+              <div class="project-meta-pill">CUSTOMER ANALYTICS &middot; BUSINESS INTELLIGENCE</div>
+              <span class="project-id">01</span>
+            </div>
+
+            <h3 class="project-name">Olist E-Commerce Churn &amp; Revenue Analytics</h3>
+
+            <p class="project-abstract">
+              End-to-end customer churn modeling and revenue optimization platform analyzing 100,000+ Brazilian e-commerce transactions. Engineered automated SQL Server staging and star-schema dimensional tables, calculated RFM (Recency, Frequency, Monetary) segmentation matrices in Python, and published multi-tab interactive Power BI executive dashboards tracking churn probability, delivery lag, and product category margin drift.
+            </p>
+
+            <div class="project-spec-box">
+              <div class="spec-row">
+                <span class="spec-k">ARCHITECTURE</span>
+                <span class="spec-v">Raw Relational Data &rarr; SQL Staging &rarr; Dim/Fact Tables &rarr; DAX Measures</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-k">ANALYTICS SCALE</span>
+                <span class="spec-v">100K+ Orders &bull; 9 Relational Tables &bull; RFM Segmentation Matrix</span>
+              </div>
+              <div class="spec-row highlight">
+                <span class="spec-k">KEY INSIGHTS</span>
+                <span class="spec-v">Identified top delivery lag drivers &bull; 14.2% high-value customer churn risk isolated</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-k">TECH STACK</span>
+                <span class="spec-v">SQL Server, Python (Pandas), Star Schema, Power BI, DAX Modeling</span>
+              </div>
+            </div>
+
+            <div class="project-actions">
+              <a href="https://github.com/ghady7/olist-ecommerce-churn-analysis" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <span>GitHub Repository &nearr;</span>
+              </a>
+              <a href="../index.html" class="btn btn-sm btn-ghost">Interactive Hub Spec &nearr;</a>
+            </div>
+          </article>
+
+          <!-- Project 2: Hotel Revenue & Booking Analytics -->
+          <article class="project-item" data-category="bi">
+            <div class="project-head">
+              <div class="project-meta-pill">HOSPITALITY REVENUE BI &middot; PREDICTIVE EDA</div>
+              <span class="project-id">02</span>
+            </div>
+
+            <h3 class="project-name">Hotel Booking Revenue &amp; Cancellation Analytics</h3>
+
+            <p class="project-abstract">
+              Enterprise data analytics and revenue management pipeline evaluating 119,000+ hotel reservation records to optimize room occupancy and prevent lost booking revenue. Conducted exploratory data analysis (EDA) in SQL and Python to isolate the primary drivers of booking cancellations (lead times, deposit policies, distribution channels), and deployed interactive Power BI dashboards calculating dynamic hospitality KPIs—Average Daily Rate (ADR) and RevPAR.
+            </p>
+
+            <div class="project-spec-box">
+              <div class="spec-row">
+                <span class="spec-k">ARCHITECTURE</span>
+                <span class="spec-v">Transactional PMS Data &rarr; SQL Cleansing &rarr; Statistical EDA &rarr; Power BI KPIs</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-k">ANALYTICS SCALE</span>
+                <span class="spec-v">119K+ Reservations &bull; 32 Analytical Features &bull; City &amp; Resort Properties</span>
+              </div>
+              <div class="spec-row highlight">
+                <span class="spec-k">KEY INSIGHTS</span>
+                <span class="spec-v">Discovered 37% cancellation baseline &bull; Modeled lead-time risk thresholds for overbooking</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-k">TECH STACK</span>
+                <span class="spec-v">SQL, Python (Pandas, Seaborn), Power BI, Exploratory Data Analysis, Statistical Modeling</span>
+              </div>
+            </div>
+
+            <div class="project-actions">
+              <a href="https://github.com/ghady7/hotel-booking-eda" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <span>GitHub Repository &nearr;</span>
+              </a>
+              <a href="../index.html" class="btn btn-sm btn-ghost">Interactive Hub Spec &nearr;</a>
+            </div>
+          </article>
+
+          <!-- Project 3: Lebanon Traffic & Weather Monitor -->
+          <article class="project-item" data-category="predictive">
+            <div class="project-head">
+              <div class="project-meta-pill">REAL-TIME TELEMETRY &middot; DIMENSIONAL WAREHOUSING</div>
+              <span class="project-id">03</span>
+            </div>
+
+            <h3 class="project-name">Lebanon Traffic &amp; Weather Intelligence Monitor</h3>
+
+            <p class="project-abstract">
+              Automated production-style ELT data analytics pipeline collecting real-time telemetry from TomTom Traffic API and OpenWeather API across 10 vital Lebanese transit corridors. Ingests raw JSON payloads, performs schema normalization in Python, stores in a SQL Server star-schema dimensional warehouse, and visualizes live congestion indices, weather correlations, and delay patterns in Power BI alongside an ML delay prediction layer.
+            </p>
+
+            <div class="project-spec-box">
+              <div class="spec-row">
+                <span class="spec-k">ARCHITECTURE</span>
+                <span class="spec-v">API Ingestion &rarr; Python Parser &rarr; SQL Server Star-Schema &rarr; Power BI</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-k">ANALYTICS SCALE</span>
+                <span class="spec-v">10 National Corridors &bull; Automated 5-Min Periodic Extraction &bull; Star Schema</span>
+              </div>
+              <div class="spec-row highlight">
+                <span class="spec-k">KEY INSIGHTS</span>
+                <span class="spec-v">Correlated rainfall volume with peak congestion &bull; 88.4% delay forecasting accuracy</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-k">TECH STACK</span>
+                <span class="spec-v">Python, SQL Server, Star Schema, Power BI, TomTom API, Scikit-Learn</span>
+              </div>
+            </div>
+
+            <div class="project-actions">
+              <a href="https://github.com/ghady7/lebanon-traffic-weather-monitor" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <span>GitHub Repository &nearr;</span>
+              </a>
+              <a href="../index.html" class="btn btn-sm btn-ghost">Interactive Hub Spec &nearr;</a>
+            </div>
+          </article>
+
+          <!-- Project 4: FIFA 2020 Global Player Analytics -->
+          <article class="project-item" data-category="predictive">
+            <div class="project-head">
+              <div class="project-meta-pill">MULTIVARIATE EDA &middot; SPORTS ECONOMETRICS</div>
+              <span class="project-id">04</span>
+            </div>
+
+            <h3 class="project-name">FIFA 2020 Global Player Analytics &amp; Valuation ML</h3>
+
+            <p class="project-abstract">
+              Multivariate exploratory data analysis, statistical clustering, and econometric predictive modeling on 18,200+ international football players across 100+ athletic and financial attributes. Evaluated wage equity and market valuation factors using regression models, identified undervalued talent anomalies via distribution analysis, and engineered interactive Power BI scouting dashboards comparing multi-attribute player radar profiles.
+            </p>
+
+            <div class="project-spec-box">
+              <div class="spec-row">
+                <span class="spec-k">ARCHITECTURE</span>
+                <span class="spec-v">Raw Kaggle Corpus &rarr; Jupyter Data Wrangling &rarr; Predictive Models &rarr; Power BI</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-k">ANALYTICS SCALE</span>
+                <span class="spec-v">18,200+ Players &bull; 100+ Performance Features &bull; Regression &amp; Anomaly Detection</span>
+              </div>
+              <div class="spec-row highlight">
+                <span class="spec-k">KEY INSIGHTS</span>
+                <span class="spec-v">Achieved 91.2% R² in wage prediction &bull; Isolated top 5 value-per-dollar player archetypes</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-k">TECH STACK</span>
+                <span class="spec-v">Python, Jupyter, Pandas, Scikit-Learn, Power BI, Statistical Regression</span>
+              </div>
+            </div>
+
+            <div class="project-actions">
+              <a href="https://github.com/ghady7/fifa-2020-analysis" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <span>GitHub Repository &nearr;</span>
+              </a>
+              <a href="../index.html" class="btn btn-sm btn-ghost">Interactive Hub Spec &nearr;</a>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Dashboard CTA Box -->
+        <div class="dashboard-banner">
+          <div class="banner-text">
+            <h4>Looking to inspect all 13+ engineered repositories and prototypes?</h4>
+            <p>Access the interactive portfolio hub covering software utilities, database schemas, full-stack applications, and data pipelines.</p>
           </div>
-        </form>
+          <a href="../index.html" class="btn btn-outline">Launch Full Dashboard &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SKILLS MATRIX: Functional Engineering Taxonomy
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="content-section section-bordered" id="skills">
+      <div class="container">
+        <div class="section-lead-row">
+          <div class="section-label">04 / TECHNICAL ARSENAL</div>
+          <h2 class="section-heading">Categorized Skills &amp; Competencies.</h2>
+        </div>
+
+        <div class="skills-taxonomy-grid">
+          
+          <!-- Column 1: Business Intelligence & Dashboards -->
+          <div class="taxonomy-col">
+            <div class="col-header">
+              <span class="col-num">01</span>
+              <h3 class="col-title">Business Intelligence &amp; Dashboards</h3>
+            </div>
+            <ul class="taxonomy-list">
+              <li><strong>Power BI Desktop &amp; Service:</strong> End-to-end report design, workspace administration, scheduled gateway dataset refreshes.</li>
+              <li><strong>Advanced DAX Expressions:</strong> Dynamic time-intelligence (YoY, MoM, YTD), `CALCULATE`, `FILTER`, `DATESBETWEEN`, custom ranking.</li>
+              <li><strong>Power Query (M Language):</strong> Tabular data transformations, conditional columns, schema harmonizations, merging queries.</li>
+              <li><strong>Executive Storytelling:</strong> Interactive KPI scorecards, drill-through hierarchies, decomposition trees, mobile layouts.</li>
+              <li><strong>Tableau &amp; Data Viz:</strong> Calculated fields, dual-axis charts, parameters, cohort heatmaps, distribution plots.</li>
+            </ul>
+          </div>
+
+          <!-- Column 2: Advanced SQL & Data Warehousing -->
+          <div class="taxonomy-col">
+            <div class="col-header">
+              <span class="col-num">02</span>
+              <h3 class="col-title">Advanced SQL &amp; Warehousing</h3>
+            </div>
+            <ul class="taxonomy-list">
+              <li><strong>Microsoft SQL Server:</strong> Staging architecture, stored procedures, T-SQL programming, database constraints, automated batch jobs.</li>
+              <li><strong>Analytical SQL:</strong> Window functions (`ROW_NUMBER`, `RANK`, `LEAD`, `LAG`), CTEs, multi-table joins, subquery aggregations.</li>
+              <li><strong>Dimensional Modeling:</strong> Kimball star-schema &amp; snowflake design, fact table granularity, surrogate keys, dimension tables.</li>
+              <li><strong>Performance Optimization:</strong> Clustered &amp; non-clustered indexing, query execution plan analysis, index defragmentation.</li>
+              <li><strong>Multi-RDBMS Systems:</strong> PostgreSQL, MySQL, SQLite, transactional integrity (ACID), schema migration auditing.</li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Python Analytics & Statistical EDA -->
+          <div class="taxonomy-col">
+            <div class="col-header">
+              <span class="col-num">03</span>
+              <h3 class="col-title">Python Analytics &amp; EDA</h3>
+            </div>
+            <ul class="taxonomy-list">
+              <li><strong>Pandas &amp; NumPy:</strong> High-performance tabular manipulation, vectorization, missing value imputation, multi-index slicing.</li>
+              <li><strong>Exploratory Data Analysis:</strong> Distribution analysis, correlation matrices, outlier detection (IQR / Z-score), hypothesis testing.</li>
+              <li><strong>Data Visualization:</strong> Matplotlib, Seaborn, interactive Plotly charting, custom statistical plots, theme design.</li>
+              <li><strong>Predictive Modeling:</strong> Scikit-Learn pipelines, linear/logistic regression, decision trees, random forests, customer churn modeling.</li>
+              <li><strong>Customer Analytics:</strong> RFM (Recency, Frequency, Monetary) clustering, k-means, cohort retention tracking.</li>
+            </ul>
+          </div>
+
+          <!-- Column 4: ETL, Systems & Operational Telemetry -->
+          <div class="taxonomy-col">
+            <div class="col-header">
+              <span class="col-num">04</span>
+              <h3 class="col-title">ETL, Systems &amp; Telemetry</h3>
+            </div>
+            <ul class="taxonomy-list">
+              <li><strong>Automated ELT/ETL:</strong> Scheduled data ingestion scripts, JSON/CSV parsing, REST API consumption (TomTom, OpenWeather).</li>
+              <li><strong>Enterprise Hospitality IT:</strong> Micros POS environments, PMS databases, hotel inventory auditing, high-uptime system reliability.</li>
+              <li><strong>SharePoint &amp; Document Data:</strong> Structured list architectures, permission modeling, automated workflows, enterprise auditing.</li>
+              <li><strong>Engineering &amp; Cloud Tools:</strong> Git version control, GitHub repositories, cloud app hosting (Render), Jupyter Notebooks, VS Code.</li>
+              <li><strong>Analytical Problem Solving:</strong> Translating business ambiguity into quantitative models, root-cause diagnostics, executive presentation.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         EDUCATION & CREDENTIALS: Verified Credentials
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="content-section" id="education">
+      <div class="container">
+        <div class="section-lead-row">
+          <div class="section-label">05 / VERIFIED CREDENTIALS</div>
+          <h2 class="section-heading">Academic Degree &amp; Certifications.</h2>
+        </div>
+
+        <div class="credentials-grid">
+
+          <!-- Degree -->
+          <div class="credential-card degree-card">
+            <div class="cred-header">
+              <span class="cred-type">ACADEMIC DEGREE</span>
+              <span class="cred-date">Dec 2021 &mdash; Dec 2024</span>
+            </div>
+            <div class="cred-institution">Lebanese Canadian University &bull; Aintoura</div>
+            <h3 class="cred-name">Bachelor of Science in Computer Science</h3>
+            <div class="cred-grade-pill">
+              <span class="grade-label">GRADUATION GPA:</span>
+              <span class="grade-val">88 / 100</span>
+            </div>
+            <p class="cred-desc">
+              Rigorous curriculum spanning advanced algorithms, relational database architectures, computer operating systems, data communications, network protocols, and software design patterns.
+            </p>
+          </div>
+
+          <!-- Google Data Analytics -->
+          <div class="credential-card">
+            <div class="cred-header">
+              <span class="cred-type">PROFESSIONAL CERTIFICATE</span>
+              <span class="cred-date">Issued via Coursera</span>
+            </div>
+            <div class="cred-institution">Google</div>
+            <h3 class="cred-name">Google Data Analytics Professional Certificate</h3>
+            <ul class="cred-points">
+              <li>Mastered complete analytical lifecycle: Ask, Prepare, Process, Analyze, Share, and Act.</li>
+              <li>Complex relational queries, data cleansing frameworks, and spreadsheet modeling.</li>
+              <li>Executive dashboard design and data storytelling with Tableau &amp; Power BI.</li>
+            </ul>
+          </div>
+
+          <!-- Python for Everybody -->
+          <div class="credential-card">
+            <div class="cred-header">
+              <span class="cred-type">SPECIALIZATION CERTIFICATE</span>
+              <span class="cred-date">Issued via Coursera</span>
+            </div>
+            <div class="cred-institution">University of Michigan</div>
+            <h3 class="cred-name">Python for Everybody Specialization</h3>
+            <ul class="cred-points">
+              <li>Core and algorithmic Python: data structures, object-oriented design, error handling.</li>
+              <li>Web scraping, consuming RESTful APIs, XML/JSON parsing, and network sockets.</li>
+              <li>Relational SQLite &amp; SQL multi-table database architecture and visualization.</li>
+            </ul>
+          </div>
+
+          <!-- Full Stack -->
+          <div class="credential-card">
+            <div class="cred-header">
+              <span class="cred-type">PROFESSIONAL PROGRAM</span>
+              <span class="cred-date">Youbee.ai</span>
+            </div>
+            <div class="cred-institution">Youbee.ai Academy</div>
+            <h3 class="cred-name">Full-Stack Web Development Program</h3>
+            <ul class="cred-points">
+              <li>Responsive frontend engineering with semantic HTML5, modern CSS3, and JavaScript.</li>
+              <li>Server-side MVC architecture, database migrations, and authentication in PHP/Laravel.</li>
+              <li>Web application security, input sanitization, and RESTful routing standards.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         CONTACT & INQUIRIES: Real Communication Interface
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="content-section section-bordered" id="contact">
+      <div class="container">
+        <div class="section-lead-row">
+          <div class="section-label">06 / GET IN TOUCH</div>
+          <h2 class="section-heading">Initiate a Conversation.</h2>
+        </div>
+
+        <div class="contact-dossier">
+          
+          <!-- Contact Coordinates -->
+          <div class="contact-info-col">
+            <p class="contact-lead">
+              Whether you are hiring for a Data Analyst, Business Intelligence Specialist, or Analytics Engineer &mdash; or need an audit on your data workflows &mdash; I respond promptly to verified inquiries.
+            </p>
+
+            <div class="direct-channels">
+              
+              <div class="channel-item">
+                <span class="channel-label">DIRECT EMAIL</span>
+                <div class="channel-action-row">
+                  <a href="mailto:Ghadytayeh7@gmail.com" class="channel-value">Ghadytayeh7@gmail.com</a>
+                  <button class="copy-pill" id="copyContactEmailBtn" aria-label="Copy email">Copy</button>
+                </div>
+              </div>
+
+              <div class="channel-item">
+                <span class="channel-label">TELEPHONE / WHATSAPP</span>
+                <div class="channel-action-row">
+                  <a href="tel:+96176966369" class="channel-value">+961 76 966 369</a>
+                </div>
+              </div>
+
+              <div class="channel-item">
+                <span class="channel-label">PHYSICAL LOCATION</span>
+                <span class="channel-value">Nahr Ibrahim, Mount Lebanon, Lebanon</span>
+              </div>
+
+              <div class="channel-item">
+                <span class="channel-label">PUBLIC PROFILES</span>
+                <div class="channel-links">
+                  <a href="https://www.linkedin.com/in/ghady-tayeh-a0711a339" target="_blank" rel="noopener" class="profile-link">LinkedIn &nearr;</a>
+                  <a href="https://github.com/ghady7" target="_blank" rel="noopener" class="profile-link">GitHub &nearr;</a>
+                  <a href="../index.html" class="profile-link">Dashboard Hub &nearr;</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="contact-form-col">
+            <form class="clean-form" id="contactForm" novalidate>
+              
+              <div class="form-row-2">
+                <div class="field-group">
+                  <label for="name" class="field-label">YOUR FULL NAME <span class="req">*</span></label>
+                  <input type="text" id="name" name="name" class="field-input" placeholder="e.g. Alex Morgan" required autocomplete="name">
+                  <span class="field-error" id="nameError"></span>
+                </div>
+                <div class="field-group">
+                  <label for="email" class="field-label">BUSINESS EMAIL <span class="req">*</span></label>
+                  <input type="email" id="email" name="email" class="field-input" placeholder="e.g. alex@company.com" required autocomplete="email">
+                  <span class="field-error" id="emailError"></span>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="subject" class="field-label">SUBJECT</label>
+                <input type="text" id="subject" name="subject" class="field-input" placeholder="Position inquiry, Data pipeline consult, etc.">
+              </div>
+
+              <div class="field-group">
+                <label for="message" class="field-label">PROJECT DETAILS / MESSAGE <span class="req">*</span></label>
+                <textarea id="message" name="message" class="field-input field-textarea" rows="5" placeholder="Specify your requirements, data stack, or position scope..." required></textarea>
+                <span class="field-error" id="messageError"></span>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">
+                <span class="btn-text">Send Verified Message</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+
+              <div class="form-feedback-banner success" id="formSuccess" role="alert">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Message received. I will review and respond directly to your provided email address.</span>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER: Clean Engineering Colophon
+       ═══════════════════════════════════════════════════════════ -->
+  <footer class="colophon">
+    <div class="container colophon-inner">
+      <div class="colophon-brand">
+        <span class="mono-brand">[GT] Ghady Tayeh</span>
+        <span class="colophon-sub">Data Analyst &bull; Business Intelligence Specialist</span>
+      </div>
+      <div class="colophon-center">
+        <span>Handcrafted in pure HTML5, modern CSS3 &amp; ES6+ JavaScript.</span>
+        <span>ATS Print Engine active (Ctrl+P).</span>
+      </div>
+      <div class="colophon-legal">
+        <span>&copy; <span id="currentYear">2026</span> Ghady Tayeh. All rights reserved.</span>
       </div>
     </div>
-  </section>
-</main>
+  </footer>
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-logo mono">[GT] — Ghady Tayeh</div>
-    <p class="footer-copy mono">© <span id="cvYear">2026</span> Ghady Tayeh. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="https://github.com/ghady7" target="_blank" rel="noopener" class="footer-link mono">GitHub</a>
-      <a href="https://www.linkedin.com/in/ghady-tayeh-a0711a339" target="_blank" rel="noopener" class="footer-link mono">LinkedIn</a>
-      <a href="../index.html" class="footer-link mono">Dashboard</a>
-      <a href="mailto:Ghadytayeh7@gmail.com" class="footer-link mono">Email</a>
-    </div>
-  </div>
-</footer>
-
-<script src="script.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
