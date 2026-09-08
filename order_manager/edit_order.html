@@ -3,345 +3,2133 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Order | Nike Lebanon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,100..900&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,700..900&family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>Edit Order</title>
     <link rel="stylesheet" href="add_order.css" />
-    <style>
-      body {
-        background: #121212;
-        color: #ffffff;
-        font-family: "Poppins", sans-serif;
-      }
-      #confirmationPopup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.8);
-        background: #1e1e1e;
-        padding: 30px;
-        border: 2px solid #ff6b00;
-        border-radius: 10px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-        width: 350px;
-        text-align: center;
-        opacity: 0;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-      }
-      #confirmationPopup.active {
-        display: block;
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-      }
-      #confirmationPopup.exiting {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.8);
-      }
-      #confirmationPopup h3 {
-        margin-bottom: 20px;
-        color: #ff6b00;
-        font-size: 18px;
-      }
-      #confirmationPopup p {
-        margin-bottom: 20px;
-        color: #ffffff;
-        font-size: 16px;
-      }
-      #confirmationPopup .highlight {
-        color: #ff6b00;
-        font-weight: bold;
-      }
-      #confirmButton,
-      #cancelButton {
-        padding: 10px 25px;
-        margin: 5px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-      #confirmButton {
-        background-color: #ff6b00;
-        color: #ffffff;
-      }
-      #cancelButton {
-        background-color: #333333;
-        color: #ffffff;
-      }
-      #blurOverlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(5px);
-      }
-      #blurOverlay.active {
-        display: block;
-      }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="transitions.css" />
+    <script src="transitions.js"></script>
   </head>
   <body>
-    <header>
-      <h1>Edit Order</h1>
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <a href="index.html" class="brand-logo-link" title="Nike Order Operations">
+          <svg class="nike-logo-svg" viewBox="135.5 361.38 1000 356.39" aria-label="Nike Swoosh Logo" role="img">
+            <path d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z"/>
+          </svg>
+        </a>
+        <div class="brand-info">
+          <h1>EDIT <span class="highlight">ORDER</span></h1>
+          <div class="brand-subtitle" id="editSubtitle">Update Customer Order Details</div>
+        </div>
+      </div>
+      <div class="header-controls">
+        <a href="index.html" class="btn btn-secondary" title="View Orders Dashboard">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Dashboard
+        </a>
+        <a href="todo.html" class="btn btn-secondary" title="View Operations Tasks & Objectives">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM17.99 9l-1.41-1.42-6.59 6.59-2.58-2.57-1.42 1.41 4 4z"/></svg>
+          To-Do Tasks
+        </a>
+        <a href="analytics.html" class="btn btn-secondary" title="View Operations Analytics & Reports">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path fill="currentColor" d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+          Analytics
+        </a>
+        <a href="add_order.html" class="btn btn-nike" title="Register New Customer Order">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          Add Order
+        </a>
+      </div>
     </header>
-    <div class="form-container">
-      <h2>Update Order Details</h2>
+
+    <!-- Form Card -->
+    <main class="form-card page-transition-content">
+      <div class="form-title-bar">
+        <h2>Modify Order Record</h2>
+        <span id="orderRefBadge" class="order-ref-badge"></span>
+      </div>
+
+      <!-- Customer Intelligence Notification Preferences Toolbar -->
+      <div class="alert-options-bar">
+        <span class="alert-options-title">
+          <svg viewBox="0 0 24 24" style="width: 14px; height: 14px; fill: currentColor;"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+          Alerts:
+        </span>
+        <label class="alert-toggle-label" title="Get real-time notification alert when viewing/editing an order for an unpicked or high-risk customer">
+          <input type="checkbox" id="prefAlertUnpicked" checked onchange="toggleAlertPref('unpicked', this.checked)" />
+          <span>Unpicked Risk Alert</span>
+        </label>
+        <label class="alert-toggle-label" title="Get real-time notification alert when viewing/editing an order for a VIP online buyer">
+          <input type="checkbox" id="prefAlertVip" checked onchange="toggleAlertPref('vip', this.checked)" />
+          <span>VIP Buyer Alert</span>
+        </label>
+      </div>
+
       <form id="editOrderForm">
-        <div class="form-group">
-          <label for="orderDate">Order Date</label>
-          <input type="date" id="orderDate" name="orderDate" required />
-        </div>
-        <div class="form-group">
-          <label for="customerName">Customer Name</label>
-          <input type="text" id="customerName" name="customerName" required />
-        </div>
-        <div class="form-group">
-          <label for="phoneNumber">Phone Number</label>
-          <input
-            type="number"
-            id="phoneNumber"
-            name="phoneNumber"
-            max="99999999"
-            min="1000000"
-            placeholder="Enter 8 digits value"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="itemNumber">Item Number</label>
-          <input type="text" id="itemNumber" name="itemNumber" required />
-        </div>
-        <div class="form-group">
-          <label for="color">Color</label>
-          <input type="text" id="color" name="color" required />
-        </div>
-        <div class="form-group">
-          <label for="size">Size</label>
-          <input type="text" id="size" name="size" required />
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" id="description" name="description" required />
-        </div>
-        <fieldset class="form-group fieldset" style="height: 220px">
-          <legend style="font-size: large; text-align: left">Branch</legend>
-          <div class="branch_div">
-            <div>
+        <div class="form-grid">
+          <!-- Section 1: Customer Details or Store Support Details -->
+          <div class="form-section-header" id="section1Header">
+            <span class="form-section-title" id="section1Title">
+              <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+              Customer Details
+            </span>
+          </div>
+
+          <!-- Customer Name & Phone (shown for Customer Order) -->
+          <div class="form-group customer-field" id="groupCustomerName">
+            <label for="customerName">Customer Name *</label>
+            <input
+              type="text"
+              id="customerName"
+              name="customerName"
+              placeholder="e.g. Rami Khoury"
+              autocomplete="off"
+              required
+            />
+          </div>
+
+          <div class="form-group customer-field" id="groupPhoneNumber">
+            <label for="phoneNumber">Lebanese Phone Number *</label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              placeholder="e.g. 70 123456 or 03 123456"
+              autocomplete="off"
+              required
+            />
+            <span class="input-hint">8-digit mobile or landline</span>
+          </div>
+
+          <!-- Store Support Fields (shown when orderType is store_support) -->
+          <div class="form-group support-field" id="groupRequestingBranch" style="display: none;">
+            <label for="requestingBranch">Requesting Branch (Destination) *</label>
+            <input type="text" id="requestingBranch" name="requestingBranch" placeholder="e.g. Main Branch" />
+            <span class="input-hint">Branch receiving stock support</span>
+          </div>
+
+          <div class="form-group support-field" id="groupSupportReason" style="display: none;">
+            <label for="supportReason">Transfer Purpose / Notes</label>
+            <input type="text" id="supportReason" name="supportReason" placeholder="e.g. Floor Display, Size replenishment" />
+            <span class="input-hint">Why this item is being requested</span>
+          </div>
+
+          <div class="form-group support-field" id="groupSupportQuantity" style="display: none;">
+            <label for="supportQuantity">Quantity (Pairs / Units) *</label>
+            <input type="number" id="supportQuantity" name="supportQuantity" min="1" max="99" value="1" />
+            <span class="input-hint">Units requested from source branch</span>
+          </div>
+
+
+          <!-- Section 2: Nike Product Specifications -->
+          <div class="form-section-header">
+            <span class="form-section-title">
+              <svg viewBox="135.5 361.38 1000 356.39" style="width: 18px; height: auto; vertical-align: middle; fill: currentColor;"><path d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z"/></svg>
+              Nike Product Specifications
+            </span>
+          </div>
+
+          <!-- Nike Product / Style Code -->
+          <div class="form-group">
+            <label for="productCode">Nike Product / Style Code *</label>
+            <div class="input-with-action">
               <input
-                type="radio"
-                id="souks"
-                name="branch"
-                value="Souks"
+                type="text"
+                id="productCode"
+                name="productCode"
+                placeholder="e.g. CW2288"
                 required
+                autocomplete="off"
+                autocapitalize="characters"
               />
-              <label for="souks">Nike Souks</label>
+              <button
+                type="button"
+                id="previewNikeBtn"
+                class="input-action-btn"
+                onclick="searchNikeProduct()"
+                title="Search this style code on Nike.com"
+              >
+                Verify on Nike
+              </button>
             </div>
-            <div>
-              <input
-                type="radio"
-                id="abcVerdun"
-                name="branch"
-                value="ABC Verdun"
-              />
-              <label for="abcVerdun">Nike ABC Verdun</label>
+            <span class="input-hint">Style code without color (e.g. CW2288, DD1391)</span>
+          </div>
+
+          <!-- Color Code (3 Digits) -->
+          <div class="form-group">
+            <label for="colorCode">Color Code (3 Digits) *</label>
+            <input
+              type="text"
+              id="colorCode"
+              name="colorCode"
+              placeholder="e.g. 010"
+              maxlength="3"
+              required
+              autocomplete="off"
+              autocapitalize="characters"
+            />
+            <span class="input-hint">3-digit Nike color code (e.g. 010, 100, 111)</span>
+          </div>
+
+          <!-- Product Category -->
+          <div class="form-group">
+            <label for="category">Product Category *</label>
+            <select id="category" name="category" required>
+              <option value="Footwear - Lifestyle & Retro">Footwear - Lifestyle & Retro</option>
+              <option value="Footwear - Running">Footwear - Running</option>
+              <option value="Footwear - Basketball">Footwear - Basketball</option>
+              <option value="Footwear - Training & Gym">Footwear - Training & Gym</option>
+              <option value="Footwear - Football / Soccer">Footwear - Football / Soccer</option>
+              <option value="Apparel - Tops & Hoodies">Apparel - Tops & Hoodies</option>
+              <option value="Apparel - Pants & Shorts">Apparel - Pants & Shorts</option>
+              <option value="Accessories & Equipment">Accessories & Equipment</option>
+            </select>
+          </div>
+
+          <!-- Size -->
+          <div class="form-group">
+            <label for="size">Size *</label>
+            <input type="text" id="size" name="size" placeholder="e.g. 42.5 EU / 9 US / M" required />
+          </div>
+
+          <!-- Description (Full width across both columns) -->
+          <div class="form-group col-span-2">
+            <label for="description">Product Description / Model Name *</label>
+            <input type="text" id="description" name="description" placeholder="e.g. Nike Air Force 1 '07 Low Classic" required />
+          </div>
+
+          <!-- Section 3: Status & Timeline -->
+          <div class="form-section-header">
+            <span class="form-section-title">
+              <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+              Status & Order Timeline
+            </span>
+          </div>
+
+          <!-- Order Status -->
+          <div class="form-group">
+            <label for="orderStatus">Order Status *</label>
+            <select id="orderStatus" name="orderStatus" required>
+              <option value="Pending">Pending (Processing)</option>
+              <option value="Arrived">Arrived (Ready for Collection)</option>
+              <option value="Collected">Collected (Completed)</option>
+              <option value="Unpicked">Unpicked (Did Not Pick Up / Abandoned)</option>
+            </select>
+          </div>
+
+          <!-- Order Date -->
+          <div class="form-group">
+            <label for="orderDate">Order Date *</label>
+            <input type="date" id="orderDate" name="orderDate" required />
+          </div>
+
+          <!-- Arrival Date -->
+          <div class="form-group col-span-2">
+            <label for="arrivalDate">Arrival Date</label>
+            <input type="date" id="arrivalDate" name="arrivalDate" />
+            <span class="input-hint">Automatically recorded when order arrives</span>
+          </div>
+
+          <!-- Section 4: Destination Branch & Staff -->
+          <div class="form-section-header">
+            <span class="form-section-title">
+              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              Destination Branch & Staff
+            </span>
+          </div>
+
+          <!-- Branch Selector Grid (Fieldset) -->
+          <div class="branch-fieldset">
+            <div class="branch-fieldset-header">
+              <span class="branch-fieldset-title">
+                <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+                Destination Branch *
+              </span>
+              <button type="button" class="section-action-link" onclick="openBranchModal()">
+                <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                Manage Branches
+              </button>
             </div>
-            <div>
-              <input type="radio" id="abcAsh" name="branch" value="ABC Ash" />
-              <label for="abcAsh">Nike ABC Ash</label>
-            </div>
-            <div>
-              <input type="radio" id="bcc" name="branch" value="BCC" />
-              <label for="bcc">Nike BCC</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="nikedbayeh"
-                name="branch"
-                value="Nike Abc Dbayeh"
-              />
-              <label for="nikedbayeh">Nike Abc Dbayeh</label>
+            <div class="branch-grid" id="branchGridContainer">
+              <!-- Rendered dynamically from stored branch list -->
             </div>
           </div>
-          <div class="branch_div">
-            <div>
-              <input type="radio" id="ghazir" name="branch" value="Ghazir" />
-              <label for="ghazir">Nike Ghazir</label>
-            </div>
-            <div>
-              <input type="radio" id="tripoli" name="branch" value="Tripoli" />
-              <label for="tripoli">Nike Tripoli</label>
-            </div>
-            <div>
-              <input type="radio" id="gs" name="branch" value="Gs" />
-              <label for="gs">Nike Gs</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="Nike Dbayeh Highway"
-                name="branch"
-                value="Nike Dbayeh Highway"
-              />
-              <label for="Nike Dbayeh Highway">Nike Dbayeh Highway</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="Warehouse"
-                name="branch"
-                value="Warehouse"
-              />
-              <label for="Warehouse">Warehouse</label>
-            </div>
+
+          <!-- Staff Details -->
+          <div class="form-group">
+            <label for="employee">Branch Contact (Sourced Staff) *</label>
+            <input
+              type="text"
+              id="employee"
+              name="employee"
+              placeholder="e.g. Rami (Contact at sourced branch)"
+              required
+            />
+            <span class="input-hint">Staff member at the branch being ordered from</span>
           </div>
-        </fieldset>
-        <div class="form-group">
-          <label for="employee">Employee</label>
-          <input type="text" id="employee" name="employee" required />
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <label for="enteredBy">Entered By (Store Staff) *</label>
+              <button type="button" class="section-action-link" onclick="openStaffModal()">
+                <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                Manage Staff
+              </button>
+            </div>
+            <select id="enteredBy" name="enteredBy" required>
+              <option value="" disabled>— Select Staff Member —</option>
+            </select>
+            <span class="input-hint">Store staff member registering this order</span>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <a href="index.html" class="btn btn-secondary">Cancel</a>
+            <button type="button" class="btn btn-secondary" onclick="printCurrentOrderSlip()" title="Print order receipt to Star TSP700II">
+              <svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+              Print Slip
+            </button>
+            <button type="submit" class="btn btn-nike">
+              <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM6 6h9v4H6z"/></svg>
+              Save Changes
+            </button>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="enteredBy">Entered By</label>
-          <input type="text" id="enteredBy" name="enteredBy" required />
-        </div>
-        <button type="submit" id="submitButton">Update Order</button>
       </form>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationPopup" class="modal-overlay">
+      <div class="modal-card">
+        <h3>Confirm Updates</h3>
+        <p id="orderDetails"></p>
+        <div class="modal-buttons">
+          <button id="cancelButton" class="btn btn-secondary" onclick="closeConfirmationModal()">
+            Keep Editing
+          </button>
+          <button id="confirmButton" class="btn btn-nike">
+            Confirm & Save
+          </button>
+        </div>
+      </div>
     </div>
-    <div id="blurOverlay"></div>
-    <div id="confirmationPopup">
-      <h3>Confirm Order</h3>
-      <p id="orderDetails"></p>
-      <button id="confirmButton">Confirm</button>
-      <button id="cancelButton">Cancel</button>
+
+    <!-- Manage Staff Modal (Entered By List) -->
+    <div id="manageStaffModal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 420px; text-align: left;">
+        <h3 style="text-align: center; margin-bottom: 0.35rem;">Manage Store Staff</h3>
+        <p style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          Add or remove employee names for the <strong>"Entered By"</strong> dropdown.
+        </p>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 1rem;">
+          <input
+            type="text"
+            id="newStaffInput"
+            placeholder="New staff name (e.g. Maya)"
+            style="flex: 1; padding: 0.65rem 0.9rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); background: var(--bg-input); color: var(--text-primary); font-family: inherit; font-size: 0.9rem;"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();addStaffFromModal();}"
+          />
+          <button type="button" class="btn btn-nike" onclick="addStaffFromModal()" style="padding: 0.65rem 1rem; font-size: 0.85rem; white-space: nowrap;">
+            + Add
+          </button>
+        </div>
+
+        <div id="staffListContainer" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-input); padding: 4px; margin-bottom: 1.25rem;">
+          <!-- Injected dynamically -->
+        </div>
+
+        <div class="modal-buttons" style="justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary" onclick="closeStaffModal()">Done</button>
+        </div>
+      </div>
     </div>
+
+    <!-- Manage Branch Modal -->
+    <div id="manageBranchModal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 420px; text-align: left;">
+        <h3 style="text-align: center; margin-bottom: 0.35rem;">Manage Destination Branches</h3>
+        <p style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          Add or remove retail branches for store orders.
+        </p>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 1rem;">
+          <input
+            type="text"
+            id="newBranchInput"
+            placeholder="New branch name (e.g. Saida Mall)"
+            style="flex: 1; padding: 0.65rem 0.9rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); background: var(--bg-input); color: var(--text-primary); font-family: inherit; font-size: 0.9rem;"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();addBranchFromModal();}"
+          />
+          <button type="button" class="btn btn-nike" onclick="addBranchFromModal()" style="padding: 0.65rem 1rem; font-size: 0.85rem; white-space: nowrap;">
+            + Add
+          </button>
+        </div>
+
+        <div id="branchListContainer" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-input); padding: 4px; margin-bottom: 1.25rem;">
+          <!-- Injected dynamically -->
+        </div>
+
+        <div class="modal-buttons" style="justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary" onclick="closeBranchModal()">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- In-Page Generic Confirmation Modal -->
+    <div id="genericConfirmModal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 420px; text-align: center;">
+        <h3 id="genericConfirmTitle" style="margin-bottom: 0.5rem; font-size: 1.15rem; color: var(--text-primary);">Confirm Action</h3>
+        <p id="genericConfirmMsg" style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5;"></p>
+        <div class="modal-buttons" style="display: flex; gap: 10px; justify-content: center;">
+          <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeGenericConfirmModal()">Cancel</button>
+          <button type="button" class="btn btn-nike" style="flex: 1;" id="genericConfirmOkBtn">Confirm</button>
+        </div>
+      </div>
+    </div>
+
     <script>
-      window.onload = function () {
-        const savedTheme = localStorage.getItem("theme");
-        if (savedTheme === "light") {
-          document.body.classList.add("light-mode");
-          const toggle = document.getElementById("themeToggle");
-          if (toggle) toggle.textContent = "🌞";
+      /* In-Page Confirmation Modal Helper */
+      function showConfirmModal({ title, message, confirmText = "Confirm", isDanger = true, onConfirm }) {
+        const modal = document.getElementById("genericConfirmModal");
+        const titleEl = document.getElementById("genericConfirmTitle");
+        const msgEl = document.getElementById("genericConfirmMsg");
+        const okBtn = document.getElementById("genericConfirmOkBtn");
+        if (!modal) {
+          if (confirm(message)) onConfirm?.();
+          return;
         }
-        const editId = localStorage.getItem("editOrderId");
+        if (titleEl) titleEl.textContent = title || "Confirm Action";
+        if (msgEl) msgEl.innerHTML = String(message).replace(/\n/g, "<br>");
+        if (okBtn) {
+          okBtn.textContent = confirmText;
+          okBtn.style.backgroundColor = isDanger ? "var(--color-danger, #ef4444)" : "var(--nike-orange, #ff6b00)";
+          okBtn.onclick = function () {
+            closeGenericConfirmModal();
+            if (typeof onConfirm === "function") onConfirm();
+          };
+        }
+        modal.classList.add("active");
+      }
+
+      function closeGenericConfirmModal() {
+        const modal = document.getElementById("genericConfirmModal");
+        if (modal) modal.classList.remove("active");
+      }
+
+      let editOrderRef = null;
+      let allOrders = [];
+
+      /* Branch Management Persistence */
+      const DEFAULT_BRANCH_LIST = [
+        "Souks", "ABC Verdun", "ABC Ash", "BCC", "Nike Abc Dbayeh",
+        "Nike Dbayeh Highway", "Ghazir", "Tripoli", "Gs", "Warehouse"
+      ];
+
+      function getStoredBranchList() {
+        try {
+          const raw = localStorage.getItem("nike_branch_list");
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          }
+        } catch (e) {}
+        return [...DEFAULT_BRANCH_LIST];
+      }
+
+      function saveStoredBranchList(list) {
+        try {
+          localStorage.setItem("nike_branch_list", JSON.stringify(list));
+        } catch (e) {}
+      }
+
+      function renderBranchGrid(selectedVal = "") {
+        const container = document.getElementById("branchGridContainer");
+        if (!container) return;
+        const branches = getStoredBranchList();
+
+        if (selectedVal && !branches.includes(selectedVal)) {
+          branches.push(selectedVal);
+        }
+
+        const activeVal = selectedVal || (branches.includes("Nike Abc Dbayeh") ? "Nike Abc Dbayeh" : branches[0] || "");
+
+        container.innerHTML = branches.map((b, idx) => {
+          const id = "branch_opt_" + idx;
+          const isChecked = (b === activeVal);
+          return `
+            <div class="branch-option">
+              <input type="radio" id="${id}" name="branch" value="${escapeHtml(b)}" ${isChecked ? "checked" : ""} required />
+              <label for="${id}" class="branch-label">${escapeHtml(b)}</label>
+            </div>
+          `;
+        }).join("");
+      }
+
+      function renderBranchListModal() {
+        const container = document.getElementById("branchListContainer");
+        if (!container) return;
+        const branches = getStoredBranchList();
+        if (branches.length === 0) {
+          container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">No branches in list. Add one above.</div>';
+          return;
+        }
+        container.innerHTML = branches.map((b, idx) => `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.06);">
+            <span style="font-weight:600;font-size:0.9rem;color:var(--text-primary);">${escapeHtml(b)}</span>
+            <button type="button" onclick="removeBranchByIdx(${idx})" style="background:transparent;border:none;color:var(--color-danger);cursor:pointer;font-size:0.78rem;font-weight:600;padding:2px 6px;border-radius:4px;font-family:inherit;">✕ Remove</button>
+          </div>
+        `).join("");
+      }
+
+      function openBranchModal() {
+        renderBranchListModal();
+        const input = document.getElementById("newBranchInput");
+        if (input) input.value = "";
+        document.getElementById("manageBranchModal").classList.add("active");
+        setTimeout(() => document.getElementById("newBranchInput")?.focus(), 100);
+      }
+
+      function closeBranchModal() {
+        document.getElementById("manageBranchModal").classList.remove("active");
+        const currentChecked = document.querySelector('input[name="branch"]:checked')?.value || (editOrderRef ? editOrderRef.branch : "");
+        renderBranchGrid(currentChecked);
+      }
+
+      function addBranchFromModal() {
+        const input = document.getElementById("newBranchInput");
+        const name = input ? input.value.trim() : "";
+        if (!name) return;
+        let branches = getStoredBranchList();
+        if (branches.some(b => b.toLowerCase() === name.toLowerCase())) {
+          showToast(`"${name}" is already in the branch list.`, "info");
+          return;
+        }
+        branches.push(name);
+        saveStoredBranchList(branches);
+        input.value = "";
+        renderBranchListModal();
+        renderBranchGrid(name);
+        showToast(`Branch "${name}" added.`, "success");
+      }
+
+      function removeBranchByIdx(idx) {
+        let branches = getStoredBranchList();
+        if (idx < 0 || idx >= branches.length) return;
+        const name = branches[idx];
+        if (branches.length <= 1) {
+          showToast("At least one branch must remain in the list.", "danger");
+          return;
+        }
+        showConfirmModal({
+          title: "Remove Branch",
+          message: `Are you sure you want to remove branch "<strong>${escapeHtml(name)}</strong>" from the branch list?`,
+          confirmText: "Remove Branch",
+          isDanger: true,
+          onConfirm: () => {
+            branches.splice(idx, 1);
+            saveStoredBranchList(branches);
+            renderBranchListModal();
+            const currentChecked = document.querySelector('input[name="branch"]:checked')?.value || "";
+            renderBranchGrid(currentChecked === name ? (branches[0] || "") : currentChecked);
+            showToast(`Branch "${name}" removed.`, "info");
+          }
+        });
+      }
+
+      /* Staff Management Persistence */
+      const DEFAULT_STAFF_LIST = [
+        "Maya Khoury", "Rami Gemayel", "Elie Haddad", "Sarah Atallah",
+        "Ahmad Zein", "Nour Saleh", "Karim Bitar", "Ghady", "Tony Khoury", "Lara Haddad"
+      ];
+
+      function getStoredStaffList() {
+        try {
+          const raw = localStorage.getItem("nike_staff_list");
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          }
+        } catch (e) {}
+        return [...DEFAULT_STAFF_LIST];
+      }
+
+      function saveStoredStaffList(list) {
+        try {
+          localStorage.setItem("nike_staff_list", JSON.stringify(list));
+        } catch (e) {}
+      }
+
+      function populateEnteredByDropdown(currentValue = "") {
+        const select = document.getElementById("enteredBy");
+        if (!select) return;
+        const staff = getStoredStaffList();
+
+        select.innerHTML = '<option value="" disabled selected>— Select Staff Member —</option>';
+
+        if (currentValue && !staff.includes(currentValue)) {
+          const opt = document.createElement("option");
+          opt.value = currentValue;
+          opt.textContent = currentValue + " (legacy)";
+          select.appendChild(opt);
+        }
+
+        staff.forEach((name) => {
+          const opt = document.createElement("option");
+          opt.value = name;
+          opt.textContent = name;
+          if (name === currentValue) opt.selected = true;
+          select.appendChild(opt);
+        });
+
+        if (currentValue) {
+          select.value = currentValue;
+        }
+      }
+
+      function renderStaffListModal() {
+        const container = document.getElementById("staffListContainer");
+        if (!container) return;
+        const staff = getStoredStaffList();
+        if (staff.length === 0) {
+          container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">No staff in list. Add one above.</div>';
+          return;
+        }
+        container.innerHTML = staff.map((name, idx) => `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.06);">
+            <span style="font-weight:600;font-size:0.9rem;color:var(--text-primary);">${escapeHtml(name)}</span>
+            <button type="button" onclick="removeStaffMemberByIdx(${idx})" style="background:transparent;border:none;color:var(--color-danger);cursor:pointer;font-size:0.78rem;font-weight:600;padding:2px 6px;border-radius:4px;font-family:inherit;">✕ Remove</button>
+          </div>
+        `).join("");
+      }
+
+      function openStaffModal() {
+        renderStaffListModal();
+        const input = document.getElementById("newStaffInput");
+        if (input) input.value = "";
+        document.getElementById("manageStaffModal").classList.add("active");
+        setTimeout(() => document.getElementById("newStaffInput")?.focus(), 100);
+      }
+
+      function closeStaffModal() {
+        document.getElementById("manageStaffModal").classList.remove("active");
+        const currentVal = document.getElementById("enteredBy").value;
+        populateEnteredByDropdown(currentVal);
+      }
+
+      function addStaffFromModal() {
+        const input = document.getElementById("newStaffInput");
+        const name = input ? input.value.trim() : "";
+        if (!name) return;
+        let staff = getStoredStaffList();
+        if (staff.some(s => s.toLowerCase() === name.toLowerCase())) {
+          showToast(`"${name}" is already in the staff list.`, "info");
+          return;
+        }
+        staff.push(name);
+        staff.sort();
+        saveStoredStaffList(staff);
+        input.value = "";
+        renderStaffListModal();
+        populateEnteredByDropdown(name);
+        showToast(`Staff member "${name}" added.`, "success");
+      }
+
+      function removeStaffMemberByIdx(idx) {
+        let staff = getStoredStaffList();
+        if (idx < 0 || idx >= staff.length) return;
+        const name = staff[idx];
+        showConfirmModal({
+          title: "Remove Staff Member",
+          message: `Are you sure you want to remove "<strong>${escapeHtml(name)}</strong>" from the active staff list?<br><small style="color:var(--text-muted);">Past orders will remain safely recorded under Former Staff.</small>`,
+          confirmText: "Remove Staff",
+          isDanger: true,
+          onConfirm: () => {
+            staff.splice(idx, 1);
+            saveStoredStaffList(staff);
+            renderStaffListModal();
+            const currentVal = document.getElementById("enteredBy").value;
+            populateEnteredByDropdown(currentVal === name ? "" : currentVal);
+            showToast(`Staff member "${name}" removed.`, "info");
+          }
+        });
+      }
+
+      window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const editId = urlParams.get("id") || localStorage.getItem("editOrderId");
         if (!editId) {
           window.location.href = "index.html";
           return;
         }
-        const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-        const order = savedOrders.find((o) => o.id == editId);
-        if (!order) {
+
+
+
+        try {
+          allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+        } catch (e) {
+          allOrders = [];
+        }
+
+        editOrderRef = allOrders.find((o) => String(o.id) === String(editId));
+        if (!editOrderRef) {
+          sessionStorage.setItem("postOrderNotification", JSON.stringify({
+            message: `⚠️ Order #${editId} not found in store database.`,
+            type: "danger"
+          }));
           window.location.href = "index.html";
           return;
         }
-        // Populate the form with the existing order details
-        document.getElementById("customerName").value = order.customerName;
-        document.getElementById("phoneNumber").value = order.phoneNumber;
-        document.getElementById("itemNumber").value = order.itemNumber;
-        document.getElementById("color").value = order.color;
-        document.getElementById("size").value = order.size;
-        document.getElementById("description").value = order.description;
-        document.getElementById("employee").value = order.employee;
-        document.getElementById("enteredBy").value = order.enteredBy;
-        document.querySelector(
-          'input[name="branch"][value="' + order.branch + '"]'
-        ).checked = true;
-        document.getElementById("orderDate").value = order.orderDate;
 
-        document
-          .getElementById("editOrderForm")
-          .addEventListener("submit", function (e) {
-            e.preventDefault();
+        const isStoreSupport = (editOrderRef.orderType === "store_support");
 
-            const customerName = document.getElementById("customerName").value;
-            const phoneNumber = document.getElementById("phoneNumber").value;
+        if (isStoreSupport) {
+          const reqBranch = editOrderRef.requestingBranch || "Main Branch";
+          document.getElementById("orderRefBadge").textContent = `ID: ${editOrderRef.id} · STORE SUPPORT`;
+          document.getElementById("editSubtitle").textContent = `Editing Store Support Transfer for ${reqBranch}`;
+          const s1Title = document.getElementById("section1Title");
+          if (s1Title) s1Title.innerHTML = `<svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;vertical-align:middle;"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zm-3-7h-2V7h-2v2h-2v2h2v2h2v-2h2z"/></svg> Store Support & Transfer Details`;
 
-            document.getElementById("orderDetails").innerHTML =
-              'Customer Name: <span class="highlight">' +
-              customerName +
-              "</span><br>" +
-              'Phone Number: <span class="highlight">' +
-              phoneNumber +
-              "</span>";
+          document.querySelectorAll(".customer-field").forEach(el => el.style.display = "none");
+          document.querySelectorAll(".support-field").forEach(el => el.style.display = "block");
 
-            document
-              .getElementById("confirmationPopup")
-              .classList.add("active");
-            document.getElementById("blurOverlay").classList.add("active");
+          document.getElementById("customerName")?.removeAttribute("required");
+          document.getElementById("phoneNumber")?.removeAttribute("required");
+
+          document.getElementById("requestingBranch").value = reqBranch;
+          document.getElementById("supportReason").value = editOrderRef.supportReason || "";
+          document.getElementById("supportQuantity").value = editOrderRef.quantity || 1;
+
+          const alertBar = document.querySelector(".alert-options-bar");
+          if (alertBar) alertBar.style.display = "none";
+
+          const statusSelect = document.getElementById("orderStatus");
+          statusSelect.innerHTML = `
+            <option value="Requested">Requested (Awaiting Sourcing)</option>
+            <option value="Received">Received (In Stock at Main Store)</option>
+          `;
+          statusSelect.value = (editOrderRef.status === "Received") ? "Received" : "Requested";
+        } else {
+          document.getElementById("orderRefBadge").textContent = `ID: ${editOrderRef.id}`;
+          document.getElementById("editSubtitle").textContent = `Editing Order for ${editOrderRef.customerName}`;
+        }
+
+        // Populate Form Fields
+        document.getElementById("orderDate").value = editOrderRef.orderDate || "";
+        document.getElementById("customerName").value = editOrderRef.customerName || "";
+        document.getElementById("phoneNumber").value = editOrderRef.phoneNumber || "";
+
+        // Intelligent extraction of product code and 3-digit color code
+        let pCode = editOrderRef.productCode || "";
+        let cCode = editOrderRef.colorCode || "";
+
+        if (!pCode && editOrderRef.itemNumber) {
+          if (editOrderRef.itemNumber.includes("-")) {
+            const parts = editOrderRef.itemNumber.split("-");
+            pCode = parts[0].trim();
+            cCode = cCode || parts.slice(1).join("-").trim();
+          } else {
+            pCode = editOrderRef.itemNumber.trim();
+          }
+        }
+        if (!cCode && editOrderRef.color) {
+          cCode = editOrderRef.color.trim();
+        }
+
+        document.getElementById("productCode").value = pCode;
+        document.getElementById("colorCode").value = cCode;
+        document.getElementById("size").value = editOrderRef.size || "";
+        document.getElementById("description").value = editOrderRef.description || "";
+        document.getElementById("category").value = editOrderRef.category || inferCategory(editOrderRef);
+        // Populate employee text input (Branch employee)
+        document.getElementById("employee").value = editOrderRef.employee || "";
+
+        // Populate enteredBy dropdown (Store staff member)
+        populateEnteredByDropdown(editOrderRef.enteredBy || "");
+        if (!isStoreSupport) {
+          document.getElementById("orderStatus").value = editOrderRef.status || "Pending";
+        }
+        document.getElementById("arrivalDate").value = editOrderRef.arrivalDate || "";
+
+        // Render and pre-select branch radio grid
+        renderBranchGrid(editOrderRef.branch || "");
+
+        // Initialize alert preferences checkboxes
+        const prefUnpicked = document.getElementById("prefAlertUnpicked");
+        const prefVip = document.getElementById("prefAlertVip");
+        if (prefUnpicked) prefUnpicked.checked = getAlertPref("unpicked");
+        if (prefVip) prefVip.checked = getAlertPref("vip");
+
+        // Initial alert check for currently loaded customer
+        if (!isStoreSupport) {
+          checkCustomerAlerts(false);
+        }
+
+        // Auto-update arrival date if status changed to Arrived or Received
+        document.getElementById("orderStatus").addEventListener("change", function () {
+          if ((this.value === "Arrived" || this.value === "Received") && !document.getElementById("arrivalDate").value) {
+            document.getElementById("arrivalDate").value = new Date().toISOString().split("T")[0];
+          }
+        });
+
+        // Customer Recognition & Autocomplete (No dropdowns - direct autocomplete with full deletion/retyping freedom)
+        const nameEl = document.getElementById("customerName");
+        const phoneEl = document.getElementById("phoneNumber");
+
+        let phoneAutoFilledName = false;
+        let nameAutoFilledPhone = false;
+
+        phoneEl.addEventListener("input", function (e) {
+          if (isStoreSupport) return;
+          const isDelete = e && e.inputType && e.inputType.startsWith("delete");
+          const cleanDigits = normalizeLebanesePhone(this.value);
+          const customers = getCustomerDirectory();
+
+          // Check if we have an EXACT verified phone match in the customer directory
+          const match = cleanDigits.length >= 7
+            ? customers.find(c => Boolean(c.normPhone) && c.normPhone === cleanDigits)
+            : null;
+
+          if (match && !isDelete) {
+            // Once the program is sure that this is the number of the customer -> autocomplete the name
+            if (!nameEl.value.trim() || phoneAutoFilledName || nameEl.value === "Customer") {
+              nameEl.value = match.name;
+              phoneAutoFilledName = true;
+            }
+          } else if (isDelete || !match) {
+            // If the user cleared the phone number completely, reset the auto-filled name
+            if (this.value.trim() === "" && phoneAutoFilledName) {
+              nameEl.value = "";
+              phoneAutoFilledName = false;
+            }
+          }
+
+          checkCustomerAlerts(true);
+        });
+
+        phoneEl.addEventListener("change", function () {
+          if (!isStoreSupport) checkCustomerAlerts(false);
+        });
+
+        nameEl.addEventListener("input", function (e) {
+          if (isStoreSupport) return;
+          const isDelete = e && e.inputType && e.inputType.startsWith("delete");
+          // If the user manually types or edits the name, release the phone auto-fill lock
+          phoneAutoFilledName = false;
+
+          const cleanName = normalizeCustomerName(this.value);
+          const customers = getCustomerDirectory();
+
+          // If user types an exact matching full name and phone is empty, autocomplete the phone
+          if (!isDelete && cleanName.length >= 3 && !phoneEl.value.trim()) {
+            const match = customers.find(c => Boolean(c.normName) && c.normName === cleanName);
+            if (match && match.phone) {
+              phoneEl.value = match.phone;
+              nameAutoFilledPhone = true;
+            }
+          } else if (this.value.trim() === "" && nameAutoFilledPhone) {
+            phoneEl.value = "";
+            nameAutoFilledPhone = false;
+          }
+
+          checkCustomerAlerts(true);
+        });
+
+        nameEl.addEventListener("change", function () {
+          if (!isStoreSupport) checkCustomerAlerts(false);
+        });
+
+        // Auto uppercase Nike product & color code + intelligent auto-split
+        const prodCodeEl = document.getElementById("productCode");
+        const colorCodeEl = document.getElementById("colorCode");
+
+        prodCodeEl.addEventListener("input", function () {
+          this.value = this.value.toUpperCase();
+          // Auto-split if user types or pastes style code with color (e.g. CW2288-010 or CW2288 010)
+          const match = this.value.match(/^([A-Z0-9]{4,8})[-\s/]+([A-Z0-9]{1,3})$/i);
+          if (match) {
+            this.value = match[1].toUpperCase();
+            if (colorCodeEl) {
+              colorCodeEl.value = match[2].toUpperCase();
+              colorCodeEl.focus();
+            }
+          }
+        });
+
+        colorCodeEl.addEventListener("input", function () {
+          this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 3);
+        });
+
+        // Form Submit
+        document.getElementById("editOrderForm").addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          if (isStoreSupport) {
+            const reqBranch = (document.getElementById("requestingBranch")?.value || "Main Branch").trim();
+            const suppReason = (document.getElementById("supportReason")?.value || "").trim();
+            const suppQty = parseInt(document.getElementById("supportQuantity")?.value || "1", 10) || 1;
+            const productCode = document.getElementById("productCode").value.trim().toUpperCase();
+            const colorCode = document.getElementById("colorCode").value.trim().toUpperCase();
+            const itemNumber = colorCode ? `${productCode}-${colorCode}` : productCode;
+            const description = document.getElementById("description").value.trim();
+            const size = document.getElementById("size").value.trim();
+            const category = document.getElementById("category").value;
+            const branchChecked = document.querySelector('input[name="branch"]:checked');
+            const branch = branchChecked ? branchChecked.value : (editOrderRef.branch || "");
+            const enteredBy = document.getElementById("enteredBy").value.trim();
+            const orderDate = document.getElementById("orderDate").value;
+            const status = document.getElementById("orderStatus").value;
+            let arrivalDate = document.getElementById("arrivalDate").value;
+
+            if (!reqBranch) {
+              showToast("Please specify the requesting branch.", "danger");
+              document.getElementById("requestingBranch")?.focus();
+              return;
+            }
+
+            if (productCode.length < 2) {
+              showToast("Please enter a valid Nike product / style code (e.g. CW2288).", "danger");
+              document.getElementById("productCode").focus();
+              return;
+            }
+
+            if (!colorCode || colorCode.length !== 3) {
+              showToast("Please enter a valid 3-digit color code (e.g. 010, 100, 111).", "danger");
+              document.getElementById("colorCode").focus();
+              return;
+            }
+
+            if (!branch) {
+              showToast("Please select the sourcing branch.", "danger");
+              return;
+            }
+
+            if (!enteredBy) {
+              showToast("Please select the staff member under 'Entered By'.", "danger");
+              document.getElementById("enteredBy").focus();
+              return;
+            }
+
+            if (status === "Received" && !arrivalDate) {
+              arrivalDate = new Date().toISOString().split("T")[0];
+              document.getElementById("arrivalDate").value = arrivalDate;
+            }
+
+            const detailsHtml = `
+              <div style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.3);border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:0.85rem;color:#93c5fd;">
+                🏢 <strong>Update Store Support Transfer</strong>
+              </div>
+              Requesting Branch: <span class="highlight">${escapeHtml(reqBranch)}</span><br>
+              Sourcing From: <span class="highlight">${escapeHtml(branch)}</span><br>
+              Product: <span class="highlight">${escapeHtml(itemNumber)} - ${escapeHtml(description)}</span><br>
+              Color Code: <span class="highlight">${escapeHtml(colorCode)}</span> | Size: <span class="highlight">${escapeHtml(size)}</span><br>
+              Quantity: <span class="highlight">${suppQty}</span><br>
+              Status: <span class="highlight" style="color:#60a5fa;">${escapeHtml(status)}</span><br>
+              ${suppReason ? `Notes: <span class="highlight">${escapeHtml(suppReason)}</span><br>` : ''}
+            `;
+
+            document.getElementById("orderDetails").innerHTML = detailsHtml;
+            document.getElementById("confirmationPopup").classList.add("active");
 
             document.getElementById("confirmButton").onclick = function () {
-              order.customerName = customerName;
-              order.phoneNumber = phoneNumber;
-              order.itemNumber = document.getElementById("itemNumber").value;
-              order.color = document.getElementById("color").value;
-              order.size = document.getElementById("size").value;
-              order.description = document.getElementById("description").value;
-              order.branch = document.querySelector(
-                'input[name="branch"]:checked'
-              ).value;
-              order.employee = document.getElementById("employee").value;
-              order.enteredBy = document.getElementById("enteredBy").value;
-              order.orderDate = document.getElementById("orderDate").value;
+              editOrderRef.requestingBranch = reqBranch;
+              editOrderRef.supportReason = suppReason;
+              editOrderRef.quantity = suppQty;
+              editOrderRef.customerName = `[Support] ${reqBranch}`;
+              editOrderRef.phoneNumber = "";
+              editOrderRef.productCode = productCode;
+              editOrderRef.colorCode = colorCode;
+              editOrderRef.itemNumber = itemNumber;
+              editOrderRef.color = colorCode;
+              editOrderRef.size = size;
+              editOrderRef.description = description;
+              editOrderRef.category = category;
+              editOrderRef.branch = branch;
+              editOrderRef.employee = document.getElementById("employee").value.trim();
+              editOrderRef.enteredBy = enteredBy;
+              editOrderRef.orderDate = orderDate;
+              editOrderRef.status = status;
+              editOrderRef.arrivalDate = arrivalDate;
 
-              localStorage.setItem("orders", JSON.stringify(savedOrders));
+              localStorage.setItem("orders", JSON.stringify(allOrders));
               localStorage.removeItem("editOrderId");
-              exportToExcel(savedOrders);
+
+              sessionStorage.setItem("postOrderNotification", JSON.stringify({
+                message: `Store support transfer for ${itemNumber} updated successfully!`,
+                type: "info"
+              }));
+
+              if (window.navigateToPage) {
+                window.navigateToPage("index.html");
+              } else {
+                window.location.href = "index.html";
+              }
+            };
+            return;
+          }
+
+          const customerName = document.getElementById("customerName").value.trim();
+          const phoneNumber = document.getElementById("phoneNumber").value.trim();
+          const productCode = document.getElementById("productCode").value.trim().toUpperCase();
+          const colorCode = document.getElementById("colorCode").value.trim().toUpperCase();
+          const itemNumber = colorCode ? `${productCode}-${colorCode}` : productCode;
+          const description = document.getElementById("description").value.trim();
+          const size = document.getElementById("size").value.trim();
+          const category = document.getElementById("category").value;
+          const branchChecked = document.querySelector('input[name="branch"]:checked');
+          const branch = branchChecked ? branchChecked.value : (editOrderRef.branch || "");
+          const enteredBy = document.getElementById("enteredBy").value.trim();
+          const orderDate = document.getElementById("orderDate").value;
+          const status = document.getElementById("orderStatus").value;
+          let arrivalDate = document.getElementById("arrivalDate").value;
+
+          // Input Validation
+          if (customerName.length < 2) {
+            showToast("Please enter a valid customer name (at least 2 characters).", "danger");
+            document.getElementById("customerName").focus();
+            return;
+          }
+
+          const rawPhoneDigits = phoneNumber.replace(/\D/g, "");
+          if (rawPhoneDigits.length < 7 || rawPhoneDigits.length > 12) {
+            showToast("Please enter a valid Lebanese phone number (7 to 12 digits, e.g. 70 123456 or 03 123456).", "danger");
+            document.getElementById("phoneNumber").focus();
+            return;
+          }
+
+          if (productCode.length < 2) {
+            showToast("Please enter a valid Nike product / style code (e.g. CW2288).", "danger");
+            document.getElementById("productCode").focus();
+            return;
+          }
+
+          if (!colorCode || colorCode.length !== 3) {
+            showToast("Please enter a valid 3-digit color code (e.g. 010, 100, 111).", "danger");
+            document.getElementById("colorCode").focus();
+            return;
+          }
+
+          if (!branch) {
+            showToast("Please select a store branch.", "danger");
+            return;
+          }
+
+          if (!enteredBy) {
+            showToast("Please select or enter the staff member under 'Entered By'.", "danger");
+            document.getElementById("enteredBy").focus();
+            return;
+          }
+
+          if (!orderDate) {
+            showToast("Please specify the order date.", "danger");
+            document.getElementById("orderDate").focus();
+            return;
+          }
+
+          // Date consistency checks
+          if ((status === "Arrived" || status === "Collected") && !arrivalDate) {
+            arrivalDate = new Date().toISOString().split("T")[0];
+            document.getElementById("arrivalDate").value = arrivalDate;
+          }
+
+          if (arrivalDate && orderDate && arrivalDate < orderDate) {
+            showToast("Arrival date cannot be earlier than the Order Date.", "danger");
+            document.getElementById("arrivalDate").focus();
+            return;
+          }
+
+          // Evaluate Customer Intelligence alerts for the modal confirmation
+          const intel = evaluateCustomerIntelligence(phoneNumber, customerName);
+          let alertChipsHtml = "";
+          if (intel.isUnpicked && getAlertPref("unpicked")) {
+            const kicker = intel.isTop5Unpicked ? `Top 5 Unpicked` : `Unpicked Risk`;
+            alertChipsHtml += `
+              <div class="confirm-alert-chip danger">
+                ⚠️ <strong>${kicker} Customer Alert (Rank #${intel.unpickedRank}):</strong>
+                <div>This customer has <strong>${intel.unpickedData.unpickedCount} unpicked orders</strong> (${intel.unpickedData.abandonmentRate}% abandonment rate). Confirm customer commitment before processing.</div>
+              </div>
+            `;
+          }
+          if (intel.isVip && getAlertPref("vip")) {
+            const kicker = intel.isTop10Vip ? `Top 10 VIP` : `Loyal VIP`;
+            alertChipsHtml += `
+              <div class="confirm-alert-chip vip">
+                ⭐ <strong>${kicker} Buyer Alert (Rank #${intel.vipRank}):</strong>
+                <div>High-priority VIP client with <strong>${intel.vipData.orderCount} lifetime orders</strong> and 100% collection record. Ensure premium customer service.</div>
+              </div>
+            `;
+          }
+
+          const detailsHtml = `
+            Customer: <span class="highlight">${escapeHtml(customerName)}</span><br>
+            Phone: <span class="highlight">${escapeHtml(phoneNumber)}</span><br>
+            Product: <span class="highlight">${escapeHtml(itemNumber)} - ${escapeHtml(description)}</span><br>
+            Color Code: <span class="highlight">${escapeHtml(colorCode)}</span> | Size: <span class="highlight">${escapeHtml(size)}</span><br>
+            Category: <span class="highlight">${escapeHtml(category)}</span><br>
+            Branch: <span class="highlight">${escapeHtml(branch)}</span><br>
+            Status: <span class="highlight">${escapeHtml(status)}</span>
+            ${alertChipsHtml}
+          `;
+
+          document.getElementById("orderDetails").innerHTML = detailsHtml;
+          document.getElementById("confirmationPopup").classList.add("active");
+
+          document.getElementById("confirmButton").onclick = function () {
+            // Apply updates
+            editOrderRef.customerName = customerName;
+            editOrderRef.phoneNumber = phoneNumber;
+            editOrderRef.productCode = productCode;
+            editOrderRef.colorCode = colorCode;
+            editOrderRef.itemNumber = itemNumber;
+            editOrderRef.color = colorCode;
+            editOrderRef.size = size;
+            editOrderRef.description = description;
+            editOrderRef.category = category;
+            editOrderRef.branch = branch;
+            editOrderRef.employee = document.getElementById("employee").value.trim();
+            editOrderRef.enteredBy = enteredBy;
+            editOrderRef.orderDate = orderDate;
+            editOrderRef.status = status;
+            editOrderRef.arrivalDate = arrivalDate;
+
+            localStorage.setItem("orders", JSON.stringify(allOrders));
+            localStorage.removeItem("editOrderId");
+
+            let updateNotice = null;
+            if (intel.isUnpicked && getAlertPref("unpicked")) {
+              updateNotice = {
+                message: `⚠️ Order updated for Unpicked Risk customer: ${customerName} (${intel.unpickedData.unpickedCount} unpicked orders on record)`,
+                type: "danger"
+              };
+            } else if (intel.isVip && getAlertPref("vip")) {
+              updateNotice = {
+                message: `⭐ Order updated for VIP Buyer: ${customerName} (${intel.vipData.orderCount} lifetime orders)`,
+                type: "success"
+              };
+            } else {
+              updateNotice = {
+                message: `Order for ${customerName} updated successfully!`,
+                type: "success"
+              };
+            }
+            sessionStorage.setItem("postOrderNotification", JSON.stringify(updateNotice));
+
+            if (window.navigateToPage) {
+              window.navigateToPage("index.html");
+            } else {
               window.location.href = "index.html";
-            };
-
-            document.getElementById("cancelButton").onclick = function () {
-              document
-                .getElementById("confirmationPopup")
-                .classList.remove("active");
-              document.getElementById("blurOverlay").classList.remove("active");
-            };
-          });
-
-        // Preserve capitalization formatting for customer name input
-        document
-          .getElementById("customerName")
-          .addEventListener("input", function () {
-            this.value = this.value
-              .split(" ")
-              .map(
-                (word) =>
-                  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-              )
-              .join(" ");
-          });
+            }
+          };
+        });
       };
-      function exportToExcel(orders) {
-        const fullOrders = orders.map((order) => ({
-          id: order.id || "",
-          orderDate: order.orderDate || "",
-          customerName: order.customerName || "",
-          phoneNumber: order.phoneNumber || "",
-          itemNumber: order.itemNumber || "",
-          color: order.color || "",
-          size: order.size || "",
-          description: order.description || "",
-          branch: order.branch || "",
-          employee: order.employee || "",
-          enteredBy: order.enteredBy || "",
-          status: order.status || "Pending",
-          arrivalDate: order.arrivalDate || "",
-          smsSent: order.smsSent || false,
-        }));
 
-        const worksheet = XLSX.utils.json_to_sheet(fullOrders);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
-        XLSX.writeFile(workbook, "Orders.xlsx");
+      function inferCategory(order) {
+        if (order.category && order.category.trim() !== "") return order.category;
+        const text = ((order.description || "") + " " + (order.itemNumber || "")).toLowerCase();
+        if (text.includes("fleece") || text.includes("hoodie") || text.includes("jacket") || text.includes("windrunner") || text.includes("tee") || text.includes("shirt")) {
+          return "Apparel - Tops & Hoodies";
+        }
+        if (text.includes("pant") || text.includes("short") || text.includes("jogger") || text.includes("tight")) {
+          return "Apparel - Pants & Shorts";
+        }
+        if (text.includes("bag") || text.includes("cap") || text.includes("sock") || text.includes("hat") || text.includes("bottle")) {
+          return "Accessories & Equipment";
+        }
+        if (text.includes("pegasus") || text.includes("running") || text.includes("run") || text.includes("vomero") || text.includes("invincible")) {
+          return "Footwear - Running";
+        }
+        if (text.includes("jordan") || text.includes("basketball") || text.includes("dunk") || text.includes("force") || text.includes("air max") || text.includes("blazer")) {
+          return "Footwear - Lifestyle & Retro";
+        }
+        return "Footwear - Lifestyle & Retro";
+      }
+
+      function searchNikeProduct() {
+        const prodInput = document.getElementById("productCode");
+        const colorInput = document.getElementById("colorCode");
+        const pCode = prodInput ? prodInput.value.trim().toUpperCase() : "";
+        const cCode = colorInput ? colorInput.value.trim().toUpperCase() : "";
+        if (!pCode) {
+          showToast("Please enter a Nike product code first (e.g. CW2288).", "danger");
+          prodInput?.focus();
+          return;
+        }
+        const fullCode = cCode ? `${pCode}-${cCode}` : pCode;
+        window.open(`https://www.nike.com/w?q=${encodeURIComponent(fullCode)}`, "_blank");
+      }
+
+      function closeConfirmationModal() {
+        document.getElementById("confirmationPopup").classList.remove("active");
+      }
+
+      function printCurrentOrderSlip() {
+        if (!editOrderRef) return;
+        const branchChecked = document.querySelector('input[name="branch"]:checked');
+        const pCode = (document.getElementById("productCode")?.value || "").trim().toUpperCase();
+        const cCode = (document.getElementById("colorCode")?.value || "").trim().toUpperCase();
+        const itemNum = (pCode && cCode) ? `${pCode}-${cCode}` : (pCode || editOrderRef.itemNumber || "");
+        const colVal = cCode || editOrderRef.colorCode || editOrderRef.color || "-";
+
+        const order = {
+          id: editOrderRef.id,
+          orderDate: document.getElementById("orderDate").value || editOrderRef.orderDate,
+          customerName: document.getElementById("customerName").value || editOrderRef.customerName,
+          phoneNumber: document.getElementById("phoneNumber").value || editOrderRef.phoneNumber,
+          itemNumber: itemNum,
+          productCode: pCode || editOrderRef.productCode,
+          colorCode: cCode || editOrderRef.colorCode,
+          color: colVal,
+          size: document.getElementById("size").value || editOrderRef.size,
+          quantity: document.getElementById("quantity")?.value || editOrderRef.quantity || 1,
+          price: document.getElementById("price")?.value || editOrderRef.price,
+          category: document.getElementById("category").value || editOrderRef.category,
+          branch: branchChecked ? branchChecked.value : editOrderRef.branch,
+          employee: document.getElementById("employee").value || editOrderRef.employee,
+          enteredBy: document.getElementById("enteredBy").value || editOrderRef.enteredBy,
+          status: document.getElementById("orderStatus").value || editOrderRef.status,
+          arrivalDate: document.getElementById("arrivalDate").value || editOrderRef.arrivalDate
+        };
+
+        const printDate = new Date().toLocaleString("en-GB", {
+          year: "numeric", month: "2-digit", day: "2-digit",
+          hour: "2-digit", minute: "2-digit"
+        });
+        const formattedPhone = formatLebanesePhoneDisplay(order.phoneNumber || "");
+        const status = (order.status || "Pending").toUpperCase();
+        const isArrived = status === "ARRIVED";
+
+        // Calculate 2-Day Hold Removal Deadline
+        let orderDateStr = order.orderDate || "N/A";
+        let arrivalDateStr = order.arrivalDate || "";
+        let holdDeadlineDisplay = "";
+        let isOverdue = false;
+
+        if (arrivalDateStr) {
+          try {
+            const arr = new Date(arrivalDateStr);
+            if (!isNaN(arr.getTime())) {
+              const rem = new Date(arr);
+              rem.setDate(rem.getDate() + 2);
+              const yyyy = rem.getFullYear();
+              const mm = String(rem.getMonth() + 1).padStart(2, "0");
+              const dd = String(rem.getDate()).padStart(2, "0");
+              const weekday = rem.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
+              holdDeadlineDisplay = `${weekday} ${dd}/${mm}/${yyyy}`;
+
+              const today = new Date(); today.setHours(0, 0, 0, 0);
+              if (today > rem) isOverdue = true;
+            }
+          } catch (e) {}
+        }
+
+        if (!holdDeadlineDisplay) {
+          holdDeadlineDisplay = "48H UPON ARRIVAL";
+        }
+
+        const w = window.open("", "_blank", "width=420,height=680");
+        w.document.write(`<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Order Slip - ${order.id}</title>
+  <style>
+    /* Star TSP700II / TSP743II - 80mm Thermal Paper (72mm Printable Area) */
+    @page {
+      size: 80mm auto;
+      margin: 0;
+    }
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 72mm;
+      max-width: 72mm;
+      margin: 0 auto;
+      padding: 2mm 1mm 12mm 1mm;
+      background: #ffffff;
+      color: #000000;
+      font-family: 'Courier New', Courier, 'Lucida Console', Monaco, monospace;
+      font-size: 11px;
+      line-height: 1.25;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .no-print {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #000;
+    }
+    .action-btn {
+      flex: 1;
+      padding: 6px;
+      font-size: 11px;
+      font-weight: bold;
+      border: 1px solid #000;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    .action-btn.secondary {
+      background: #fff;
+      color: #000;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        padding: 0mm 0mm 14mm 0mm;
+      }
+    }
+    .center {
+      text-align: center;
+    }
+    .brand-title {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      margin: 0;
+      line-height: 1.1;
+    }
+    .brand-sub {
+      font-size: 9px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      margin-top: 1px;
+    }
+    .branch-hdr {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+      padding: 2px 0;
+      border-top: 1px dashed #000;
+      border-bottom: 1px dashed #000;
+    }
+    .d-line {
+      border-top: 1px dashed #000;
+      margin: 5px 0;
+    }
+    .s-line {
+      border-top: 2px solid #000;
+      margin: 5px 0;
+    }
+    .ref-box {
+      border: 1.5px solid #000;
+      padding: 3px 2px;
+      text-align: center;
+      margin: 5px 0;
+    }
+    .ref-lbl {
+      font-size: 8.5px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .ref-val {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    /* CUSTOMER & PHONE HERO BOX */
+    .cust-hero {
+      border: 2.5px solid #000;
+      padding: 6px 4px;
+      margin: 6px 0;
+      text-align: center;
+      background: #ffffff;
+    }
+    .cust-hero-lbl {
+      font-size: 8.5px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+    .cust-name {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      line-height: 1.15;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+    .cust-phone-box {
+      border-top: 1.5px dashed #000;
+      padding-top: 4px;
+      margin-top: 2px;
+    }
+    .cust-phone-lbl {
+      font-size: 8px;
+      font-weight: bold;
+      letter-spacing: 0.8px;
+    }
+    .cust-phone {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      margin-top: 1px;
+    }
+
+    /* 2-DAY HOLD & REMOVAL DATE HERO BOX */
+    .removal-hero {
+      border: 2.5px solid #000;
+      background: #000;
+      color: #fff;
+      padding: 6px 4px;
+      margin: 6px 0;
+      text-align: center;
+    }
+    .removal-hero.overdue {
+      border: 3px dashed #000;
+    }
+    .removal-title {
+      font-size: 9.5px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+    }
+    .removal-desc {
+      font-size: 8px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      margin: 2px 0 3px 0;
+      opacity: 0.9;
+    }
+    .removal-date-badge {
+      background: #ffffff;
+      color: #000000;
+      padding: 4px 2px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      border: 1px solid #ffffff;
+      margin: 3px 0;
+    }
+    .dates-subrow {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      font-weight: bold;
+      border-top: 1px dashed rgba(255,255,255,0.4);
+      padding-top: 4px;
+      margin-top: 4px;
+    }
+    .removal-footer-note {
+      font-size: 7.5px;
+      font-weight: bold;
+      margin-top: 3px;
+      letter-spacing: 0.3px;
+    }
+
+    /* 4. ENTERED BY / STAFF HERO BOX */
+    .staff-hero {
+      border: 2px solid #000;
+      padding: 5px 4px;
+      margin: 6px 0;
+      text-align: center;
+      background: #ffffff;
+    }
+    .staff-hero-lbl {
+      font-size: 8.5px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+    .staff-hero-name {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .staff-hero-sub {
+      font-size: 8px;
+      font-weight: bold;
+      border-top: 1px dashed #000;
+      padding-top: 3px;
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      letter-spacing: 0.3px;
+    }
+
+    .status-badge {
+      border: 2px solid #000;
+      padding: 3px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin: 4px 0;
+    }
+    .status-badge.arrived {
+      background: #000;
+      color: #fff;
+    }
+    .sku-hero {
+      border: 2px solid #000;
+      background: #000;
+      color: #fff;
+      padding: 4px 2px;
+      text-align: center;
+      margin: 5px 0 3px 0;
+    }
+    .sku-val {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+    .item-desc {
+      font-size: 11px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+    .kv-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin: 2.5px 0;
+      font-size: 10px;
+    }
+    .k-lbl {
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-right: 4px;
+    }
+    .v-val {
+      text-align: right;
+      word-break: break-word;
+      font-weight: 600;
+    }
+    .notice-box {
+      border: 1px dashed #000;
+      padding: 4px 3px;
+      margin: 6px 0;
+      text-align: center;
+      font-size: 8.5px;
+      font-weight: bold;
+      line-height: 1.3;
+    }
+    .footer-text {
+      text-align: center;
+      font-size: 8.5px;
+      line-height: 1.3;
+      margin-top: 4px;
+    }
+    .cut-feed {
+      height: 14mm; /* Star TSP700II auto-cutter clearance */
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Print to Star TSP700II</button>
+    <button class="action-btn secondary" onclick="window.close()">✕ Close</button>
+  </div>
+
+  <div class="receipt-header center">
+    <div class="brand-title">NIKE LEBANON</div>
+    <div class="brand-sub">RETAIL OPERATIONS • CUSTOMER DISPATCH</div>
+    <div class="branch-hdr">${escapeHtml(order.branch || "NIKE STORE")}</div>
+  </div>
+
+  <div class="ref-box">
+    <div class="ref-lbl">CUSTOMER ORDER REF</div>
+    <div class="ref-val">${escapeHtml(order.id || "N/A")}</div>
+  </div>
+
+  <div class="status-badge ${isArrived ? 'arrived' : ''}">
+    [ ${escapeHtml(status)} ]
+  </div>
+
+  <!-- 1. CUSTOMER & PHONE HERO BOX (PRIMARY FOCUS) -->
+  <div class="cust-hero">
+    <div class="cust-hero-lbl">★ CUSTOMER FOR PICKUP ★</div>
+    <div class="cust-name">${escapeHtml(order.customerName || "CUSTOMER").toUpperCase()}</div>
+    <div class="cust-phone-box">
+      <div class="cust-phone-lbl">PHONE / WHATSAPP:</div>
+      <div class="cust-phone">${escapeHtml(formattedPhone)}</div>
+    </div>
+  </div>
+
+  <!-- 2. HOLD DEADLINE & REMOVAL DATE HERO BOX (PRIMARY FOCUS) -->
+  <div class="removal-hero ${isOverdue ? 'overdue' : ''}">
+    <div class="removal-title">⚠️ 2-DAY IN-STORE HOLD DEADLINE ⚠️</div>
+    <div class="removal-desc">REMOVE FROM HOLD & RETURN TO STOCK ON:</div>
+    <div class="removal-date-badge">${holdDeadlineDisplay}</div>
+    <div class="dates-subrow">
+      <span>ORDER DATE: <strong>${escapeHtml(orderDateStr)}</strong></span>
+      <span>ARRIVAL: <strong>${arrivalDateStr ? escapeHtml(arrivalDateStr) : "PENDING"}</strong></span>
+    </div>
+    <div class="removal-footer-note">
+      ${isOverdue ? '*** ATTENTION: 48H LIMIT EXPIRED - RETURN TO SHELF ***' : 'RESERVED IN STORE FOR 2 DAYS ONLY • RETURN IF UNCLAIMED'}
+    </div>
+  </div>
+
+  <div class="d-line"></div>
+
+  <!-- 3. REQUESTED PRODUCT DETAILS -->
+  <div class="center" style="font-size:9.5px;font-weight:bold;letter-spacing:0.5px;">REQUESTED PRODUCT</div>
+  <div class="sku-hero">
+    <div class="sku-val">${escapeHtml(order.itemNumber || "N/A")}</div>
+  </div>
+  <div class="item-desc">${escapeHtml(order.description || "N/A")}</div>
+
+  <div class="kv-row">
+    <span class="k-lbl">COLORWAY:</span>
+    <span class="v-val">${escapeHtml(order.color || "-")}</span>
+  </div>
+  <div class="kv-row">
+    <span class="k-lbl">SIZE:</span>
+    <span class="v-val">${escapeHtml(order.size || "-")}</span>
+  </div>
+  ${order.quantity && order.quantity > 1 ? `
+  <div class="kv-row">
+    <span class="k-lbl">QUANTITY:</span>
+    <span class="v-val" style="font-weight:900;">${escapeHtml(order.quantity)} UNITS</span>
+  </div>` : ""}
+  ${order.price ? `
+  <div class="kv-row">
+    <span class="k-lbl">PRICE / DEP:</span>
+    <span class="v-val">$${escapeHtml(order.price)}</span>
+  </div>` : ""}
+  <div class="kv-row">
+    <span class="k-lbl">CATEGORY:</span>
+    <span class="v-val" style="font-size:9.5px;">${escapeHtml(order.category || inferCategory(order))}</span>
+  </div>
+
+  <div class="d-line"></div>
+
+  <!-- 4. ENTERED BY / STORE STAFF HERO (PRIMARY FOCUS) -->
+  <div class="staff-hero">
+    <div class="staff-hero-lbl">★ ORDER ENTERED BY ★</div>
+    <div class="staff-hero-name">${escapeHtml(order.enteredBy || order.employee || "STORE STAFF").toUpperCase()}</div>
+    <div class="staff-hero-sub">
+      <span>SALES REP: <strong>${escapeHtml(order.employee || "-")}</strong></span>
+      <span>PRINTED: <strong>${printDate}</strong></span>
+    </div>
+  </div>
+
+  <div class="notice-box">
+    *** POLICY NOTICE ***<br>
+    RESERVED IN STORE FOR 2 DAYS ONLY UPON ARRIVAL.<br>
+    PLEASE PRESENT TICKET UPON PICKUP.
+  </div>
+
+  <div class="footer-text">
+    sidewalks.net • Nike Retail Operations<br>
+    JUST DO IT.
+  </div>
+
+  <!-- Space for TSP700II auto-cutter -->
+  <div class="cut-feed"></div>
+
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.print();
+      }, 250);
+    };
+  <\/script>
+</body>
+</html>`);
+        w.document.close();
+      }
+
+      function cleanLebanesePhone(phone) {
+        if (!phone) return "";
+        let cleaned = String(phone).replace(/\D/g, "");
+        if (!cleaned) return "";
+        if (cleaned.startsWith("00961")) cleaned = cleaned.slice(2);
+        if (cleaned.startsWith("9610")) cleaned = "961" + cleaned.slice(4);
+        else if (cleaned.startsWith("0")) cleaned = "961" + cleaned.slice(1);
+        else if (!cleaned.startsWith("961")) cleaned = "961" + cleaned;
+        return cleaned;
+      }
+
+      function formatLebanesePhoneDisplay(phone) {
+        if (!phone) return "N/A";
+        const cleaned = cleanLebanesePhone(phone);
+        if (cleaned.startsWith("961")) {
+          const rest = cleaned.slice(3);
+          if (rest.length === 7) {
+            return `+961 ${rest.slice(0, 1)} ${rest.slice(1, 4)} ${rest.slice(4)}`;
+          } else if (rest.length === 8) {
+            return `+961 ${rest.slice(0, 2)} ${rest.slice(2, 5)} ${rest.slice(5)}`;
+          } else if (rest.length > 0) {
+            return `+961 ${rest}`;
+          }
+        }
+        return phone;
+      }
+
+      /* ==========================================================================
+         CUSTOMER INTELLIGENCE: RISK & VIP DETECTION ENGINE
+         ========================================================================== */
+      let lastAlertNotifiedKey = "";
+      const dismissedAlerts = { unpicked: false, vip: false, info: false };
+
+      function normalizeLebanesePhone(phone) {
+        if (!phone) return "";
+        let digits = String(phone).replace(/\D/g, "");
+        if (digits.startsWith("00961")) digits = digits.slice(5);
+        else if (digits.startsWith("961")) digits = digits.slice(3);
+        if (digits.startsWith("0")) digits = digits.slice(1);
+        return digits;
+      }
+
+      function normalizeCustomerName(name) {
+        if (!name) return "";
+        return String(name)
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .trim();
+      }
+
+      function getAlertPref(type) {
+        try {
+          const val = localStorage.getItem("pref_alert_" + type);
+          return val === null ? true : val !== "false";
+        } catch (e) {
+          return true;
+        }
+      }
+
+      function toggleAlertPref(type, isEnabled) {
+        try {
+          localStorage.setItem("pref_alert_" + type, isEnabled ? "true" : "false");
+          checkCustomerAlerts(false);
+        } catch (e) {}
+      }
+
+      function dismissCustomerAlert(type, event) {
+        if (event) {
+          try {
+            event.stopPropagation();
+            event.preventDefault();
+          } catch (e) {}
+        }
+        dismissedAlerts[type] = true;
+        const els = document.querySelectorAll("#alertCard_" + type);
+        els.forEach((el) => {
+          el.classList.add("closing");
+          setTimeout(() => {
+            if (el.parentNode) el.parentNode.removeChild(el);
+          }, 240);
+        });
+      }
+
+      function getCustomerDirectory() {
+        let savedOrders = [];
+        try {
+          savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+        } catch (e) {
+          savedOrders = [];
+        }
+
+
+        const map = {};
+        savedOrders.forEach((o) => {
+          if (!o || typeof o !== "object" || o.orderType === "store_support") return;
+          const phone = String(o.phoneNumber || "").trim();
+          const name = String(o.customerName || "").trim();
+          if (!name || name === "Customer") return;
+
+          const normP = normalizeLebanesePhone(phone);
+          const normN = normalizeCustomerName(name);
+          const key = normP || normN;
+          if (!key) return;
+
+          if (!map[key]) {
+            map[key] = {
+              name,
+              normName: normN,
+              phone,
+              normPhone: normP,
+              orderCount: 0,
+              unpickedCount: 0,
+              collectedCount: 0
+            };
+          }
+          const c = map[key];
+          c.orderCount++;
+          const st = String(o.status || "").toLowerCase().trim();
+          if (st === "unpicked") {
+            c.unpickedCount++;
+          } else if (st === "collected" || st === "received" || st === "arrived") {
+            c.collectedCount++;
+          }
+          if (name && (!c.name || c.name.length < name.length)) c.name = name;
+          if (phone && !c.phone) c.phone = phone;
+        });
+
+        return Object.values(map).map((c) => {
+          const isUnpicked = c.unpickedCount > 0;
+          const isVip = c.unpickedCount === 0 && c.orderCount >= 2;
+          return {
+            ...c,
+            isUnpicked,
+            isVip
+          };
+        });
+      }
+
+      function evaluateCustomerIntelligence(rawPhone, rawName) {
+        let savedOrders = [];
+        try {
+          savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+        } catch (e) {
+          savedOrders = [];
+        }
+
+
+        const cleanPhone = normalizeLebanesePhone(rawPhone);
+        const cleanName = normalizeCustomerName(rawName);
+
+        // Group customer records by phone (fallback to name)
+        const customerMap = {};
+        savedOrders.forEach((o) => {
+          if (!o || typeof o !== "object") return;
+          if (o.orderType === "store_support") return;
+
+          const oPhone = String(o.phoneNumber || "").trim();
+          const oNormPhone = normalizeLebanesePhone(oPhone);
+          const oName = String(o.customerName || "Customer").trim();
+          const oNormName = normalizeCustomerName(oName);
+          const key = oNormPhone || oNormName;
+          if (!key) return;
+
+          if (!customerMap[key]) {
+            customerMap[key] = {
+              key: key,
+              phone: oPhone,
+              normPhone: oNormPhone,
+              name: oName,
+              normName: oNormName,
+              orderCount: 0,
+              unpickedCount: 0,
+              collectedCount: 0,
+              branches: {},
+              lastUnpickedItem: "",
+              lastUnpickedDate: ""
+            };
+          }
+
+          const c = customerMap[key];
+          c.orderCount++;
+          const status = String(o.status || "").trim().toLowerCase();
+          if (status === "unpicked") {
+            c.unpickedCount++;
+            const oDate = o.arrivalDate || o.orderDate || "";
+            if (!c.lastUnpickedDate || (oDate && oDate >= c.lastUnpickedDate)) {
+              c.lastUnpickedDate = oDate;
+              c.lastUnpickedItem = `${o.itemNumber ? o.itemNumber + " - " : ""}${o.description || "Nike item"}`.trim();
+            }
+          } else if (status === "collected" || status === "received" || status === "arrived") {
+            c.collectedCount++;
+          }
+
+          if (oName && (!c.name || c.name === "Customer")) {
+            c.name = oName;
+            c.normName = oNormName;
+          }
+          if (oPhone && !c.phone) {
+            c.phone = oPhone;
+            c.normPhone = oNormPhone;
+          }
+          const b = (o.branch || "In-Store").trim();
+          c.branches[b] = (c.branches[b] || 0) + 1;
+        });
+
+        const allCustomers = Object.values(customerMap);
+
+        // 1. Calculate Unpicked Pool (bad customers who don't pick up orders)
+        const unpickedPool = allCustomers
+          .filter((c) => c.unpickedCount > 0)
+          .map((c) => {
+            const topBranch = Object.entries(c.branches).sort((a, b) => b[1] - a[1])[0]?.[0] || "Nike Lebanon";
+            const rate = Math.round((c.unpickedCount / Math.max(c.orderCount, c.unpickedCount)) * 100);
+            return {
+              ...c,
+              topBranch,
+              abandonmentRate: rate
+            };
+          });
+
+        unpickedPool.sort((a, b) => {
+          if (b.unpickedCount !== a.unpickedCount) return b.unpickedCount - a.unpickedCount;
+          if (b.abandonmentRate !== a.abandonmentRate) return b.abandonmentRate - a.abandonmentRate;
+          return b.orderCount - a.orderCount;
+        });
+
+        // 2. Calculate Clean VIP Pool (loyal buyers who actually complete orders: 0 unpicked orders)
+        const vipPool = allCustomers
+          .filter((c) => c.unpickedCount === 0 && c.orderCount >= 2)
+          .map((c) => {
+            const topBranch = Object.entries(c.branches).sort((a, b) => b[1] - a[1])[0]?.[0] || "Nike Lebanon";
+            return {
+              ...c,
+              topBranch
+            };
+          });
+
+        vipPool.sort((a, b) => {
+          if (b.orderCount !== a.orderCount) return b.orderCount - a.orderCount;
+          return (b.collectedCount || 0) - (a.collectedCount || 0);
+        });
+
+        function matchesRecord(c) {
+          if (cleanPhone && cleanPhone.length >= 7) {
+            if (c.normPhone && c.normPhone === cleanPhone) {
+              return true;
+            }
+          }
+          if (cleanName && cleanName.length >= 3) {
+            if (c.normName && c.normName === cleanName) {
+              return true;
+            }
+          }
+          return false;
+        }
+
+        let matchedUnpickedRank = -1;
+        let matchedUnpickedData = null;
+        let matchedVipRank = -1;
+        let matchedVipData = null;
+        let matchedCustomer = null;
+
+        // Search unpicked pool first (safety warning takes top priority)
+        unpickedPool.forEach((u, idx) => {
+          if (matchesRecord(u) && matchedUnpickedRank === -1) {
+            matchedUnpickedRank = idx + 1;
+            matchedUnpickedData = u;
+            if (!matchedCustomer) matchedCustomer = u;
+          }
+        });
+
+        // Only search VIP pool if customer has 0 unpicked orders
+        if (matchedUnpickedRank === -1) {
+          vipPool.forEach((v, idx) => {
+            if (matchesRecord(v) && matchedVipRank === -1) {
+              matchedVipRank = idx + 1;
+              matchedVipData = v;
+              if (!matchedCustomer) matchedCustomer = v;
+            }
+          });
+        }
+
+        if (!matchedCustomer) {
+          allCustomers.forEach((c) => {
+            if (matchesRecord(c) && !matchedCustomer) {
+              matchedCustomer = c;
+            }
+          });
+        }
+
+        return {
+          isUnpicked: matchedUnpickedRank > 0,
+          isTop5Unpicked: matchedUnpickedRank > 0 && matchedUnpickedRank <= 5,
+          unpickedRank: matchedUnpickedRank,
+          unpickedData: matchedUnpickedData,
+          isVip: matchedVipRank > 0,
+          isTop10Vip: matchedVipRank > 0 && matchedVipRank <= 10,
+          vipRank: matchedVipRank,
+          vipData: matchedVipData,
+          matchedCustomer
+        };
+      }
+
+      function checkCustomerAlerts(isTyping = true) {
+        const phoneInput = document.getElementById("phoneNumber");
+        const nameInput = document.getElementById("customerName");
+        const floatingContainer = document.getElementById("customerIntelligenceAlertContainer");
+
+        const rawPhone = phoneInput ? phoneInput.value : "";
+        const rawName = nameInput ? nameInput.value : "";
+
+        const cleanDigits = normalizeLebanesePhone(rawPhone);
+        const cleanName = normalizeCustomerName(rawName);
+
+        if (cleanDigits.length < 7 && cleanName.length < 3) {
+          if (floatingContainer) floatingContainer.innerHTML = "";
+          lastAlertNotifiedKey = "";
+          dismissedAlerts.unpicked = false;
+          dismissedAlerts.vip = false;
+          dismissedAlerts.info = false;
+          return;
+        }
+
+        const intel = evaluateCustomerIntelligence(rawPhone, rawName);
+        const activeCustKey = intel.matchedCustomer ? intel.matchedCustomer.key : "";
+
+        if (activeCustKey !== lastAlertNotifiedKey) {
+          dismissedAlerts.unpicked = false;
+          dismissedAlerts.vip = false;
+          dismissedAlerts.info = false;
+        }
+
+        if (!intel.matchedCustomer) {
+          if (floatingContainer) floatingContainer.innerHTML = "";
+          lastAlertNotifiedKey = "";
+          return;
+        }
+
+        const allowUnpickedAlert = getAlertPref("unpicked");
+        const allowVipAlert = getAlertPref("vip");
+
+        let cardsHtml = "";
+
+        // 1. Unpicked Risk / Bad Customer Alert
+        if (intel.isUnpicked && allowUnpickedAlert && !dismissedAlerts.unpicked) {
+          const u = intel.unpickedData;
+          const kicker = intel.isTop5Unpicked
+            ? `Top 5 Unpicked · Rank #${intel.unpickedRank}`
+            : `Unpicked Order Risk · Rank #${intel.unpickedRank}`;
+          cardsHtml += `
+            <div id="alertCard_unpicked" class="customer-alert-card danger-alert">
+              <div class="alert-card-top">
+                <div class="alert-icon-wrap danger">
+                  <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+                </div>
+                <div class="alert-headline">
+                  <div class="alert-kicker danger">${kicker}</div>
+                  <div class="alert-customer-name">${escapeHtml(u.name)}</div>
+                </div>
+                <button type="button" class="alert-dismiss-btn" onmousedown="event.preventDefault()" onclick="dismissCustomerAlert('unpicked', event)" title="Dismiss notification">
+                  <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+              </div>
+              <div class="alert-stats-row">
+                <span class="alert-stat-chip danger"><strong>${u.unpickedCount}</strong> unpicked</span>
+                <span class="alert-stat-chip"><strong>${u.abandonmentRate}%</strong> abandon rate</span>
+                <span class="alert-stat-chip"><strong>${u.orderCount}</strong> total orders</span>
+                <span class="alert-stat-chip">${escapeHtml(u.topBranch)}</span>
+              </div>
+              <div class="alert-subtext">
+                ⚠️ <strong>High Cancellation Risk:</strong> Customer has past abandoned reservations. Require deposit or confirm order commitment before dispatch.
+              </div>
+            </div>
+          `;
+        }
+
+        // 2. VIP / Loyal Online Buyer Alert
+        if (intel.isVip && allowVipAlert && !dismissedAlerts.vip) {
+          const v = intel.vipData;
+          const kicker = intel.isTop10Vip
+            ? `Top 10 VIP Buyer · Rank #${intel.vipRank}`
+            : `Loyal VIP Buyer · Rank #${intel.vipRank}`;
+          cardsHtml += `
+            <div id="alertCard_vip" class="customer-alert-card vip-alert">
+              <div class="alert-card-top">
+                <div class="alert-icon-wrap vip">
+                  <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+                <div class="alert-headline">
+                  <div class="alert-kicker vip">${kicker}</div>
+                  <div class="alert-customer-name">${escapeHtml(v.name)}</div>
+                </div>
+                <button type="button" class="alert-dismiss-btn" onmousedown="event.preventDefault()" onclick="dismissCustomerAlert('vip', event)" title="Dismiss notification">
+                  <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+              </div>
+              <div class="alert-stats-row">
+                <span class="alert-stat-chip vip"><strong>${v.orderCount}</strong> lifetime orders</span>
+                <span class="alert-stat-chip"><strong>100%</strong> collection record</span>
+                <span class="alert-stat-chip">${escapeHtml(v.topBranch)}</span>
+                <span class="alert-stat-chip">VIP Buyer</span>
+              </div>
+              <div class="alert-subtext">
+                ⭐ <strong>High-Value Loyal Client:</strong> Verified positive order collection history. Ensure priority handling and expedited fulfillment.
+              </div>
+            </div>
+          `;
+        }
+
+        // 3. Recognized Returning Customer Alert (Standard history)
+        if (!intel.isUnpicked && !intel.isVip && intel.matchedCustomer && !dismissedAlerts.info) {
+          const m = intel.matchedCustomer;
+          const topBranch = m.topBranch || "Nike Lebanon";
+          cardsHtml += `
+            <div id="alertCard_info" class="customer-alert-card info-alert">
+              <div class="alert-card-top">
+                <div class="alert-icon-wrap info">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <div class="alert-headline">
+                  <div class="alert-kicker info">Recognized Customer · Auto-Completed</div>
+                  <div class="alert-customer-name">${escapeHtml(m.name)}</div>
+                </div>
+                <button type="button" class="alert-dismiss-btn" onmousedown="event.preventDefault()" onclick="dismissCustomerAlert('info', event)" title="Dismiss notification">
+                  <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+              </div>
+              <div class="alert-stats-row">
+                <span class="alert-stat-chip info"><strong>${m.orderCount}</strong> order${m.orderCount > 1 ? "s" : ""}</span>
+                <span class="alert-stat-chip">${escapeHtml(topBranch)}</span>
+                <span class="alert-stat-chip">Verified Customer</span>
+              </div>
+              <div class="alert-subtext">
+                ✓ <strong>Customer Recognized:</strong> Details matched and auto-completed from store orders history.
+              </div>
+            </div>
+          `;
+        }
+
+        // Render exclusively to floating side container on the right side of the page
+        if (floatingContainer) {
+          const hasClosing = floatingContainer.querySelector(".customer-alert-card.closing");
+          if (!hasClosing && floatingContainer.innerHTML !== cardsHtml) {
+            floatingContainer.innerHTML = cardsHtml;
+          }
+        }
+
+        if (activeCustKey) {
+          lastAlertNotifiedKey = activeCustKey;
+        }
+      }
+
+      function showToast(message, type = "info") {
+        const container = document.getElementById("toastContainer");
+        if (!container) return;
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<span>${escapeHtml(message)}</span>`;
+        container.appendChild(toast);
+        requestAnimationFrame(() => toast.classList.add("show"));
+        setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 300);
+        }, 3800);
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
       }
     </script>
+    <!-- Side Floating Intelligence Alert Container (Positioned on the side, clear of top buttons) -->
+    <div id="customerIntelligenceAlertContainer" class="customer-intelligence-alert-container"></div>
+    <!-- Floating Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+    <!-- Floating Store Copilot Chatbot -->
+    <script src="chatbot.js"></script>
   </body>
 </html>
+

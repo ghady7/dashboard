@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nike Operations Tasks | Lebanon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,700..900&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="todo.css" />
+    <link rel="stylesheet" href="transitions.css" />
+    <script src="transitions.js"></script>
+  </head>
+  <body>
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <a href="index.html" class="brand-logo-link" title="Nike Order Operations">
+          <svg class="nike-logo-svg" viewBox="135.5 361.38 1000 356.39" aria-label="Nike Swoosh Logo" role="img">
+            <path d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z"/>
+          </svg>
+        </a>
+        <div class="brand-info">
+          <h1>NIKE <span class="highlight">TASKS</span></h1>
+          <div class="brand-subtitle">Operations Duty Board • Lebanon Retail</div>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <a href="index.html" class="btn btn-secondary" title="View Orders Dashboard">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Dashboard
+        </a>
+        <a href="todo.html" class="btn btn-secondary active" title="View Operations Tasks & Objectives">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM17.99 9l-1.41-1.42-6.59 6.59-2.58-2.57-1.42 1.41 4 4z"/></svg>
+          To-Do Tasks
+        </a>
+        <a href="analytics.html" class="btn btn-secondary" title="View Operations Analytics & Reports">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path fill="currentColor" d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+          Analytics
+        </a>
+        <a href="add_order.html" class="btn btn-nike" title="Register New Customer Order">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          Add Order
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="todo-app-container page-transition-content">
+      <!-- High-Impact Smart Operations Sync Detector Banner -->
+      <section class="sync-detector-banner" id="syncBanner">
+        <div class="sync-detector-left">
+          <div class="sync-quiet-icon">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+          </div>
+          <div>
+            <div class="sync-detector-title">
+              <span>Store Overdue Intelligence</span>
+              <span id="syncBadgeCount" style="background:rgba(239,68,68,0.2);color:#ef4444;font-size:0.75rem;padding:2px 8px;border-radius:99px;font-weight:700;">Scanning...</span>
+            </div>
+            <div class="sync-detector-sub" id="syncStatusSubtitle">
+              Detects arrived orders received from other branches held >48h here at Main Branch for customer pickup.
+            </div>
+          </div>
+        </div>
+
+        <div class="sync-detector-action">
+          <button class="btn-sync-action" onclick="syncOverdueOrdersToTasks()">
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+            Auto-Sync to Tasks
+          </button>
+        </div>
+      </section>
+
+      <!-- Control Bar: View Horizon + Search -->
+      <section class="control-bar">
+        <div class="view-segmented-control">
+          <button class="segment-btn active" id="segWeek" onclick="switchHorizon('week')">
+            📅 This Week
+            <span class="segment-count" id="countWeek">0</span>
+          </button>
+          <button class="segment-btn" id="segMonth" onclick="switchHorizon('month')">
+            🗓️ This Month
+            <span class="segment-count" id="countMonth">0</span>
+          </button>
+          <button class="segment-btn" id="segAll" onclick="switchHorizon('all')">
+            All Tasks
+            <span class="segment-count" id="countAll">0</span>
+          </button>
+        </div>
+
+        <div class="control-bar-right">
+          <input
+            type="text"
+            id="taskSearchInput"
+            class="search-input-pill"
+            placeholder="🔍 Search tasks, staff, branch..."
+            oninput="renderTasks()"
+          />
+          <!-- Task Order / Sorter -->
+          <div class="task-order-group" style="display:inline-flex;align-items:center;gap:6px;">
+            <select
+              id="taskSortSelect"
+              class="task-sort-select"
+              onchange="renderTasks()"
+              title="Order operations tasks by urgency, due date, or creation date"
+            >
+              <option value="priority" selected>⚡ Order: Urgent &amp; Overdue</option>
+              <option value="dueDate">📅 Order: Due Date</option>
+              <option value="newest">🆕 Order: Newest First</option>
+              <option value="oldest">⏳ Order: Oldest First</option>
+              <option value="title">🔤 Order: Alphabetical</option>
+            </select>
+          </div>
+          <!-- Manager Mode PIN Access -->
+          <button id="btnPinLock" class="btn btn-pin-lock" onclick="handlePinToggleClick()" title="Unlock/Lock Manager permissions">
+            <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            <span id="pinLockText">Staff Mode</span>
+          </button>
+
+          <button class="btn btn-nike" onclick="openCreateTaskModal()">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            Add Task
+          </button>
+        </div>
+      </section>
+
+      <!-- Active Tasks Cards Grid -->
+      <section class="tasks-cards-grid" id="activeCardsGrid">
+        <!-- Rendered dynamically -->
+      </section>
+
+      <!-- Completed Section (Collapsible) -->
+      <div id="completedContainer" style="display: none;">
+        <button class="completed-toggle-btn" onclick="toggleCompletedSection()">
+          <span id="completedArrow">▼</span>
+          <span>Completed Tasks (<span id="completedCountNum">0</span>)</span>
+        </button>
+        <section class="tasks-cards-grid" id="completedCardsGrid" style="margin-top: 1rem;">
+          <!-- Completed cards rendered here -->
+        </section>
+      </div>
+    </main>
+
+    <!-- ==========================================================================
+         MODAL: CREATE / EDIT TASK (WITH MULTI-STAFF & AUTO-DATE)
+         ========================================================================== -->
+    <div id="taskModal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="modalTitleText">Create Operations Task</h3>
+          <button class="modal-close-btn" onclick="closeModal('taskModal')">&times;</button>
+        </div>
+        <form onsubmit="handleTaskSubmit(event)">
+          <input type="hidden" id="editTaskId" value="" />
+          <div class="modal-body">
+            <!-- Task Title -->
+            <div class="form-group">
+              <label for="taskTitle">Task Title *</label>
+              <input type="text" id="taskTitle" class="form-input" placeholder="e.g. Call Marc on arrived Jordan 1 Retro" required />
+            </div>
+
+            <!-- Task Description -->
+            <div class="form-group">
+              <label for="taskDesc">Description & Instructions *</label>
+              <textarea id="taskDesc" class="form-textarea" rows="3" placeholder="Provide full details and instructions for the team..." required></textarea>
+            </div>
+
+            <!-- Multi-Employee Selector -->
+            <div class="form-group">
+              <label>Assigned Employees * (Click to select)</label>
+              <div class="employee-picker-chips" id="employeePickerChips">
+                <!-- Injected dynamically -->
+              </div>
+            </div>
+
+            <!-- Branch & Horizon -->
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="taskBranch">Target Branch *</label>
+                <select id="taskBranch" class="form-select" required>
+                  <option value="Main" selected>Main</option>
+                  <option value="Souks">Souks</option>
+                  <option value="ABC Verdun">ABC Verdun</option>
+                  <option value="ABC Ash">ABC Ash</option>
+                  <option value="BCC">BCC</option>
+                  <option value="ABC Dbayeh">ABC Dbayeh</option>
+                  <option value="Dbayeh Highway">Dbayeh Highway</option>
+                  <option value="Ghazir">Ghazir</option>
+                  <option value="Tripoli">Tripoli</option>
+                  <option value="Warehouse">Warehouse</option>
+                  <option value="All Branches">All Branches</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="taskHorizon">Planning Horizon *</label>
+                <select id="taskHorizon" class="form-select" required>
+                  <option value="week">📅 This Week</option>
+                  <option value="month">🗓️ This Month</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Due Date & Priority -->
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="taskDueDate">Due Date *</label>
+                <input type="date" id="taskDueDate" class="form-input" required />
+                <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+                  * Creation date is stamped automatically as today.
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="taskPriority">Priority Level *</label>
+                <select id="taskPriority" class="form-select" required>
+                  <option value="normal">🔹 Normal</option>
+                  <option value="urgent">🔥 Urgent</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('taskModal')">Cancel</button>
+            <button type="submit" class="btn btn-nike">Save Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         MODAL: 4-DIGIT MANAGER PIN
+         ========================================================================== -->
+    <div id="pinModal" class="modal-overlay">
+      <div class="modal-card pin-card-box">
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;">Manager Authorization</h3>
+        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Enter 4-digit PIN to edit tasks (Default: <code>2026</code>)
+        </p>
+
+        <input
+          type="password"
+          id="pinInput"
+          class="pin-input-field"
+          maxlength="6"
+          placeholder="••••"
+          autofocus
+          onkeydown="if(event.key==='Enter') submitPinVerification();"
+        />
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('pinModal')">Cancel</button>
+          <button type="button" class="btn btn-nike" style="flex: 1;" onclick="submitPinVerification()">Unlock</button>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <a href="javascript:void(0)" onclick="openChangePinModal()" style="font-size: 0.75rem; color: var(--text-muted); text-decoration: none;">
+            Change PIN
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         MODAL: CHANGE PIN
+         ========================================================================== -->
+    <div id="changePinModal" class="modal-overlay">
+      <div class="modal-card pin-card-box">
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;">Change Manager PIN</h3>
+        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">Set your new manager PIN code</p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem;">
+          <input type="password" id="currPin" class="form-input" style="text-align: center;" placeholder="Current PIN" maxlength="6" />
+          <input type="password" id="nextPin" class="form-input" style="text-align: center;" placeholder="New PIN (min 4 digits)" maxlength="6" />
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('changePinModal')">Cancel</button>
+          <button type="button" class="btn btn-nike" style="flex: 1;" onclick="submitNewPin()">Update PIN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- In-Page Confirm Delete Task Modal -->
+    <div id="confirmDeleteTaskModal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 420px; text-align: center;">
+        <div style="font-size: 2.25rem; margin-bottom: 0.5rem;">🗑️</div>
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.15rem; color: var(--text-primary);">Remove Task Card</h3>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem;" id="confirmDeleteTaskText">
+          Are you sure you want to remove this task card?
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('confirmDeleteTaskModal')">Cancel</button>
+          <button type="button" class="btn btn-nike" style="flex: 1; background: #ef4444;" id="btnConfirmDeleteTask">Remove Task</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ==========================================================================
+         APPLICATION JAVASCRIPT
+         ========================================================================== -->
+    <script>
+      /* --- Application State --- */
+      let tasks = [];
+      let currentHorizon = "week"; // "week" | "month" | "all"
+      let isManager = false;
+      let showCompleted = true;
+      let actionAfterPin = null;
+
+      const PIN_KEY = "nike_manager_pin";
+      const DEFAULT_PIN = "2026";
+
+      const STORE_EMPLOYEES = [
+        "Maya Khoury",
+        "Rami Gemayel",
+        "Elie Haddad",
+        "Sarah Atallah",
+        "Ahmad Zein",
+        "Nour Saleh",
+        "Karim Bitar"
+      ];
+
+      let selectedEmployeesForModal = [];
+
+      /* --- Initialization --- */
+      document.addEventListener("DOMContentLoaded", () => {
+        if (!localStorage.getItem(PIN_KEY)) {
+          localStorage.setItem(PIN_KEY, DEFAULT_PIN);
+        }
+
+        if (sessionStorage.getItem("nike_manager_unlocked") === "true") {
+          isManager = true;
+        }
+
+        initEmployeeChips();
+        loadTasks();
+        updateManagerBadge();
+        renderTasks();
+        scanOverdueOrdersStatus();
+      });
+
+      function loadTasks() {
+        const saved = localStorage.getItem("nike_tasks");
+        if (saved) {
+          try {
+            tasks = JSON.parse(saved);
+            if (!Array.isArray(tasks)) tasks = [];
+          } catch (e) {
+            tasks = [];
+          }
+        } else {
+          tasks = [];
+        }
+      }
+
+      function saveTasks() {
+        localStorage.setItem("nike_tasks", JSON.stringify(tasks));
+      }
+
+      /* --- Horizon Switcher --- */
+      function switchHorizon(horizon) {
+        currentHorizon = horizon;
+        document.getElementById("segWeek").className = "segment-btn " + (horizon === "week" ? "active" : "");
+        document.getElementById("segMonth").className = "segment-btn " + (horizon === "month" ? "active" : "");
+        document.getElementById("segAll").className = "segment-btn " + (horizon === "all" ? "active" : "");
+        renderTasks();
+      }
+
+      /* --- Manager Mode PIN Logic --- */
+      function updateManagerBadge() {
+        const btn = document.getElementById("btnPinLock");
+        const txt = document.getElementById("pinLockText");
+        if (isManager) {
+          btn.className = "btn btn-pin-unlocked";
+          txt.textContent = "🔓 Manager Mode";
+          btn.title = "Click to lock manager mode";
+        } else {
+          btn.className = "btn btn-pin-lock";
+          txt.textContent = "🔒 Staff Mode";
+          btn.title = "Click to enter PIN for manager permissions";
+        }
+      }
+
+      function handlePinToggleClick() {
+        if (isManager) {
+          isManager = false;
+          sessionStorage.removeItem("nike_manager_unlocked");
+          updateManagerBadge();
+          renderTasks();
+          showToast("Manager mode locked. Staff execution active.", "info");
+        } else {
+          promptPin(() => {
+            showToast("Manager unlocked!", "success");
+          });
+        }
+      }
+
+      function promptPin(onSuccessCallback) {
+        actionAfterPin = onSuccessCallback;
+        document.getElementById("pinInput").value = "";
+        openModal("pinModal");
+        setTimeout(() => document.getElementById("pinInput").focus(), 100);
+      }
+
+      function submitPinVerification() {
+        const entered = document.getElementById("pinInput").value.trim();
+        const stored = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+
+        if (entered === stored) {
+          isManager = true;
+          sessionStorage.setItem("nike_manager_unlocked", "true");
+          updateManagerBadge();
+          closeModal("pinModal");
+          renderTasks();
+
+          if (typeof actionAfterPin === "function") {
+            actionAfterPin();
+            actionAfterPin = null;
+          }
+        } else {
+          showToast("Incorrect PIN (Default: 2026)", "error");
+          document.getElementById("pinInput").value = "";
+          document.getElementById("pinInput").focus();
+        }
+      }
+
+      function openChangePinModal() {
+        closeModal("pinModal");
+        document.getElementById("currPin").value = "";
+        document.getElementById("nextPin").value = "";
+        openModal("changePinModal");
+      }
+
+      function submitNewPin() {
+        const curr = document.getElementById("currPin").value.trim();
+        const next = document.getElementById("nextPin").value.trim();
+        const stored = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+
+        if (curr !== stored) {
+          showToast("Current PIN is incorrect.", "error");
+          return;
+        }
+
+        if (!next || next.length < 4) {
+          showToast("New PIN must be at least 4 digits.", "error");
+          return;
+        }
+
+        localStorage.setItem(PIN_KEY, next);
+        isManager = true;
+        sessionStorage.setItem("nike_manager_unlocked", "true");
+        updateManagerBadge();
+        closeModal("changePinModal");
+        showToast("Manager PIN successfully updated!", "success");
+      }
+
+      /* --- Multi-Employee Chips Picker in Modal --- */
+      function initEmployeeChips() {
+        const container = document.getElementById("employeePickerChips");
+        container.innerHTML = STORE_EMPLOYEES.map((name) => {
+          return `<span class="emp-select-chip" id="empChip-${name.replace(/\s+/g, '')}" onclick="toggleEmployeeSelection('${name}')">${name}</span>`;
+        }).join("");
+      }
+
+      function toggleEmployeeSelection(name) {
+        const chipId = `empChip-${name.replace(/\s+/g, '')}`;
+        const chip = document.getElementById(chipId);
+
+        if (selectedEmployeesForModal.includes(name)) {
+          selectedEmployeesForModal = selectedEmployeesForModal.filter((n) => n !== name);
+          if (chip) chip.classList.remove("selected");
+        } else {
+          selectedEmployeesForModal.push(name);
+          if (chip) chip.classList.add("selected");
+        }
+      }
+
+      function setEmployeeSelectionInModal(employeeList) {
+        selectedEmployeesForModal = [...employeeList];
+        STORE_EMPLOYEES.forEach((name) => {
+          const chipId = `empChip-${name.replace(/\s+/g, '')}`;
+          const chip = document.getElementById(chipId);
+          if (chip) {
+            if (selectedEmployeesForModal.includes(name)) {
+              chip.classList.add("selected");
+            } else {
+              chip.classList.remove("selected");
+            }
+          }
+        });
+      }
+
+      /* --- Task Creation & Edit Modal --- */
+      function openCreateTaskModal() {
+        if (!isManager) {
+          promptPin(() => openCreateTaskModal());
+          return;
+        }
+
+        document.getElementById("modalTitleText").textContent = "Create Operations Task";
+        document.getElementById("editTaskId").value = "";
+        document.getElementById("taskTitle").value = "";
+        document.getElementById("taskDesc").value = "";
+        document.getElementById("taskBranch").value = "Main";
+        document.getElementById("taskHorizon").value = currentHorizon === "all" ? "week" : currentHorizon;
+
+        // Default due date: tomorrow
+        const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
+        document.getElementById("taskDueDate").value = tomorrow;
+        document.getElementById("taskPriority").value = "normal";
+
+        setEmployeeSelectionInModal(["Maya Khoury"]);
+        openModal("taskModal");
+      }
+
+      function openEditTaskModal(id) {
+        if (!isManager) {
+          promptPin(() => openEditTaskModal(id));
+          return;
+        }
+
+        const task = tasks.find((t) => t.id === id);
+        if (!task) return;
+
+        document.getElementById("modalTitleText").textContent = "Edit Operations Task";
+        document.getElementById("editTaskId").value = task.id;
+        document.getElementById("taskTitle").value = task.title;
+        document.getElementById("taskDesc").value = task.description || "";
+        document.getElementById("taskBranch").value = task.branch || "Main";
+        document.getElementById("taskHorizon").value = task.horizon || "week";
+        document.getElementById("taskDueDate").value = task.dueDate || "";
+        document.getElementById("taskPriority").value = task.priority || "normal";
+
+        setEmployeeSelectionInModal(task.employees || []);
+        openModal("taskModal");
+      }
+
+      function handleTaskSubmit(e) {
+        e.preventDefault();
+        const editId = document.getElementById("editTaskId").value;
+
+        if (selectedEmployeesForModal.length === 0) {
+          showToast("Please select at least one employee for the task.", "error");
+          return;
+        }
+
+        const title = document.getElementById("taskTitle").value.trim();
+        const desc = document.getElementById("taskDesc").value.trim();
+        const branch = document.getElementById("taskBranch").value;
+        const horizon = document.getElementById("taskHorizon").value;
+        const dueDate = document.getElementById("taskDueDate").value;
+        const priority = document.getElementById("taskPriority").value;
+
+        if (editId) {
+          const idx = tasks.findIndex((t) => t.id === editId);
+          if (idx !== -1) {
+            tasks[idx].title = title;
+            tasks[idx].description = desc;
+            tasks[idx].branch = branch;
+            tasks[idx].horizon = horizon;
+            tasks[idx].dueDate = dueDate;
+            tasks[idx].priority = priority;
+            tasks[idx].employees = [...selectedEmployeesForModal];
+            showToast("Task updated!", "success");
+          }
+        } else {
+          // Automatic current creation date!
+          const todayStr = new Date().toISOString().split("T")[0];
+
+          const newTask = {
+            id: "TASK-" + String(Date.now()).slice(-5),
+            title: title,
+            description: desc,
+            branch: branch,
+            horizon: horizon,
+            createdAt: todayStr, // Non-editable initialization date
+            dueDate: dueDate,
+            priority: priority,
+            employees: [...selectedEmployeesForModal],
+            done: false
+          };
+          tasks.unshift(newTask);
+          showToast("Operations task created!", "success");
+        }
+
+        saveTasks();
+        closeModal("taskModal");
+        renderTasks();
+      }
+
+      function deleteTask(id) {
+        if (!isManager) {
+          promptPin(() => deleteTask(id));
+          return;
+        }
+
+        const task = tasks.find((t) => t.id === id);
+        const taskTitle = task ? task.title : "this task card";
+        const textEl = document.getElementById("confirmDeleteTaskText");
+        if (textEl) {
+          textEl.innerHTML = `Are you sure you want to remove <strong>${escapeHtml(taskTitle)}</strong>? This task will be removed from your duty board.`;
+        }
+        const confirmBtn = document.getElementById("btnConfirmDeleteTask");
+        if (confirmBtn) {
+          confirmBtn.onclick = function () {
+            closeModal("confirmDeleteTaskModal");
+            tasks = tasks.filter((t) => t.id !== id);
+            saveTasks();
+            renderTasks();
+            showToast("Task removed.", "info");
+          };
+        }
+        openModal("confirmDeleteTaskModal");
+      }
+
+      function toggleTaskDone(id) {
+        const task = tasks.find((t) => t.id === id);
+        if (!task) return;
+
+        task.done = !task.done;
+        saveTasks();
+        renderTasks();
+
+        if (task.done) {
+          showToast("Task completed! Good job.", "success");
+        }
+      }
+
+      function toggleCompletedSection() {
+        showCompleted = !showCompleted;
+        const grid = document.getElementById("completedCardsGrid");
+        const arrow = document.getElementById("completedArrow");
+        if (grid) grid.style.display = showCompleted ? "grid" : "none";
+        if (arrow) arrow.textContent = showCompleted ? "▼" : "▶";
+      }
+
+      /* --- High-Impact Smart Auto-Sync --- */
+      function scanOverdueOrdersStatus() {
+        let orders = [];
+        try {
+          orders = JSON.parse(localStorage.getItem("orders")) || [];
+        } catch (e) {
+          orders = [];
+        }
+
+        const today = new Date();
+        let overdueCount = 0;
+
+        orders.forEach((o) => {
+          if (o.status === "Arrived" && o.arrivalDate) {
+            const arr = new Date(o.arrivalDate + "T00:00:00");
+            const diffHours = (today - arr) / (1000 * 60 * 60);
+            if (diffHours >= 48) overdueCount++;
+          }
+        });
+
+        const badge = document.getElementById("syncBadgeCount");
+        const subtitle = document.getElementById("syncStatusSubtitle");
+
+        if (overdueCount > 0) {
+          badge.textContent = `${overdueCount} Overdue Orders Detected`;
+          badge.style.background = "rgba(239, 68, 68, 0.2)";
+          badge.style.color = "#ef4444";
+          subtitle.textContent = `Found ${overdueCount} orders received from other branches waiting on hold >48h here at Main Branch for customer pickup. Click Sync to convert to tasks.`;
+        } else {
+          badge.textContent = "All Clear (0 Overdue)";
+          badge.style.background = "rgba(16, 185, 129, 0.2)";
+          badge.style.color = "#10b981";
+          subtitle.textContent = "No overdue customer holds at Main Branch.";
+        }
+      }
+
+      function syncOverdueOrdersToTasks() {
+        let orders = [];
+        try {
+          orders = JSON.parse(localStorage.getItem("orders")) || [];
+        } catch (e) {
+          orders = [];
+        }
+
+        if (orders.length === 0) {
+          showToast("No orders found in local storage to sync.", "error");
+          return;
+        }
+
+        const today = new Date();
+        const todayStr = today.toISOString().split("T")[0];
+        let addedCount = 0;
+
+        orders.forEach((order) => {
+          if (order.status === "Arrived" && order.arrivalDate) {
+            const arr = new Date(order.arrivalDate + "T00:00:00");
+            const diffHours = (today - arr) / (1000 * 60 * 60);
+
+            if (diffHours >= 48) {
+              const exists = tasks.some((t) => t.orderRef === order.id);
+              if (!exists) {
+                const assignedStaff = order.employee ? [order.employee] : ["Maya Khoury"];
+                const sourceBranchText = order.branch ? ` (received from ${order.branch})` : "";
+
+                tasks.unshift({
+                  id: "TASK-" + String(Date.now()).slice(-5) + Math.floor(Math.random() * 100),
+                  title: `Overdue Hold: Follow up ${order.customerName} (${order.itemNumber})`,
+                  description: `Order ${order.id}${sourceBranchText} arrived ${Math.floor(diffHours / 24)} days ago and is currently on hold here at Main Branch for customer pickup. Contact customer via phone/WhatsApp.`,
+                  horizon: "week",
+                  createdAt: todayStr, // Automatic
+                  dueDate: todayStr,
+                  branch: "Main",
+                  sourceBranch: order.branch || "",
+                  priority: "urgent",
+                  employees: assignedStaff,
+                  done: false,
+                  orderRef: order.id,
+                  customerPhone: order.phoneNumber || ""
+                });
+                addedCount++;
+              }
+            }
+          }
+        });
+
+        if (addedCount > 0) {
+          saveTasks();
+          renderTasks();
+          scanOverdueOrdersStatus();
+          showToast(`Synced! Added ${addedCount} urgent tasks from store orders.`, "success");
+        } else {
+          showToast("All overdue orders are already tracked as cards!", "info");
+        }
+      }
+
+      /* --- Card Renderer --- */
+      function renderTasks() {
+        const query = document.getElementById("taskSearchInput").value.toLowerCase().trim();
+        const activeGrid = document.getElementById("activeCardsGrid");
+        const completedGrid = document.getElementById("completedCardsGrid");
+        const completedContainer = document.getElementById("completedContainer");
+
+        // Filter by horizon
+        const filtered = tasks.filter((t) => {
+          if (currentHorizon === "week" && t.horizon !== "week") return false;
+          if (currentHorizon === "month" && t.horizon !== "month") return false;
+
+          if (query) {
+            const matchTitle = t.title.toLowerCase().includes(query);
+            const matchDesc = (t.description || "").toLowerCase().includes(query);
+            const matchBranch = (t.branch || "").toLowerCase().includes(query);
+            const matchEmployees = (t.employees || []).some((e) => e.toLowerCase().includes(query));
+            if (!matchTitle && !matchDesc && !matchBranch && !matchEmployees) return false;
+          }
+          return true;
+        });
+
+        const activeTasks = filtered.filter((t) => !t.done);
+        const completedTasks = filtered.filter((t) => t.done);
+
+        // Sort active tasks according to selected order
+        const sortSelect = document.getElementById("taskSortSelect");
+        const sortOrder = sortSelect ? sortSelect.value : "priority";
+        const todayStr = new Date().toISOString().split("T")[0];
+
+        activeTasks.sort((a, b) => {
+          if (sortOrder === "priority") {
+            const aOverdue = (!a.done && a.dueDate && a.dueDate < todayStr) ? 1 : 0;
+            const bOverdue = (!b.done && b.dueDate && b.dueDate < todayStr) ? 1 : 0;
+            if (aOverdue !== bOverdue) return bOverdue - aOverdue;
+
+            const aUrgent = a.priority === "urgent" ? 1 : 0;
+            const bUrgent = b.priority === "urgent" ? 1 : 0;
+            if (aUrgent !== bUrgent) return bUrgent - aUrgent;
+
+            if (a.dueDate && b.dueDate) return a.dueDate.localeCompare(b.dueDate);
+            if (a.dueDate) return -1;
+            if (b.dueDate) return 1;
+            return (b.id || "").localeCompare(a.id || "");
+          } else if (sortOrder === "dueDate") {
+            if (a.dueDate && b.dueDate) return a.dueDate.localeCompare(b.dueDate);
+            if (a.dueDate) return -1;
+            if (b.dueDate) return 1;
+            return 0;
+          } else if (sortOrder === "newest") {
+            return (b.createdAt || "").localeCompare(a.createdAt || "") || (b.id || "").localeCompare(a.id || "");
+          } else if (sortOrder === "oldest") {
+            return (a.createdAt || "").localeCompare(b.createdAt || "") || (a.id || "").localeCompare(b.id || "");
+          } else if (sortOrder === "title") {
+            return (a.title || "").localeCompare(b.title || "");
+          }
+          return 0;
+        });
+
+        // Counts
+        const weekCount = tasks.filter((t) => t.horizon === "week" && !t.done).length;
+        const monthCount = tasks.filter((t) => t.horizon === "month" && !t.done).length;
+        const allCount = tasks.filter((t) => !t.done).length;
+
+        document.getElementById("countWeek").textContent = weekCount;
+        document.getElementById("countMonth").textContent = monthCount;
+        document.getElementById("countAll").textContent = allCount;
+        document.getElementById("completedCountNum").textContent = completedTasks.length;
+
+        // Render Active Cards
+        if (activeTasks.length === 0) {
+          activeGrid.innerHTML = `
+            <div class="empty-cards">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+              <h3>No Active Tasks</h3>
+              <p>Everything in this horizon is completed or clear. Click "+ Add Task" to assign work.</p>
+            </div>
+          `;
+        } else {
+          activeGrid.innerHTML = activeTasks.map((t) => renderSingleCard(t)).join("");
+        }
+
+        // Render Completed Cards
+        if (completedTasks.length > 0) {
+          completedContainer.style.display = "block";
+          completedGrid.innerHTML = completedTasks.map((t) => renderSingleCard(t)).join("");
+        } else {
+          completedContainer.style.display = "none";
+        }
+      }
+
+      function renderSingleCard(task) {
+        const todayStr = new Date().toISOString().split("T")[0];
+        const isOverdue = !task.done && task.dueDate && task.dueDate < todayStr;
+        const formattedDue = formatFriendlyDate(task.dueDate);
+        const formattedCreated = formatFriendlyDate(task.createdAt);
+
+        const employeesList = task.employees && task.employees.length > 0
+          ? task.employees
+          : ["Store Team"];
+
+        return `
+          <div class="task-card priority-${task.priority} ${task.done ? "is-done" : ""}" id="card-${task.id}">
+            <div>
+              <!-- Header Row -->
+              <div class="card-header-row">
+                <div class="card-badges-group">
+                  <span class="card-badge">
+                    ${task.horizon === "week" ? "This Week" : "This Month"}
+                  </span>
+                  ${task.priority === "urgent" ? `<span class="card-badge badge-urgent-subtle">• Urgent</span>` : ""}
+                  <span class="card-badge">📍 ${escapeHtml(task.branch || "Main")}</span>
+                  ${task.sourceBranch && task.sourceBranch !== "Main" ? `<span class="card-badge">📦 Sourced: ${escapeHtml(task.sourceBranch)}</span>` : ""}
+                  ${task.orderRef ? `<a href="index.html" class="card-badge badge-order-ref" title="View linked order in Dashboard">📦 Order #${escapeHtml(task.orderRef)} ↗</a>` : ""}
+                </div>
+
+                <div class="card-header-actions">
+                  <button class="btn-card-action" onclick="openEditTaskModal('${task.id}')" title="Edit Task">✏️</button>
+                  <button class="btn-card-action delete" onclick="deleteTask('${task.id}')" title="Delete Task">🗑️</button>
+                </div>
+              </div>
+
+              <!-- Title & Checkbox -->
+              <div class="card-main-row">
+                <input
+                  type="checkbox"
+                  class="card-checkbox"
+                  ${task.done ? "checked" : ""}
+                  onchange="toggleTaskDone('${task.id}')"
+                  title="Check to mark completed"
+                />
+                <div class="task-card-title">${escapeHtml(task.title)}</div>
+              </div>
+
+              <!-- Task Description -->
+              <div class="task-card-desc">
+                ${escapeHtml(task.description || "No description provided.")}
+              </div>
+
+              <!-- List of Assigned Employees -->
+              <div class="card-employees-section">
+                <span class="employees-label">Assigned Staff (${employeesList.length})</span>
+                <div class="employees-chips-wrap">
+                  ${employeesList.map((emp) => `
+                    <div class="employee-chip">
+                      <span class="employee-avatar-dot">${emp.charAt(0).toUpperCase()}</span>
+                      <span>${escapeHtml(emp)}</span>
+                    </div>
+                  `).join("")}
+                </div>
+              </div>
+
+              ${task.customerPhone ? `
+                <div style="padding-left:2.1rem;margin-bottom:0.75rem;">
+                  <a href="https://wa.me/961${task.customerPhone.replace(/\D/g, '')}" target="_blank" class="btn" style="background:#25d366;color:#fff;font-size:0.72rem;padding:0.25rem 0.65rem;text-decoration:none;">
+                    💬 WhatsApp Customer
+                  </a>
+                </div>
+              ` : ""}
+            </div>
+
+            <!-- Card Footer: Non-editable Creation Date & Due Date -->
+            <div class="card-dates-footer">
+              <span class="card-date-created">
+                Added: ${formattedCreated || "Today"}
+              </span>
+              <span class="card-date-due ${isOverdue ? "overdue" : ""}">
+                📅 Due: ${isOverdue ? "⚠️ Overdue (" + formattedDue + ")" : formattedDue}
+              </span>
+            </div>
+          </div>
+        `;
+      }
+
+      function formatFriendlyDate(dateStr) {
+        if (!dateStr) return "Today";
+        const today = new Date().toISOString().split("T")[0];
+        const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
+
+        if (dateStr === today) return "Today";
+        if (dateStr === tomorrow) return "Tomorrow";
+
+        const parts = dateStr.split("-");
+        if (parts.length === 3) {
+          const m = parseInt(parts[1], 10);
+          const d = parseInt(parts[2], 10);
+          const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          return `${months[m - 1]} ${d}`;
+        }
+        return dateStr;
+      }
+
+      /* --- Modal & UI Helpers --- */
+      function openModal(id) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = "flex";
+      }
+
+      function closeModal(id) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = "none";
+      }
+
+      function showToast(msg, type = "info") {
+        let container = document.getElementById("toastContainer");
+        if (!container) {
+          container = document.createElement("div");
+          container.className = "toast-container";
+          container.id = "toastContainer";
+          document.body.appendChild(container);
+        }
+        const toast = document.createElement("div");
+        const typeClass = type === "danger" ? "error" : type;
+        toast.className = `toast ${typeClass}`;
+        toast.textContent = msg;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          setTimeout(() => toast.remove(), 250);
+        }, 2800);
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+    </script>
+    <!-- Floating Store Copilot Chatbot -->
+    <script src="chatbot.js"></script>
+  </body>
+</html>

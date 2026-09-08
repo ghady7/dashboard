@@ -1,0 +1,247 @@
+/* ==========================================================================
+   NIKE SMOOTH PAGE TRANSITIONS & FIXED NAVIGATION SYSTEM
+   ========================================================================== */
+
+/* 1. Native Cross-Document View Transitions (Chrome / Edge) */
+@view-transition {
+  navigation: auto;
+}
+
+.app-header {
+  view-transition-name: app-header;
+}
+
+::view-transition-group(app-header) {
+  animation: none;
+}
+
+::view-transition-old(root) {
+  animation: 0.12s ease-out both pageViewFadeOut;
+}
+
+::view-transition-new(root) {
+  animation: 0.22s cubic-bezier(0.2, 0, 0.2, 1) both pageViewFadeIn;
+}
+
+@keyframes pageViewFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0.1; }
+}
+
+@keyframes pageViewFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 2. Silky-Smooth Universal Page Entrance & Exit Fade */
+@keyframes pageSmoothFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition-content {
+  animation: pageSmoothFadeIn 0.25s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+  will-change: opacity;
+}
+
+.page-transition-content.page-exiting {
+  opacity: 0.15 !important;
+  transition: opacity 0.08s ease-out !important;
+}
+
+/* 3. Universal Navigation Header Lock (Zero button shift between pages) */
+body {
+  padding: 1.5rem 2rem !important;
+}
+
+.app-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1.25rem 1.5rem !important;
+  background-color: var(--bg-surface) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-lg, 14px) !important;
+  box-shadow: var(--shadow-sm) !important;
+  margin-bottom: 1.5rem !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  gap: 1.25rem !important;
+}
+
+.brand-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1.25rem !important;
+  flex-shrink: 0 !important;
+}
+
+.brand-logo-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  line-height: 0 !important;
+  outline: none !important;
+  cursor: pointer !important;
+  border-radius: 6px !important;
+}
+
+.brand-logo-link:focus-visible {
+  outline: 2px solid var(--nike-orange, #ff5500) !important;
+  outline-offset: 3px !important;
+}
+
+.nike-logo-svg {
+  width: 64px !important;
+  height: auto !important;
+  fill: var(--text-primary, #ffffff) !important;
+  color: var(--text-primary, #ffffff) !important;
+  flex-shrink: 0 !important;
+  display: block !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 6px rgba(255, 85, 0, 0.25)) !important;
+  animation: swooshEntrance 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both,
+             swooshAmbientPulse 4s ease-in-out infinite 1s !important;
+  transform-origin: 35% 50% !important;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              filter 0.3s ease,
+              fill 0.25s ease !important;
+}
+
+.brand-logo-link:hover .nike-logo-svg,
+.nike-logo-svg:hover {
+  transform: scale(1.08) rotate(-3deg) translateY(-1px) !important;
+  fill: #ffffff !important;
+  filter: drop-shadow(0 0 14px rgba(255, 85, 0, 0.8))
+          drop-shadow(0 0 24px rgba(255, 85, 0, 0.35))
+          drop-shadow(0 3px 6px rgba(0, 0, 0, 0.6)) !important;
+}
+
+.brand-logo-link:active .nike-logo-svg,
+.nike-logo-svg:active {
+  transform: scale(0.96) rotate(-1.5deg) !important;
+  filter: drop-shadow(0 0 8px rgba(255, 85, 0, 0.9)) !important;
+  transition: transform 0.08s ease-out !important;
+}
+
+@keyframes swooshEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(-8px) scale(0.92);
+  }
+  65% {
+    opacity: 1;
+    transform: translateX(1px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes swooshAmbientPulse {
+  0%, 100% {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 6px rgba(255, 85, 0, 0.25));
+  }
+  50% {
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 12px rgba(255, 85, 0, 0.5));
+  }
+}
+
+.brand-info {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.brand-info h1 {
+  font-family: "Big Shoulders", "Poppins", sans-serif !important;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  color: var(--text-primary) !important;
+  line-height: 1.1 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+.brand-subtitle {
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  color: var(--text-secondary) !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+.header-controls {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 0.65rem !important;
+  flex-shrink: 0 !important;
+}
+
+.header-controls .btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.45rem !important;
+  padding: 0.6rem 1.15rem !important;
+  border-radius: var(--radius-pill, 9999px) !important;
+  font-size: 0.86rem !important;
+  font-weight: 600 !important;
+  font-family: inherit !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  border: 1px solid var(--border-subtle) !important;
+  height: 38px !important;
+  box-sizing: border-box !important;
+  line-height: 1 !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease !important;
+}
+
+.header-controls .btn svg {
+  width: 15px !important;
+  height: 15px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Active Navigation Tab Highlight */
+.header-controls .btn-secondary.active {
+  background-color: rgba(255, 85, 0, 0.12) !important;
+  border-color: var(--nike-orange, #ff5500) !important;
+  color: var(--nike-orange, #ff5500) !important;
+  box-shadow: 0 0 10px rgba(255, 85, 0, 0.2) !important;
+}
+
+.header-controls .btn-nike.active {
+  background-color: var(--nike-orange, #ff5500) !important;
+  color: #ffffff !important;
+  border-color: var(--nike-orange, #ff5500) !important;
+  box-shadow: 0 4px 14px rgba(255, 85, 0, 0.45) !important;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  .page-transition-content,
+  .page-transition-content.page-exiting {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

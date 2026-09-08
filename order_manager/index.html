@@ -3,488 +3,2373 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nike Order Management System | Lebanon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,700..900&family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>Nike Customer Order</title>
     <link rel="stylesheet" href="index.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="transitions.css" />
+    <script src="transitions.js"></script>
+    <!-- SheetJS for clean, on-demand Excel export with offline support -->
+    <script src="xlsx.full.min.js"></script>
+    <script>
+      if (typeof XLSX === "undefined") {
+        document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"><\/script>');
+      }
+    </script>
+
+    <style>
+      .toolbar-date-pills { display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap; padding:0.5rem 1.25rem; border-top:1px solid var(--border-subtle); }
+      .date-pill-btn { padding:0.28rem 0.75rem; border-radius:20px; border:1px solid var(--border-subtle); background:transparent; color:var(--text-secondary); font-size:0.78rem; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.15s ease; }
+      .date-pill-btn:hover { border-color:var(--nike-orange); color:var(--nike-orange); }
+      .date-pill-btn.active { background:var(--nike-orange); color:#fff; border-color:var(--nike-orange); }
+      
+      /* Custom Date Range Pill Container & Inputs (Identical to Analytics) */
+      .custom-date-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        background-color: var(--bg-card);
+        padding: 0.22rem 0.75rem;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border-subtle);
+        margin-left: 0.25rem;
+        transition: border-color 0.15s ease;
+      }
+      .custom-date-container:hover,
+      .custom-date-container:focus-within {
+        border-color: var(--nike-orange);
+      }
+      .date-input-field {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        font-family: inherit;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color-scheme: dark;
+        outline: none;
+        cursor: pointer;
+        padding: 0 2px;
+      }
+      .date-input-field::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        filter: invert(0.85);
+        opacity: 0.85;
+        transition: opacity 0.15s ease;
+      }
+      .date-input-field::-webkit-calendar-picker-indicator:hover {
+        opacity: 1;
+      }
+
+      .bulk-action-bar { display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; padding:0.6rem 1.25rem; background:rgba(255,85,0,0.07); border-top:1px solid rgba(255,85,0,0.2); border-bottom:1px solid rgba(255,85,0,0.2); }
+      
+      /* Modern Custom Nike Checkbox */
+      .row-checkbox,
+      #selectAllCheckbox {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 19px;
+        height: 19px;
+        border: 1.5px solid rgba(255, 255, 255, 0.28);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.04);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        vertical-align: middle;
+        margin: 0 auto;
+        transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+        outline: none;
+        box-sizing: border-box;
+      }
+
+      .row-checkbox:hover,
+      #selectAllCheckbox:hover {
+        border-color: var(--nike-orange);
+        background-color: rgba(255, 85, 0, 0.12);
+        box-shadow: 0 0 8px rgba(255, 85, 0, 0.35);
+        transform: scale(1.08);
+      }
+
+      .row-checkbox:checked,
+      #selectAllCheckbox:checked {
+        background-color: var(--nike-orange);
+        border-color: var(--nike-orange);
+        box-shadow: 0 2px 8px rgba(255, 85, 0, 0.45);
+      }
+
+      .row-checkbox:checked::after,
+      #selectAllCheckbox:checked::after {
+        content: "";
+        width: 5px;
+        height: 10px;
+        border: solid #ffffff;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        margin-top: -2px;
+      }
+
+      #selectAllCheckbox:indeterminate {
+        background-color: var(--nike-orange);
+        border-color: var(--nike-orange);
+        box-shadow: 0 2px 8px rgba(255, 85, 0, 0.45);
+      }
+
+      #selectAllCheckbox:indeterminate::after {
+        content: "";
+        width: 9px;
+        height: 2.5px;
+        background-color: #ffffff;
+        border-radius: 1px;
+      }
+
+      /* Highlight Selected Table Row */
+      tr.row-selected {
+        background: rgba(255, 85, 0, 0.08) !important;
+      }
+      tr.row-selected td:first-child {
+        position: relative;
+      }
+      tr.row-selected td:first-child::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--nike-orange);
+        border-radius: 0 2px 2px 0;
+      }
+    </style>
   </head>
   <body>
-    <header>
-      <h1>Customer Order</h1>
-      <button
-        id="themeToggle"
-        style="position: absolute; top: 20px; right: 20px"
-      >
-        🌙
-      </button>
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <a href="index.html" class="brand-logo-link" title="Nike Order Operations">
+          <svg class="nike-logo-svg" viewBox="135.5 361.38 1000 356.39" aria-label="Nike Swoosh Logo" role="img">
+            <path d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z"/>
+          </svg>
+        </a>
+        <div class="brand-info">
+          <h1>NIKE <span class="highlight">ORDERS</span></h1>
+          <div class="brand-subtitle">Retail Operations & Customer Dispatch • Lebanon</div>
+        </div>
+      </div>
+      <div class="header-controls">
+        <a href="index.html" class="btn btn-secondary active" title="View Orders Dashboard">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Dashboard
+        </a>
+        <a href="todo.html" class="btn btn-secondary" title="View Operations Tasks & Objectives">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM17.99 9l-1.41-1.42-6.59 6.59-2.58-2.57-1.42 1.41 4 4z"/></svg>
+          To-Do Tasks
+        </a>
+        <a href="analytics.html" class="btn btn-secondary" title="View Operations Analytics & Reports">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path fill="currentColor" d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+          Analytics
+        </a>
+        <a href="add_order.html" class="btn btn-nike" title="Register New Customer Order">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          Add Order
+        </a>
+      </div>
     </header>
-    <div class="search-container">
-      <div>
-        <label for="search">Search Orders:</label>
-        <input
-          type="text"
-          id="search"
-          onkeyup="searchOrders()"
-          placeholder="Search orders..."
-        />
+
+    <div class="page-transition-content">
+      <!-- KPI Metrics Cards -->
+      <section class="metrics-grid" id="metricsGrid">
+      <div class="metric-card">
+        <div class="metric-icon-wrap metric-icon-all">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path fill="currentColor" d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+        </div>
+        <div class="metric-details">
+          <span class="metric-value" id="metricTotal">0</span>
+          <span class="metric-label" id="metricTotalLabel">Total Orders</span>
+        </div>
       </div>
-      <a href="add_order.html" class="add-order-button">Add Order</a>
+      <div class="metric-card">
+        <div class="metric-icon-wrap metric-icon-pending">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
+        </div>
+        <div class="metric-details">
+          <span class="metric-value" id="metricPending">0</span>
+          <span class="metric-label" id="metricPendingLabel">Pending Orders</span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon-wrap metric-icon-arrived">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.1.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2zm-2 11l-4-4 1.41-1.41L12 14.17l6.59-6.59L20 9l-8 8z"/></svg>
+        </div>
+        <div class="metric-details">
+          <span class="metric-value" id="metricArrived">0</span>
+          <span class="metric-label" id="metricArrivedLabel">Ready for Pickup</span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon-wrap metric-icon-unpicked">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        </div>
+        <div class="metric-details">
+          <span class="metric-value" id="metricUnpicked">0</span>
+          <span class="metric-label">Unpicked Orders</span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon-wrap metric-icon-sms">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+        </div>
+        <div class="metric-details">
+          <span class="metric-value" id="metricSmsSent">0</span>
+          <span class="metric-label">WhatsApp Dispatched</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toolbar & Action Center -->
+    <section class="toolbar-container">
+      <div class="toolbar-primary">
+        <div class="search-box-wrapper">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input
+            type="text"
+            id="search"
+            class="search-input"
+            oninput="handleSearch()"
+            placeholder="Search by customer, phone, Nike style code, employee..."
+          />
+        </div>
+
+        <div class="toolbar-actions">
+          <button class="btn btn-secondary" onclick="exportExcelFile()" title="Export orders to Excel workbook (.xlsx)">
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Excel
+          </button>
+          <button class="btn btn-secondary" onclick="exportCsvFile()" title="Export orders to CSV format">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            CSV
+          </button>
+          <button class="btn btn-secondary" onclick="backupJsonData()" title="Download full JSON database backup">
+            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+            Backup
+          </button>
+          <label class="btn btn-secondary" style="cursor: pointer;" title="Restore orders from a JSON backup file">
+            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+            Restore
+            <input type="file" id="restoreFileInput" accept=".json" style="display: none;" onchange="handleJsonRestore(event)" />
+          </label>
+        </div>
+      </div>
+
+      <!-- Secondary Filter Bar -->
+      <div class="toolbar-filters">
+        <div class="filter-group">
+          <span class="filter-label">Type:</span>
+          <select id="orderTypeFilter" class="filter-select" onchange="applyFilters()">
+            <option value="customer" selected>Customer Orders (Pure KPIs)</option>
+            <option value="ALL">All (Orders & Store Support)</option>
+            <option value="store_support">Store Support Only</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Branch:</span>
+          <select id="branchFilter" class="filter-select" onchange="applyFilters()">
+            <option value="ALL">All Branches</option>
+            <option value="Souks">Souks</option>
+            <option value="ABC Verdun">ABC Verdun</option>
+            <option value="ABC Ash">ABC Ash</option>
+            <option value="BCC">BCC</option>
+            <option value="ABC Dbayeh">ABC Dbayeh</option>
+            <option value="Dbayeh Highway">Dbayeh Highway</option>
+            <option value="Ghazir">Ghazir</option>
+            <option value="Tripoli">Tripoli</option>
+            <option value="Gs">Gs</option>
+            <option value="Warehouse">Warehouse</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Category:</span>
+          <select id="categoryFilter" class="filter-select" onchange="applyFilters()">
+            <option value="ALL">All Categories</option>
+            <option value="Footwear - Lifestyle & Retro">Footwear - Lifestyle & Retro</option>
+            <option value="Footwear - Running">Footwear - Running</option>
+            <option value="Footwear - Basketball">Footwear - Basketball</option>
+            <option value="Footwear - Training & Gym">Footwear - Training & Gym</option>
+            <option value="Footwear - Football / Soccer">Footwear - Football / Soccer</option>
+            <option value="Apparel - Tops & Hoodies">Apparel - Tops & Hoodies</option>
+            <option value="Apparel - Pants & Shorts">Apparel - Pants & Shorts</option>
+            <option value="Accessories & Equipment">Accessories & Equipment</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Status:</span>
+          <select id="statusFilter" class="filter-select" onchange="applyFilters()">
+            <option value="ALL">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Arrived">Ready for Pickup</option>
+            <option value="Collected">Collected</option>
+            <option value="Unpicked">Unpicked</option>
+            <option value="Requested">Requested (Support)</option>
+            <option value="Received">Received (Support)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Sort:</span>
+          <select id="sortOrder" class="filter-select" onchange="applyFilters()">
+            <option value="date-desc">Newest Orders First</option>
+            <option value="date-asc">Oldest Orders First</option>
+            <option value="name-asc">Customer Name (A-Z)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Show:</span>
+          <select id="pageSizeSelect" class="filter-select" onchange="changePageSize(this.value)">
+            <option value="15">15 rows</option>
+            <option value="30" selected>30 rows</option>
+            <option value="50">50 rows</option>
+            <option value="100">100 rows</option>
+            <option value="99999">Show All</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Date Quick-Filter Pills -->
+      <div class="toolbar-date-pills" id="toolbarDatePills">
+        <span class="filter-label">Date:</span>
+        <button class="date-pill-btn active" id="dpAll" onclick="setDashDateFilter('all')">All Time</button>
+        <button class="date-pill-btn" id="dpToday" onclick="setDashDateFilter('today')">Today</button>
+        <button class="date-pill-btn" id="dpYesterday" onclick="setDashDateFilter('yesterday')">Yesterday</button>
+        <button class="date-pill-btn" id="dp7d" onclick="setDashDateFilter('7d')">Last 7 Days</button>
+        <button class="date-pill-btn" id="dpThisMonth" onclick="setDashDateFilter('this_month')">This Month</button>
+        <button class="date-pill-btn" id="dpCustom" onclick="setDashDateFilter('custom')">Custom</button>
+        <div class="custom-date-container" id="dashCustomDateContainer" style="display:none;">
+          <span style="font-size:0.72rem;color:var(--text-muted);font-weight:600;">FROM:</span>
+          <input type="date" id="dashCustomStart" class="date-input-field" onclick="try{this.showPicker()}catch(e){}" onfocus="try{this.showPicker()}catch(e){}" onchange="handleDashCustomDate()" />
+          <span style="font-size:0.72rem;color:var(--text-muted);font-weight:600;">TO:</span>
+          <input type="date" id="dashCustomEnd" class="date-input-field" onclick="try{this.showPicker()}catch(e){}" onfocus="try{this.showPicker()}catch(e){}" onchange="handleDashCustomDate()" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Bulk Action Bar (shown when rows are selected) -->
+    <div class="bulk-action-bar" id="bulkActionBar" style="display:none;">
+      <span id="bulkSelectedCount" style="font-size:0.88rem;color:var(--text-secondary);font-weight:600;">0 selected</span>
+      <button class="btn btn-secondary" onclick="bulkMarkArrived()" style="padding:0.4rem 0.9rem;font-size:0.82rem;">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;"><path fill="currentColor" d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2zm-2 11l-4-4 1.41-1.41L12 14.17l6.59-6.59L20 9l-8 8z"/></svg>
+        Mark Arrived
+      </button>
+      <button class="btn btn-secondary" onclick="bulkMarkUnpicked()" style="padding:0.4rem 0.9rem;font-size:0.82rem;color:#ef4444;border-color:rgba(239,68,68,0.4);" title="Mark selected orders as Unpicked">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        Mark Unpicked
+      </button>
+      <button class="btn btn-secondary" onclick="bulkExportExcel()" style="padding:0.4rem 0.9rem;font-size:0.82rem;">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;"><path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        Export Selected
+      </button>
+      <button class="btn" style="background:var(--color-danger);color:#fff;padding:0.4rem 0.9rem;font-size:0.82rem;" onclick="bulkDelete()">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        Delete Selected
+      </button>
+      <button class="btn btn-secondary" onclick="clearBulkSelection()" style="padding:0.4rem 0.9rem;font-size:0.82rem;">✕ Clear</button>
     </div>
 
-    <div class="table-container">
-      <h2>Orders List</h2>
-      <table id="ordersTable">
-        <thead>
-          <tr>
-            <th class="order-id">Order ID</th>
-            <th>Order Date</th>
-            <th>Customer Name</th>
-            <th>Phone Number</th>
-            <th>Item Number</th>
-            <th>Color</th>
-            <th>Size</th>
-            <th>Description</th>
-            <th>Branch</th>
-            <th>Employee</th>
-            <th>Entered By</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div id="ordersPagination">
-        <button id="prevOrdersBtn" onclick="changeOrdersPage(-1)">
-          Previous
-        </button>
-        <span id="ordersPageNumbers"></span>
-        <button id="nextOrdersBtn" onclick="changeOrdersPage(1)">Next</button>
-      </div>
+    <!-- Navigation Tabs -->
+    <div class="view-tabs">
+      <button id="tabAllOrders" class="tab-btn active" onclick="switchViewTab('all')">
+        All Orders
+        <span class="tab-badge" id="tabCountAll">0</span>
+      </button>
+      <button id="tabArrivalDesk" class="tab-btn" onclick="switchViewTab('arrival')">
+        Arrival & Collection Desk
+        <span class="tab-badge" id="tabCountArrival">0</span>
+      </button>
+      <button id="tabOverdueDesk" class="tab-btn" onclick="switchViewTab('overdue')">
+        ⚠️ Overdue Holds (>48h)
+        <span class="tab-badge" id="tabCountOverdue" style="background:rgba(255,59,48,0.18);color:#ff453a;border-color:rgba(255,59,48,0.35);">0</span>
+      </button>
+      <button id="tabUnpickedDesk" class="tab-btn" onclick="switchViewTab('unpicked')">
+        🚫 Unpicked Orders
+        <span class="tab-badge" id="tabCountUnpicked" style="background:rgba(239,68,68,0.18);color:#ef4444;border-color:rgba(239,68,68,0.35);">0</span>
+      </button>
+      <button id="tabStoreSupport" class="tab-btn" onclick="switchViewTab('support')" title="View branch stock transfers & floor support">
+        🏢 Store Support
+        <span class="tab-badge" id="tabCountSupport" style="background:rgba(99,102,241,0.2);color:#818cf8;border-color:rgba(99,102,241,0.35);">0</span>
+      </button>
     </div>
 
-    <div class="search-container">
-      <div>
-        <label for="arrivalSearch">Search Arrival Table:</label>
-        <input
-          type="text"
-          id="arrivalSearch"
-          onkeyup="searchArrivalTable()"
-          placeholder="Search by Name or Phone Number"
-        />
+    <!-- Table Container -->
+    <main class="table-container">
+      <div class="table-scroll-wrapper">
+        <table id="mainOrdersTable">
+          <thead>
+            <tr>
+              <th style="width:42px;text-align:center;vertical-align:middle;"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this.checked)" title="Select all on this page" /></th>
+              <th>Order Ref</th>
+              <th>Order Date</th>
+              <th>Customer</th>
+              <th>Phone</th>
+              <th>Category</th>
+              <th>Product Code & Link</th>
+              <th>Specs (Color/Size)</th>
+              <th>Description</th>
+              <th>Branch</th>
+              <th>Entered By (Staff)</th>
+              <th>Status</th>
+              <th>WhatsApp Dispatch</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <!-- Dynamic Rows Injected Here -->
+          </tbody>
+        </table>
       </div>
+
+      <!-- Pagination Controls -->
+      <div class="pagination-container" id="paginationContainer">
+        <div class="pagination-info" id="paginationInfo">Showing 0 of 0 orders</div>
+        <div class="pagination-controls" id="paginationControls">
+          <!-- Page Buttons Injected Here -->
+        </div>
+      </div>
+    </main>
     </div>
 
-    <div class="table-container">
-      <h2>Phone Numbers, Name & Date of Arrival</h2>
-      <table id="arrivalTable">
-        <thead>
-          <tr>
-            <th class="order-id">Order ID</th>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Date of Arrival</th>
-            <th>SMS</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div id="arrivalPagination">
-        <button id="prevArrivalBtn" onclick="changeArrivalPage(-1)">
-          Previous
-        </button>
-        <span id="arrivalPageNumbers"></span>
-        <button id="nextArrivalBtn" onclick="changeArrivalPage(1)">Next</button>
-      </div>
-    </div>
+    <!-- WhatsApp Action Center Modal -->
+    <div id="whatsappModal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="#25d366"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+            WhatsApp Dispatch Center
+          </h3>
+          <button class="modal-close-btn" onclick="closeWhatsappModal()" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong id="waCustomerName" style="color: var(--text-primary); font-size: 1.05rem;"></strong>
+              <div id="waCustomerPhone" style="font-family: monospace; color: var(--text-secondary); font-size: 0.9rem;"></div>
+            </div>
+            <div id="waBranchBadge" class="branch-pill"></div>
+          </div>
 
-    <script>
-      const rowsPerPage = 30;
-      let currentOrdersPage = 1;
-      let currentArrivalPage = 1;
-      let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-      // ✅ Ensure each order has a unique ID (fixes duplicates and missing)
-      const existingIds = new Set();
-      orders.forEach((order) => {
-        if (!order.id) {
-          order.id = Date.now() + Math.floor(Math.random() * 1000);
-        }
-        while (existingIds.has(order.id)) {
-          order.id = Date.now() + Math.floor(Math.random() * 1000);
-        }
-        existingIds.add(order.id);
-      });
-
-      localStorage.setItem("orders", JSON.stringify(orders));
-
-      function loadOrders() {
-        const ordersTableBody = document
-          .getElementById("ordersTable")
-          .getElementsByTagName("tbody")[0];
-        ordersTableBody.innerHTML = "";
-
-        // Sort orders by Order Date (newest first)
-        orders.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
-
-        const totalOrdersPages = Math.ceil(orders.length / rowsPerPage);
-        const ordersStartIndex = (currentOrdersPage - 1) * rowsPerPage;
-        const ordersEndIndex = Math.min(
-          ordersStartIndex + rowsPerPage,
-          orders.length
-        );
-
-        for (let i = ordersStartIndex; i < ordersEndIndex; i++) {
-          const order = orders[i];
-          const statusClass =
-            order.status === "Arrived" ? "arrived" : "pending";
-
-          const row = ordersTableBody.insertRow();
-          row.setAttribute("data-id", order.id);
-          row.innerHTML = `
-          <td class="order-id">${order.id || "N/A"}</td>
-          <td>${order.orderDate || "N/A"}</td>
-          <td>${order.customerName || "N/A"}</td>
-          <td>${order.phoneNumber || "N/A"}</td>
-          <td>${order.itemNumber || "N/A"}</td>
-          <td>${order.color || "N/A"}</td>
-          <td>${order.size || "N/A"}</td>
-          <td>${order.description || "N/A"}</td>
-          <td>${order.branch || "N/A"}</td>
-          <td>${order.employee || "N/A"}</td>
-          <td>${order.enteredBy || "N/A"}</td>
-          <td><button class="status-button ${statusClass}" onclick="toggleStatus(this, '${
-            order.id
-          }')">${order.status}</button></td>
-          <td>
-            <button onclick="editOrderById('${order.id}')">Edit</button>
-            <button onclick="deleteOrder('${order.id}')">Delete</button>
-          </td>`;
-          updateRowColor(row, order);
-        }
-
-        document.getElementById("prevOrdersBtn").disabled =
-          currentOrdersPage === 1;
-        document.getElementById("nextOrdersBtn").disabled =
-          currentOrdersPage === totalOrdersPages;
-
-        const ordersPageNumbers = document.getElementById("ordersPageNumbers");
-        ordersPageNumbers.innerHTML = "";
-        for (let page = 1; page <= totalOrdersPages; page++) {
-          const pageButton = document.createElement("button");
-          pageButton.innerText = page;
-          pageButton.onclick = () => goToOrdersPage(page);
-          if (page === currentOrdersPage) {
-            pageButton.disabled = true;
-          }
-          ordersPageNumbers.appendChild(pageButton);
-        }
-
-        loadArrivalTable();
-      }
-
-      function loadArrivalTable() {
-        const arrivalTableBody = document
-          .getElementById("arrivalTable")
-          .getElementsByTagName("tbody")[0];
-        arrivalTableBody.innerHTML = "";
-
-        const arrivedOrders = orders
-          .filter((order) => order.status === "Arrived")
-          .sort((a, b) => new Date(b.arrivalDate) - new Date(a.arrivalDate));
-        const totalArrivalPages = Math.ceil(arrivedOrders.length / rowsPerPage);
-        const arrivalStartIndex = (currentArrivalPage - 1) * rowsPerPage;
-        const arrivalEndIndex = Math.min(
-          arrivalStartIndex + rowsPerPage,
-          arrivedOrders.length
-        );
-
-        for (let i = arrivalStartIndex; i < arrivalEndIndex; i++) {
-          const order = arrivedOrders[i];
-          if (order.smsSent === undefined) {
-            order.smsSent = false;
-          }
-          const arrivalDate = order.arrivalDate
-            ? new Date(order.arrivalDate).toLocaleString()
-            : new Date().toLocaleString();
-          const row = arrivalTableBody.insertRow();
-          row.innerHTML = `
-          <td class="order-id">${order.id || "N/A"}</td>
-          <td>${order.customerName || "N/A"}</td>
-          <td>${order.phoneNumber || "N/A"}</td>
-          <td contenteditable="true" onblur="updateArrivalDate('${
-            order.id
-          }', this)">${arrivalDate}</td>
-          <td>
-            <button onclick="sendSms('${
-              order.id
-            }', this)" style="background-color: ${
-            order.smsSent ? "green" : "orange"
-          };">
-              ${order.smsSent ? "SMS Sent" : "Send SMS"}
+          <div class="modal-template-selector">
+            <button id="tplBtnArrival" class="template-tab active" onclick="switchWaTemplate('arrival')">
+              Ready for Collection (Arrival)
             </button>
-          </td>`;
-        }
+            <button id="tplBtnOrderPlaced" class="template-tab" onclick="switchWaTemplate('placed')">
+              Order Received Confirmation
+            </button>
+            <button id="tplBtnOverdue" class="template-tab" onclick="switchWaTemplate('overdue')">
+              ⚠️ 48h Overdue Reminder
+            </button>
+            <button id="tplBtnUnpicked" class="template-tab" onclick="switchWaTemplate('unpicked')">
+              🚫 Unpicked Notice
+            </button>
+          </div>
 
-        document.getElementById("prevArrivalBtn").disabled =
-          currentArrivalPage === 1;
-        document.getElementById("nextArrivalBtn").disabled =
-          currentArrivalPage === totalArrivalPages;
+          <div>
+            <label style="display: block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px;">
+              Message Preview & Edit:
+            </label>
+            <textarea id="waMessagePreview" class="message-preview-box" rows="7" style="width: 100%; resize: vertical;"></textarea>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #2ecc71; margin-top: 8px;">
+              <svg viewBox="0 0 24 24" style="width: 14px; height: 14px; fill: currentColor;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              <span>Sending WhatsApp automatically updates order status to <strong>Ready for Pickup (Arrived)</strong>.</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="copyWaMessage()">
+            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            Copy Text
+          </button>
+          <button class="btn" style="background-color: var(--color-whatsapp); color: #ffffff; font-weight: 600;" onclick="launchWhatsApp()">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+            Send WhatsApp & Mark Arrived
+          </button>
+        </div>
+      </div>
+    </div>
 
-        const arrivalPageNumbers =
-          document.getElementById("arrivalPageNumbers");
-        arrivalPageNumbers.innerHTML = "";
-        for (let page = 1; page <= totalArrivalPages; page++) {
-          const pageButton = document.createElement("button");
-          pageButton.innerText = page;
-          pageButton.onclick = () => goToArrivalPage(page);
-          if (page === currentArrivalPage) {
-            pageButton.disabled = true;
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 440px;">
+        <div class="modal-header">
+          <h3 style="color: var(--color-danger);">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            Delete Order
+          </h3>
+          <button class="modal-close-btn" onclick="closeDeleteModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p id="deleteModalText">Are you sure you want to delete this order? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+          <button class="btn" style="background-color: var(--color-danger); color: #ffffff;" onclick="confirmDeleteOrder()">
+            Delete Order
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- In-Page Generic Confirmation Modal -->
+    <div id="genericConfirmModal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 440px;">
+        <div class="modal-header">
+          <h3 id="genericConfirmTitle">Confirm Action</h3>
+          <button class="modal-close-btn" onclick="closeGenericConfirmModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p id="genericConfirmMsg" style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.5;"></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="closeGenericConfirmModal()">Cancel</button>
+          <button class="btn btn-nike" id="genericConfirmOkBtn">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Application Script -->
+    <script>
+      /* ==========================================================================
+         APPLICATION STATE & CONFIGURATION
+         ========================================================================== */
+      let orders = [];
+      let currentActiveView = "all"; // "all" | "arrival"
+      let currentPage = 1;
+      let rowsPerPage = 30;
+      let currentSearchQuery = "";
+      let selectedOrderType = "customer"; // "customer" | "ALL" | "store_support"
+      let selectedBranch = "ALL";
+      let selectedCategory = "ALL";
+      let selectedStatus = "ALL";
+      let selectedSort = "date-desc";
+      let selectedDateFilter = "all";
+      let dashCustomStart = "";
+      let dashCustomEnd = "";
+      let selectedOrderIds = new Set();
+
+      // Modals State
+      let activeOrderForWa = null;
+      let activeWaTemplateType = "arrival"; // "arrival" | "placed"
+      let activeOrderIdToDelete = null;
+
+      /* ==========================================================================
+         INITIALIZATION & STORAGE SANITIZATION
+         ========================================================================== */
+      function initApp() {
+        loadOrdersFromStorage();
+        populateBranchFilter();
+        updateMetrics();
+        renderTable();
+
+        // Check for pending order notification from add_order.html
+        try {
+          const pendingNotice = sessionStorage.getItem("postOrderNotification");
+          if (pendingNotice) {
+            sessionStorage.removeItem("postOrderNotification");
+            const noticeObj = JSON.parse(pendingNotice);
+            if (noticeObj && noticeObj.message) {
+              setTimeout(() => {
+                showToast(noticeObj.message, noticeObj.type || "info");
+              }, 350);
+            }
           }
-          arrivalPageNumbers.appendChild(pageButton);
+        } catch (e) {}
+      }
+
+      function populateBranchFilter() {
+        const select = document.getElementById("branchFilter");
+        if (!select) return;
+        const currentVal = selectedBranch || select.value || "ALL";
+
+        let branches = [];
+        try {
+          const raw = localStorage.getItem("nike_branch_list");
+          if (raw) branches = JSON.parse(raw);
+        } catch (e) {}
+        if (!Array.isArray(branches) || branches.length === 0) {
+          branches = [
+            "Souks", "ABC Verdun", "ABC Ash", "BCC", "ABC Dbayeh",
+            "Dbayeh Highway", "Ghazir", "Tripoli", "Gs", "Warehouse"
+          ];
         }
+
+        // Also include any branches present in existing orders
+        (orders || []).forEach((o) => {
+          if (o && o.branch && !branches.some((b) => b.toLowerCase() === o.branch.trim().toLowerCase())) {
+            branches.push(o.branch.trim());
+          }
+        });
+
+        select.innerHTML = '<option value="ALL">All Branches</option>' + branches.map((b) => {
+          return `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`;
+        }).join("");
+
+        select.value = currentVal;
       }
 
-      function updateRowColor(row, order) {
-        const statusButton = row.querySelector(".status-button");
-        statusButton.style.backgroundColor =
-          order.status === "Arrived" ? "green" : "blue";
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initApp);
+      } else {
+        initApp();
       }
 
-      function toggleStatus(button, id) {
-        const currentStatus = button.innerText;
-        const order = orders.find((o) => o.id == id);
-        if (!order) return;
-        if (currentStatus === "Pending") {
-          button.innerText = "Arrived";
-          button.style.backgroundColor = "green";
-          order.status = "Arrived";
-          order.arrivalDate = new Date().toISOString();
+      function loadOrdersFromStorage() {
+        try {
+          orders = JSON.parse(localStorage.getItem("orders")) || [];
+        } catch (e) {
+          console.error("Failed to parse orders from localStorage:", e);
+          orders = [];
+        }
+
+        // Sanitize IDs and missing fields
+        const seenIds = new Set();
+        let modified = false;
+
+        orders.forEach((order, idx) => {
+          if (!order.id) {
+            order.id = "NK-" + (Date.now() + idx);
+            modified = true;
+          }
+          while (seenIds.has(order.id)) {
+            order.id = "NK-" + (Date.now() + Math.floor(Math.random() * 10000));
+            modified = true;
+          }
+          seenIds.add(order.id);
+
+          if (!order.category) {
+            order.category = inferCategory(order);
+            modified = true;
+          }
+
+          if (!order.status) {
+            order.status = "Pending";
+            modified = true;
+          }
           if (order.smsSent === undefined) {
             order.smsSent = false;
+            modified = true;
           }
+        });
+
+        if (modified) {
+          persistOrders();
+        }
+      }
+
+      function persistOrders() {
+        try {
+          localStorage.setItem("orders", JSON.stringify(orders));
+        } catch (e) {
+          showToast("⚠️ Storage almost full! Please backup your data immediately.", "danger");
+        }
+      }
+
+
+      /* ==========================================================================
+         METRICS CALCULATION
+         ========================================================================== */
+      function updateMetrics() {
+        const orderTypeEl = document.getElementById("orderTypeFilter");
+        const currentType = orderTypeEl ? orderTypeEl.value : selectedOrderType;
+
+        // Customer orders vs Store Support orders
+        const customerOrders = orders.filter((o) => o.orderType !== "store_support");
+        const supportOrders = orders.filter((o) => o.orderType === "store_support");
+
+        // Tab count badges
+        const tabSupportBadge = document.getElementById("tabCountSupport");
+        if (tabSupportBadge) tabSupportBadge.textContent = supportOrders.length;
+
+        const customerArrived = customerOrders.filter((o) => (o.status || "").toLowerCase() === "arrived").length;
+        const customerUnpicked = customerOrders.filter((o) => (o.status || "").toLowerCase() === "unpicked").length;
+
+        document.getElementById("tabCountAll").textContent = currentType === "customer" ? customerOrders.length : (currentType === "store_support" ? supportOrders.length : orders.length);
+        document.getElementById("tabCountArrival").textContent = customerArrived;
+        const tabUnpickedBadge = document.getElementById("tabCountUnpicked");
+        if (tabUnpickedBadge) tabUnpickedBadge.textContent = customerUnpicked;
+
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const overdueCount = customerOrders.filter((o) => {
+          if ((o.status || "").toLowerCase() !== "arrived" || !o.arrivalDate) return false;
+          return (today - new Date(o.arrivalDate)) >= 2 * 24 * 60 * 60 * 1000;
+        }).length;
+        const tabOverdueBadge = document.getElementById("tabCountOverdue");
+        if (tabOverdueBadge) tabOverdueBadge.textContent = overdueCount;
+
+        // Dashboard Metrics Calculation:
+        // Option to exclude Store Support from dashboard metrics!
+        let total = 0;
+        let pending = 0;
+        let arrived = 0;
+        let unpicked = 0;
+        let smsCount = 0;
+
+        const lblTotal = document.getElementById("metricTotalLabel");
+        const lblPending = document.getElementById("metricPendingLabel");
+        const lblArrived = document.getElementById("metricArrivedLabel");
+
+        if (currentType === "store_support") {
+          // Dedicated Branch Support Metrics
+          total = supportOrders.length;
+          pending = supportOrders.filter((o) => (o.status || "").toLowerCase() === "requested").length;
+          arrived = supportOrders.filter((o) => (o.status || "").toLowerCase() === "received").length;
+          unpicked = 0;
+          smsCount = 0;
+
+          if (lblTotal) lblTotal.textContent = "Total Transfers";
+          if (lblPending) lblPending.textContent = "Requested (Waiting)";
+          if (lblArrived) lblArrived.textContent = "Received In-Store";
+        } else if (currentType === "ALL") {
+          // Combined Metrics
+          total = orders.length;
+          pending = orders.filter((o) => {
+            const st = (o.status || "").toLowerCase();
+            return st === "pending" || st === "requested";
+          }).length;
+          arrived = orders.filter((o) => {
+            const st = (o.status || "").toLowerCase();
+            return st === "arrived" || st === "received";
+          }).length;
+          unpicked = customerUnpicked;
+          smsCount = customerOrders.filter((o) => o.smsSent === true).length;
+
+          if (lblTotal) lblTotal.textContent = "Total (All Orders)";
+          if (lblPending) lblPending.textContent = "Pending & Requested";
+          if (lblArrived) lblArrived.textContent = "Arrived & Received";
         } else {
-          button.innerText = "Pending";
-          button.style.backgroundColor = "blue";
-          order.status = "Pending";
-          order.arrivalDate = ""; // <--- reset arrival date when status is reverted
+          // Pure Customer Orders (DEFAULT: Store Support excluded from dashboard!)
+          total = customerOrders.length;
+          pending = customerOrders.filter((o) => (o.status || "").toLowerCase() === "pending").length;
+          arrived = customerArrived;
+          unpicked = customerUnpicked;
+          smsCount = customerOrders.filter((o) => o.smsSent === true).length;
+
+          if (lblTotal) lblTotal.textContent = "Total Orders";
+          if (lblPending) lblPending.textContent = "Pending Orders";
+          if (lblArrived) lblArrived.textContent = "Ready for Pickup";
         }
-        localStorage.setItem("orders", JSON.stringify(orders));
-        loadOrders();
-        exportToExcel();
+
+        document.getElementById("metricTotal").textContent = total;
+        document.getElementById("metricPending").textContent = pending;
+        document.getElementById("metricArrived").textContent = arrived;
+        const mUnpicked = document.getElementById("metricUnpicked");
+        if (mUnpicked) mUnpicked.textContent = unpicked;
+        document.getElementById("metricSmsSent").textContent = smsCount;
       }
 
-      function updateArrivalDate(id, cell) {
-        const order = orders.find((o) => o.id == id);
-        if (!order) return;
-        order.arrivalDate = cell.innerText;
-        localStorage.setItem("orders", JSON.stringify(orders));
-        loadArrivalTable();
-        exportToExcel();
-      }
+      /* ==========================================================================
+         FILTERING, SEARCH & PAGINATION
+         ========================================================================== */
+      function getFilteredDataset() {
+        let dataset = [...orders];
 
-      function sendSms(id, button) {
-        const order = orders.find((o) => o.id == id);
-        if (!order) return;
-        const phoneNumber = order.phoneNumber;
-        const customerName = order.customerName;
-        const itemNumber = order.itemNumber;
-        const color = order.color;
-
-        if (button.innerText === "SMS Sent") {
-          if (confirm("Do you want to reset the SMS status to 'Send SMS'?")) {
-            button.innerText = "Send SMS";
-            button.style.backgroundColor = "orange";
-            order.smsSent = false;
-            localStorage.setItem("orders", JSON.stringify(orders));
-            exportToExcel();
-          }
-          return;
+        // 0. Order Type Filter
+        if (currentActiveView === "support") {
+          dataset = dataset.filter((o) => o.orderType === "store_support");
+        } else if (currentActiveView === "arrival" || currentActiveView === "overdue" || currentActiveView === "unpicked") {
+          // Retail customer action desks only include customer orders
+          dataset = dataset.filter((o) => o.orderType !== "store_support");
+        } else if (selectedOrderType === "customer") {
+          dataset = dataset.filter((o) => o.orderType !== "store_support");
+        } else if (selectedOrderType === "store_support") {
+          dataset = dataset.filter((o) => o.orderType === "store_support");
         }
 
-        if (!phoneNumber) {
-          alert("No phone number provided.");
-          return;
-        }
-
-        let cleanedNumber = phoneNumber.replace(/\D/g, "");
-        if (cleanedNumber.startsWith("0")) {
-          cleanedNumber = "961" + cleanedNumber.slice(1);
-        } else if (!cleanedNumber.startsWith("961")) {
-          cleanedNumber = "961" + cleanedNumber;
-        }
-
-        const googleSearchLink = `https://www.google.com/search?q=${encodeURIComponent(
-          itemNumber + " " + color
-        )}`;
-        const message = encodeURIComponent(
-          `Dear ${customerName},\n\nYour Nike order has arrived at our ABC Dbayeh branch and is now ready for collection. We will hold your order for 2 days only.\n\nYou can explore more on our website: https://sidewalks.net\n\nThis is a system-generated message. Please do not reply. For any inquiries, kindly contact us directly by phone.`
-        );
-        const whatsappUrl = `https://web.whatsapp.com/send?phone=${cleanedNumber}&text=${message}`;
-        window.open(whatsappUrl, "_blank");
-
-        order.smsSent = true;
-        localStorage.setItem("orders", JSON.stringify(orders));
-        exportToExcel();
-
-        button.innerText = "SMS Sent";
-        button.style.backgroundColor = "green";
-      }
-
-      function searchOrders() {
-        const input = document.getElementById("search");
-        const filter = input.value.toLowerCase();
-        const pagination = document.getElementById("ordersPagination");
-
-        const ordersTableBody = document
-          .getElementById("ordersTable")
-          .getElementsByTagName("tbody")[0];
-
-        if (filter === "") {
-          pagination.style.display = "flex";
-          loadOrders(); // reload all paginated orders
-          return;
-        }
-
-        pagination.style.display = "none"; // hide pagination during search
-        ordersTableBody.innerHTML = ""; // clear current table
-
-        const filteredOrders = orders.filter((order) => {
-          return Object.values(order).some((value) =>
-            String(value).toLowerCase().includes(filter)
-          );
-        });
-
-        filteredOrders.forEach((order) => {
-          const statusClass =
-            order.status === "Arrived" ? "arrived" : "pending";
-          const row = ordersTableBody.insertRow();
-          row.setAttribute("data-id", order.id);
-          row.innerHTML = `
-      <td class="order-id">${order.id || "N/A"}</td>
-      <td>${order.orderDate || "N/A"}</td>
-      <td>${order.customerName || "N/A"}</td>
-      <td>${order.phoneNumber || "N/A"}</td>
-      <td>${order.itemNumber || "N/A"}</td>
-      <td>${order.color || "N/A"}</td>
-      <td>${order.size || "N/A"}</td>
-      <td>${order.description || "N/A"}</td>
-      <td>${order.branch || "N/A"}</td>
-      <td>${order.employee || "N/A"}</td>
-      <td>${order.enteredBy || "N/A"}</td>
-      <td><button class="status-button ${statusClass}" onclick="toggleStatus(this, '${
-            order.id
-          }')">${order.status}</button></td>
-      <td>
-        <button onclick="editOrderById('${order.id}')">Edit</button>
-        <button onclick="deleteOrder('${order.id}')">Delete</button>
-      </td>
-    `;
-          updateRowColor(row, order);
-        });
-      }
-
-      function searchArrivalTable() {
-        const filter = document
-          .getElementById("arrivalSearch")
-          .value.toLowerCase();
-        const rows = document
-          .getElementById("arrivalTable")
-          .getElementsByTagName("tbody")[0]
-          .getElementsByTagName("tr");
-        for (let i = 0; i < rows.length; i++) {
-          const nameCell = rows[i].cells[1].innerText.toLowerCase();
-          const phoneCell = rows[i].cells[2].innerText.toLowerCase();
-          rows[i].style.display =
-            nameCell.includes(filter) || phoneCell.includes(filter)
-              ? ""
-              : "none";
-        }
-      }
-
-      function deleteOrder(id) {
-        if (confirm("Are you sure you want to delete this order?")) {
-          const index = orders.findIndex((o) => o.id == id);
-          if (index !== -1) {
-            orders.splice(index, 1);
-            localStorage.setItem("orders", JSON.stringify(orders));
-            loadOrders();
-            exportToExcel();
+        // 1. Date Filter
+        if (selectedDateFilter !== "all") {
+          const now = new Date();
+          if (selectedDateFilter === "today") {
+            const todayStr = now.toISOString().split("T")[0];
+            dataset = dataset.filter((o) => (o.orderDate || "").startsWith(todayStr));
+          } else if (selectedDateFilter === "yesterday") {
+            const y = new Date(now); y.setDate(y.getDate() - 1);
+            const yStr = y.toISOString().split("T")[0];
+            dataset = dataset.filter((o) => (o.orderDate || "").startsWith(yStr));
+          } else if (selectedDateFilter === "7d") {
+            const cutoff = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            dataset = dataset.filter((o) => o.orderDate && new Date(o.orderDate) >= cutoff);
+          } else if (selectedDateFilter === "this_month") {
+            const prefix = now.toISOString().slice(0, 7);
+            dataset = dataset.filter((o) => (o.orderDate || "").startsWith(prefix));
+          } else if (selectedDateFilter === "custom") {
+            const s = dashCustomStart ? new Date(dashCustomStart) : null;
+            const e = dashCustomEnd ? new Date(dashCustomEnd + "T23:59:59") : null;
+            dataset = dataset.filter((o) => {
+              if (!o.orderDate) return false;
+              const d = new Date(o.orderDate);
+              if (s && d < s) return false;
+              if (e && d > e) return false;
+              return true;
+            });
           }
         }
-      }
 
-      function editOrderById(id) {
-        localStorage.setItem("editOrderId", id);
-        window.location.href = "edit_order.html";
-      }
-
-      function changeOrdersPage(direction) {
-        currentOrdersPage += direction;
-        loadOrders();
-      }
-
-      function changeArrivalPage(direction) {
-        currentArrivalPage += direction;
-        loadArrivalTable();
-      }
-
-      function goToOrdersPage(pageNumber) {
-        currentOrdersPage = pageNumber;
-        loadOrders();
-      }
-
-      function goToArrivalPage(pageNumber) {
-        currentArrivalPage = pageNumber;
-        loadArrivalTable();
-      }
-
-      function exportToExcel() {
-        const fullOrders = orders.map((order) => ({
-          id: order.id || "",
-          orderDate: order.orderDate || "",
-          customerName: order.customerName || "",
-          phoneNumber: order.phoneNumber || "",
-          itemNumber: order.itemNumber || "",
-          color: order.color || "",
-          size: order.size || "",
-          description: order.description || "",
-          branch: order.branch || "",
-          employee: order.employee || "",
-          enteredBy: order.enteredBy || "",
-          status: order.status || "Pending",
-          arrivalDate: order.arrivalDate || "",
-          smsSent: order.smsSent || false,
-        }));
-
-        const worksheet = XLSX.utils.json_to_sheet(fullOrders);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
-        XLSX.writeFile(workbook, "Orders.xlsx");
-      }
-
-      window.onload = function () {
-        loadOrders();
-
-        // Apply saved theme on load
-        const savedTheme = localStorage.getItem("theme");
-        if (savedTheme === "light") {
-          document.body.classList.add("light-mode");
-          document.getElementById("themeToggle").textContent = "🌞";
+        // 2. Tab View Filter
+        if (currentActiveView === "arrival") {
+          dataset = dataset.filter((o) => (o.status || "").toLowerCase() === "arrived");
+        } else if (currentActiveView === "overdue") {
+          const today = new Date(); today.setHours(0, 0, 0, 0);
+          dataset = dataset.filter((o) => {
+            if ((o.status || "").toLowerCase() !== "arrived" || !o.arrivalDate) return false;
+            return (today - new Date(o.arrivalDate)) >= 2 * 24 * 60 * 60 * 1000;
+          });
+        } else if (currentActiveView === "unpicked") {
+          dataset = dataset.filter((o) => (o.status || "").toLowerCase() === "unpicked");
         }
 
-        // Theme toggle button behavior
-        document.getElementById("themeToggle").onclick = function () {
-          document.body.classList.toggle("light-mode");
-          const isLight = document.body.classList.contains("light-mode");
-          this.textContent = isLight ? "🌞" : "🌙";
-          localStorage.setItem("theme", isLight ? "light" : "dark");
+        // 3. Branch Filter
+        if (selectedBranch !== "ALL") {
+          const target = selectedBranch.toLowerCase();
+          dataset = dataset.filter((o) => {
+            const b = (o.branch || "").trim().toLowerCase();
+            return b === target || b.includes(target) || target.includes(b);
+          });
+        }
+
+        // 4. Category Filter
+        if (selectedCategory !== "ALL") {
+          dataset = dataset.filter((o) => inferCategory(o).toLowerCase() === selectedCategory.toLowerCase());
+        }
+
+        // 5. Status Filter (if not overridden by arrival tab)
+        if (currentActiveView !== "arrival" && currentActiveView !== "overdue" && currentActiveView !== "unpicked" && selectedStatus !== "ALL") {
+          dataset = dataset.filter((o) => (o.status || "").toLowerCase() === selectedStatus.toLowerCase());
+        }
+
+        // 6. Search Query
+        if (currentSearchQuery.trim() !== "") {
+          const q = currentSearchQuery.toLowerCase().trim();
+          const qDigits = q.replace(/\D/g, "");
+          dataset = dataset.filter((order) => {
+            const rawPhone = String(order.phoneNumber || "");
+            const phoneDigits = rawPhone.replace(/\D/g, "");
+            const phoneMatches = rawPhone.toLowerCase().includes(q) || (qDigits.length >= 2 && phoneDigits.includes(qDigits));
+            return (
+              (order.customerName && order.customerName.toLowerCase().includes(q)) ||
+              (order.requestingBranch && order.requestingBranch.toLowerCase().includes(q)) ||
+              (order.supportReason && order.supportReason.toLowerCase().includes(q)) ||
+              phoneMatches ||
+              (order.itemNumber && order.itemNumber.toLowerCase().includes(q)) ||
+              (inferCategory(order).toLowerCase().includes(q)) ||
+              (order.description && order.description.toLowerCase().includes(q)) ||
+              (order.color && order.color.toLowerCase().includes(q)) ||
+              (order.size && String(order.size).toLowerCase().includes(q)) ||
+              (order.branch && order.branch.toLowerCase().includes(q)) ||
+              (order.employee && order.employee.toLowerCase().includes(q)) ||
+              (order.enteredBy && order.enteredBy.toLowerCase().includes(q)) ||
+              (order.id && String(order.id).toLowerCase().includes(q))
+            );
+          });
+        }
+
+        // 7. Sorting
+        dataset.sort((a, b) => {
+          if (selectedSort === "date-desc") {
+            return new Date(b.orderDate || 0) - new Date(a.orderDate || 0);
+          } else if (selectedSort === "date-asc") {
+            return new Date(a.orderDate || 0) - new Date(b.orderDate || 0);
+          } else if (selectedSort === "name-asc") {
+            return (a.customerName || "").localeCompare(b.customerName || "");
+          }
+          return 0;
+        });
+
+        return dataset;
+      }
+
+      function handleSearch() {
+        currentSearchQuery = document.getElementById("search").value;
+        currentPage = 1;
+        renderTable();
+      }
+
+      function applyFilters() {
+        selectedBranch = document.getElementById("branchFilter").value;
+        selectedCategory = document.getElementById("categoryFilter").value;
+        selectedStatus = document.getElementById("statusFilter").value;
+        selectedSort = document.getElementById("sortOrder").value;
+        const otEl = document.getElementById("orderTypeFilter");
+        if (otEl) selectedOrderType = otEl.value;
+
+        // If user changed type to store_support while on customer desks, return to all view
+        if (selectedOrderType === "store_support" && (currentActiveView === "arrival" || currentActiveView === "overdue" || currentActiveView === "unpicked")) {
+          currentActiveView = "all";
+          document.getElementById("tabAllOrders")?.classList.add("active");
+          document.getElementById("tabArrivalDesk")?.classList.remove("active");
+          document.getElementById("tabOverdueDesk")?.classList.remove("active");
+          document.getElementById("tabUnpickedDesk")?.classList.remove("active");
+        }
+
+        currentPage = 1;
+        updateMetrics();
+        renderTable();
+      }
+
+      function changePageSize(newSize) {
+        rowsPerPage = parseInt(newSize, 10);
+        currentPage = 1;
+        renderTable();
+      }
+
+      function switchViewTab(view) {
+        currentActiveView = view;
+        currentPage = 1;
+        document.getElementById("tabAllOrders")?.classList.toggle("active", view === "all");
+        document.getElementById("tabArrivalDesk")?.classList.toggle("active", view === "arrival");
+        document.getElementById("tabOverdueDesk")?.classList.toggle("active", view === "overdue");
+        document.getElementById("tabUnpickedDesk")?.classList.toggle("active", view === "unpicked");
+        document.getElementById("tabStoreSupport")?.classList.toggle("active", view === "support");
+
+        const otEl = document.getElementById("orderTypeFilter");
+        if (view === "support") {
+          selectedOrderType = "store_support";
+          if (otEl) otEl.value = "store_support";
+        } else if (view === "all" && selectedOrderType === "store_support") {
+          selectedOrderType = "customer";
+          if (otEl) otEl.value = "customer";
+        }
+
+        updateMetrics();
+        renderTable();
+      }
+
+      /* ==========================================================================
+         TABLE RENDERING
+         ========================================================================== */
+      function renderTable() {
+        const tbody = document.getElementById("ordersTableBody");
+        tbody.innerHTML = "";
+
+        const dataset = getFilteredDataset();
+        const totalItems = dataset.length;
+        const totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
+
+        if (currentPage > totalPages) {
+          currentPage = totalPages;
+        }
+
+        const startIndex = (currentPage - 1) * rowsPerPage;
+        const endIndex = Math.min(startIndex + rowsPerPage, totalItems);
+        const pageItems = dataset.slice(startIndex, endIndex);
+
+        if (pageItems.length === 0) {
+          const isFiltering = currentSearchQuery !== "" || selectedBranch !== "ALL" || selectedCategory !== "ALL" || selectedStatus !== "ALL" || currentActiveView !== "all" || selectedDateFilter !== "all";
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="14">
+                <div class="empty-table-state" style="padding: 3rem 1.5rem; text-align: center;">
+                  <svg viewBox="0 0 24 24" style="width: 48px; height: 48px; fill: var(--text-muted); margin-bottom: 0.85rem;"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"/></svg>
+                  <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">${isFiltering ? "No matching Nike orders found" : "No customer orders in database"}</h3>
+                  <p style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 1.25rem auto; font-size: 0.9rem;">${isFiltering ? "Try clearing your search query or adjusting your filters." : "Click Add Order above to register a new customer order."}</p>
+                  <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+                    ${isFiltering ? '<button class="btn btn-secondary" onclick="resetAllTableFilters()" style="padding: 0.65rem 1.25rem; font-size: 0.92rem; cursor: pointer;">↺ Clear All Filters</button>' : '<a href="add_order.html" class="btn btn-nike" style="padding: 0.65rem 1.4rem; font-size: 0.92rem;">+ Add Customer Order</a>'}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `;
+        } else {
+          pageItems.forEach((order) => {
+            const row = document.createElement("tr");
+            const isSupport = order.orderType === "store_support";
+
+            // Format phone display
+            const rawPhone = String(order.phoneNumber || "");
+            const formattedPhone = isSupport
+              ? '<span style="color:var(--text-muted);font-style:italic;font-size:0.8rem;">Internal Transfer</span>'
+              : formatLebanesePhoneDisplay(rawPhone);
+
+            // Customer display
+            const customerDisplay = isSupport
+              ? `<div style="display:flex;flex-direction:column;gap:3px;">
+                  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                    <span class="badge-store-support">🏢 STORE SUPPORT</span>
+                    <strong style="color:var(--text-primary);font-size:0.92rem;">${escapeHtml(order.requestingBranch || "Main Branch")}</strong>
+                  </div>
+                  ${order.supportReason ? `<div style="font-size:0.75rem;color:var(--text-muted);line-height:1.2;">Notes: ${escapeHtml(order.supportReason)}</div>` : ''}
+                </div>`
+              : `<span class="cell-customer">${escapeHtml(order.customerName || "Unknown")}</span>`;
+
+            // Product category
+            const category = inferCategory(order);
+
+            // Product code & Direct Link
+            const itemCode = order.itemNumber ? order.itemNumber.trim() : "N/A";
+            const nikeSearchUrl = `https://www.nike.com/w?q=${encodeURIComponent(itemCode)}`;
+            const googleImgUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent("Nike " + itemCode + " " + (order.color || ""))}`;
+
+            // Status chip & Dropdown
+            let statusDropdownHtml = "";
+            if (isSupport) {
+              const sStatus = (order.status || "Requested").toLowerCase() === "received" ? "Received" : "Requested";
+              const sClass = sStatus.toLowerCase();
+              statusDropdownHtml = `
+                <select class="status-pill ${sClass}" onchange="setOrderStatus('${order.id}', this.value)" title="Change transfer status">
+                  <option value="Requested" ${sStatus === "Requested" ? "selected" : ""}>Requested</option>
+                  <option value="Received" ${sStatus === "Received" ? "selected" : ""}>Received</option>
+                </select>
+                ${sStatus === "Received" && order.arrivalDate ? `<div style="font-size:0.7rem;margin-top:3px;color:#10b981;font-weight:600;">✓ Recv ${escapeHtml(order.arrivalDate)}</div>` : ""}
+              `;
+            } else {
+              const status = order.status || "Pending";
+              const statusClass = status.toLowerCase();
+
+              // Days waiting badge for Arrived orders
+              let daysWaitingBadge = "";
+              if (status === "Arrived" && order.arrivalDate) {
+                const arrDate = new Date(order.arrivalDate);
+                const today = new Date(); today.setHours(0,0,0,0);
+                const diffDays = Math.floor((today - arrDate) / (1000*60*60*24));
+                if (diffDays >= 0) {
+                  const color = diffDays >= 2 ? "#ff3b30" : "var(--text-muted)";
+                  const warn = diffDays >= 2 ? " ⚠️" : "";
+                  daysWaitingBadge = `<div style="font-size:0.7rem;margin-top:3px;color:${color};font-weight:${diffDays>=2?'700':'400'};">${diffDays === 0 ? "Just arrived" : diffDays + "d waiting"}${warn}</div>`;
+                }
+              } else if (status === "Unpicked") {
+                daysWaitingBadge = `<div style="font-size:0.7rem;margin-top:3px;color:#ef4444;font-weight:700;">⚠️ Not Picked Up</div>`;
+              }
+
+              statusDropdownHtml = `
+                <select class="status-pill ${statusClass}" onchange="setOrderStatus('${order.id}', this.value)" title="Change order status">
+                  <option value="Pending" ${status.toLowerCase() === "pending" ? "selected" : ""}>Pending</option>
+                  <option value="Arrived" ${status.toLowerCase() === "arrived" ? "selected" : ""}>Ready for Pickup</option>
+                  <option value="Collected" ${status.toLowerCase() === "collected" ? "selected" : ""}>Collected</option>
+                  <option value="Unpicked" ${status.toLowerCase() === "unpicked" ? "selected" : ""}>Unpicked</option>
+                </select>
+                ${daysWaitingBadge}
+              `;
+            }
+
+            // WhatsApp and Print action buttons
+            let smsCellHtml = "";
+            let waActionBtnHtml = "";
+            let printActionBtnHtml = "";
+            if (isSupport) {
+              smsCellHtml = `<span style="color:var(--text-muted);font-size:0.76rem;font-style:italic;">N/A (Internal)</span>`;
+              waActionBtnHtml = `
+                <button class="icon-btn" disabled style="opacity:0.3;cursor:not-allowed;" title="WhatsApp not needed for internal transfers">
+                  <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                </button>`;
+              printActionBtnHtml = `
+                <button class="icon-btn" disabled style="opacity:0.3;cursor:not-allowed;" title="Print disabled for internal support orders">
+                  <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                </button>`;
+            } else {
+              const isSmsSent = order.smsSent === true;
+              smsCellHtml = isSmsSent
+                ? `<button class="sms-action-btn sent" onclick="resetWaSent('${order.id}')" title="Click to reset — allows resending WhatsApp" style="opacity:0.75;cursor:pointer;">
+                    <svg style="width:14px;height:14px;" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                    ✓ Sent — Reset?
+                  </button>`
+                : `<button class="sms-action-btn send-now" onclick="openWhatsappModal('${order.id}')" title="Send official WhatsApp customer update">
+                    <svg style="width:14px;height:14px;" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                    Dispatch
+                  </button>`;
+              waActionBtnHtml = `
+                <button class="icon-btn icon-btn-whatsapp" onclick="openWhatsappModal('${order.id}')" title="Dispatch WhatsApp">
+                  <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                </button>`;
+              printActionBtnHtml = `
+                <button class="icon-btn" onclick="printOrderSlip('${order.id}')" title="Print Order Slip">
+                  <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                </button>`;
+            }
+
+            if (selectedOrderIds.has(String(order.id))) {
+              row.classList.add("row-selected");
+            }
+
+            row.innerHTML = `
+              <td style="text-align:center;vertical-align:middle;"><input type="checkbox" class="row-checkbox" data-id="${order.id}" ${selectedOrderIds.has(String(order.id)) ? "checked" : ""} onchange="toggleRowSelect(this)" /></td>
+              <td><span style="font-family:monospace;font-size:0.8rem;color:var(--text-muted);">${order.id || "N/A"}</span></td>
+              <td>${order.orderDate || "N/A"}</td>
+              <td>${customerDisplay}</td>
+              <td class="cell-phone">${formattedPhone}</td>
+              <td><span class="branch-pill" style="border-color:${isSupport ? 'rgba(99,102,241,0.3)' : 'rgba(255,85,0,0.3)'};background:${isSupport ? 'rgba(99,102,241,0.08)' : 'rgba(255,85,0,0.08)'};color:var(--text-primary);font-size:0.75rem;">${escapeHtml(category)}</span></td>
+              <td>
+                <div class="item-badge-wrap">
+                  <span class="item-code">${escapeHtml(itemCode)}</span>
+                  <a href="${nikeSearchUrl}" target="_blank" rel="noopener noreferrer" class="product-link-btn" title="Search on Nike.com">
+                    <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+                  </a>
+                  <a href="${googleImgUrl}" target="_blank" rel="noopener noreferrer" class="product-link-btn" title="View product images on Google">
+                    <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                  </a>
+                </div>
+              </td>
+              <td>
+                <span style="color:var(--text-primary);font-weight:500;">${escapeHtml(order.color || "-")}</span>
+                <span style="color:var(--text-muted);font-size:0.8rem;">/ Sz ${escapeHtml(order.size || "-")}</span>
+                ${order.quantity && Number(order.quantity) > 1 ? `<div style="color:var(--nike-orange);font-size:0.75rem;font-weight:700;margin-top:2px;">Qty: ${escapeHtml(order.quantity)} units</div>` : ''}
+              </td>
+              <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;" title="${escapeHtml(order.description || "")}">${escapeHtml(order.description || "N/A")}</td>
+              <td><span class="branch-pill">${escapeHtml(order.branch || "N/A")}</span></td>
+              <td>
+                <div style="font-size:0.85rem;line-height:1.35;">
+                  <div style="font-weight:700;color:var(--text-primary);letter-spacing:0.2px;">${escapeHtml(order.enteredBy || order.employee || "-")}</div>
+                  ${order.employee && order.employee !== order.enteredBy ? `<div style="color:var(--text-muted);font-size:0.74rem;">Rep: ${escapeHtml(order.employee)}</div>` : ''}
+                </div>
+              </td>
+              <td>${statusDropdownHtml}</td>
+              <td>${smsCellHtml}</td>
+              <td style="text-align: right;">
+                <div class="action-buttons" style="justify-content: flex-end;">
+                  ${waActionBtnHtml}
+                  ${printActionBtnHtml}
+                  <button class="icon-btn" onclick="editOrder('${order.id}')" title="Edit details">
+                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                  </button>
+                  <button class="icon-btn icon-btn-danger" onclick="promptDeleteOrder('${order.id}')" title="Delete record">
+                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                  </button>
+                </div>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+          updateBulkBar();
+        }
+
+        renderPagination(totalItems, totalPages);
+      }
+
+      function renderPagination(totalItems, totalPages) {
+        const infoEl = document.getElementById("paginationInfo");
+        const controlsEl = document.getElementById("paginationControls");
+
+        if (totalItems === 0) {
+          infoEl.textContent = "0 orders found";
+          controlsEl.innerHTML = "";
+          return;
+        }
+
+        const start = (currentPage - 1) * rowsPerPage + 1;
+        const end = Math.min(currentPage * rowsPerPage, totalItems);
+        infoEl.textContent = `Showing ${start}-${end} of ${totalItems} orders`;
+
+        controlsEl.innerHTML = "";
+
+        // Prev Button
+        const prevBtn = document.createElement("button");
+        prevBtn.className = "page-btn";
+        prevBtn.textContent = "‹";
+        prevBtn.title = "Previous Page";
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => {
+          if (currentPage > 1) {
+            currentPage--;
+            renderTable();
+          }
         };
-      };
+        controlsEl.appendChild(prevBtn);
+
+        // Calculate visible page range
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+        if (endPage - startPage < 4) {
+          startPage = Math.max(1, endPage - 4);
+        }
+
+        for (let p = startPage; p <= endPage; p++) {
+          const pageBtn = document.createElement("button");
+          pageBtn.className = `page-btn ${p === currentPage ? "active" : ""}`;
+          pageBtn.textContent = p;
+          pageBtn.onclick = () => {
+            currentPage = p;
+            renderTable();
+          };
+          controlsEl.appendChild(pageBtn);
+        }
+
+        // Next Button
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "page-btn";
+        nextBtn.textContent = "›";
+        nextBtn.title = "Next Page";
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            renderTable();
+          }
+        };
+        controlsEl.appendChild(nextBtn);
+      }
+
+      /* ==========================================================================
+         ORDER ACTIONS (STATUS SET/CYCLE, EDIT, DELETE)
+         ========================================================================== */
+      function setOrderStatus(id, newStatus) {
+        const order = orders.find((o) => String(o.id) === String(id));
+        if (!order) return;
+
+        const isSupport = order.orderType === "store_support";
+        order.status = newStatus;
+        if ((newStatus === "Arrived" || newStatus === "Received") && !order.arrivalDate) {
+          order.arrivalDate = new Date().toISOString().split("T")[0];
+        }
+        if (newStatus === "Pending" || newStatus === "Requested") {
+          order.arrivalDate = "";
+        }
+
+        persistOrders();
+        updateMetrics();
+        renderTable();
+
+        const toastType = (newStatus === "Unpicked") ? "danger" : ((newStatus === "Arrived" || newStatus === "Received") ? "success" : "info");
+        const statusLabel = newStatus === "Arrived" ? "Ready for Pickup (Arrived)" : (newStatus === "Received" ? "Received In-Store" : newStatus);
+        const targetName = isSupport ? `Support transfer (${order.requestingBranch || "Main Branch"})` : `Order for ${order.customerName}`;
+        showToast(`${targetName} set to ${statusLabel}`, toastType);
+      }
+
+      function cycleOrderStatus(id) {
+        const order = orders.find((o) => String(o.id) === String(id));
+        if (!order) return;
+
+        if (order.orderType === "store_support") {
+          const current = (order.status || "Requested").toLowerCase();
+          if (current === "requested") {
+            setOrderStatus(id, "Received");
+          } else {
+            setOrderStatus(id, "Requested");
+          }
+          return;
+        }
+
+        // Customer Lifecycle: Pending -> Arrived -> Collected -> Unpicked -> Pending
+        const current = (order.status || "Pending").toLowerCase();
+        if (current === "pending") {
+          setOrderStatus(id, "Arrived");
+        } else if (current === "arrived") {
+          setOrderStatus(id, "Collected");
+        } else if (current === "collected") {
+          setOrderStatus(id, "Unpicked");
+        } else {
+          setOrderStatus(id, "Pending");
+        }
+      }
+
+      function editOrder(id) {
+        localStorage.setItem("editOrderId", id);
+        if (window.navigateToPage) {
+          window.navigateToPage("edit_order.html");
+        } else {
+          window.location.href = "edit_order.html";
+        }
+      }
+
+      function promptDeleteOrder(id) {
+        const order = orders.find((o) => String(o.id) === String(id));
+        if (!order) return;
+
+        activeOrderIdToDelete = id;
+        document.getElementById("deleteModalText").innerHTML = `
+          Are you sure you want to delete order <strong>${order.id}</strong> for 
+          <strong>${escapeHtml(order.customerName || "Customer")}</strong> (${escapeHtml(order.itemNumber || "Item")})?
+        `;
+        document.getElementById("deleteModal").classList.add("active");
+      }
+
+      function closeDeleteModal() {
+        document.getElementById("deleteModal").classList.remove("active");
+        activeOrderIdToDelete = null;
+      }
+
+      function confirmDeleteOrder() {
+        if (!activeOrderIdToDelete) return;
+        const index = orders.findIndex((o) => String(o.id) === String(activeOrderIdToDelete));
+        if (index !== -1) {
+          const deletedName = orders[index].customerName;
+          orders.splice(index, 1);
+          persistOrders();
+          updateMetrics();
+          renderTable();
+          showToast(`Order for ${deletedName} deleted successfully.`, "danger");
+        }
+        closeDeleteModal();
+      }
+
+      /* In-Page Confirmation Modal Helper */
+      function showConfirmModal({ title, message, confirmText = "Confirm", isDanger = false, onConfirm }) {
+        const modal = document.getElementById("genericConfirmModal");
+        const titleEl = document.getElementById("genericConfirmTitle");
+        const msgEl = document.getElementById("genericConfirmMsg");
+        const okBtn = document.getElementById("genericConfirmOkBtn");
+        if (!modal) {
+          if (confirm(message)) onConfirm?.();
+          return;
+        }
+        if (titleEl) titleEl.textContent = title || "Confirm Action";
+        if (msgEl) msgEl.innerHTML = String(message).replace(/\n/g, "<br>");
+        if (okBtn) {
+          okBtn.textContent = confirmText;
+          okBtn.style.backgroundColor = isDanger ? "var(--color-danger, #ef4444)" : "var(--nike-orange, #ff6b00)";
+          okBtn.onclick = function () {
+            closeGenericConfirmModal();
+            if (typeof onConfirm === "function") onConfirm();
+          };
+        }
+        modal.classList.add("active");
+      }
+
+      function closeGenericConfirmModal() {
+        const modal = document.getElementById("genericConfirmModal");
+        if (modal) modal.classList.remove("active");
+      }
+
+      /* ==========================================================================
+         WHATSAPP DISPATCH CENTER & NOTIFICATION TEMPLATES
+         ========================================================================== */
+      function openWhatsappModal(id) {
+        const order = orders.find((o) => String(o.id) === String(id));
+        if (!order) return;
+
+        activeOrderForWa = order;
+        // Auto-detect best template based on order status and arrival date
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const isOverdue = (order.status || "").toLowerCase() === "arrived" && order.arrivalDate && (today - new Date(order.arrivalDate)) >= 2 * 24 * 60 * 60 * 1000;
+        if ((order.status || "").toLowerCase() === "unpicked") {
+          activeWaTemplateType = "unpicked";
+        } else if (isOverdue) {
+          activeWaTemplateType = "overdue";
+        } else if ((order.status || "").toLowerCase() === "arrived") {
+          activeWaTemplateType = "arrival";
+        } else {
+          activeWaTemplateType = "placed";
+        }
+
+        document.getElementById("waCustomerName").textContent = order.customerName || "Customer";
+        document.getElementById("waCustomerPhone").textContent = formatLebanesePhoneDisplay(order.phoneNumber || "");
+        document.getElementById("waBranchBadge").textContent = "Branch: " + (order.branch || "Nike Store");
+
+        updateWaModalTabs();
+        buildWaMessageContent();
+        document.getElementById("whatsappModal").classList.add("active");
+      }
+
+      function closeWhatsappModal() {
+        document.getElementById("whatsappModal").classList.remove("active");
+        activeOrderForWa = null;
+      }
+
+      function switchWaTemplate(type) {
+        activeWaTemplateType = type;
+        updateWaModalTabs();
+        buildWaMessageContent();
+      }
+
+      function updateWaModalTabs() {
+        document.getElementById("tplBtnArrival").classList.toggle("active", activeWaTemplateType === "arrival");
+        document.getElementById("tplBtnOrderPlaced").classList.toggle("active", activeWaTemplateType === "placed");
+        document.getElementById("tplBtnOverdue")?.classList.toggle("active", activeWaTemplateType === "overdue");
+        document.getElementById("tplBtnUnpicked")?.classList.toggle("active", activeWaTemplateType === "unpicked");
+      }
+
+      function buildWaMessageContent() {
+        if (!activeOrderForWa) return;
+
+        const customer = activeOrderForWa.customerName || "Valued Customer";
+        const item = activeOrderForWa.itemNumber || "Nike Item";
+        const desc = activeOrderForWa.description || "";
+        const color = activeOrderForWa.color ? ` (Color: ${activeOrderForWa.color})` : "";
+        const size = activeOrderForWa.size ? ` (Size: ${activeOrderForWa.size})` : "";
+        const branch = activeOrderForWa.branch || "Nike Store";
+        const orderDate = activeOrderForWa.orderDate || new Date().toISOString().split("T")[0];
+
+        let text = "";
+        if (activeWaTemplateType === "arrival") {
+          text = `Dear ${customer},\n\nGreat news! Your Nike order (${item} - ${desc}${color}${size}) has arrived at our ${branch} branch and is now ready for collection.\n\n⚠️ Collection Notice: We will hold your reserved order for 2 days only.\n\nExplore our latest arrivals online: https://sidewalks.net\n\nThis is an automated dispatch from Nike Lebanon operations. Please do not reply directly to this number. For immediate assistance, feel free to visit or call our store.\n\nJust Do It.`;
+        } else if (activeWaTemplateType === "overdue") {
+          text = `Dear ${customer},\n\nFriendly reminder from Nike Lebanon (${branch})! 👋\n\nYour special request order (${item} - ${desc}${color}${size}) is waiting for pickup.\n\n⚠️ Hold Expiration Notice: As per store policy, items are reserved in-store for 2 days only. Please visit us by tomorrow to collect your order before it is released back to general inventory.\n\nStore Location: ${branch}\nShop online: https://sidewalks.net\n\nThank you for choosing Nike!`;
+        } else if (activeWaTemplateType === "unpicked") {
+          text = `Dear ${customer},\n\nThis is a notification from Nike Lebanon (${branch}).\n\nYour reserved order (${item} - ${desc}${color}${size}) was held in-store for pickup but was not collected within our hold period.\n\nAs per store policy, this order has now been marked as unpicked and the reservation may be released.\n\nIf you still wish to purchase this item or check alternative availability, please visit our ${branch} store or contact us.\n\nDiscover more at: https://sidewalks.net\n\nBest regards,\nNike Lebanon Team`;
+        } else {
+          text = `Dear ${customer},\n\nThank you for choosing Nike Lebanon! 👋\n\nYour special customer request for ${item} - ${desc}${color}${size} has been successfully registered at our ${branch} branch on ${orderDate}.\n\nWe are currently processing and procuring your item from our network. As soon as it arrives at ${branch}, you will receive a notification immediately for pickup.\n\nDiscover more at: https://sidewalks.net\n\nBest regards,\nNike Lebanon Team`;
+        }
+
+        document.getElementById("waMessagePreview").value = text;
+      }
+
+      function copyWaMessage() {
+        const text = document.getElementById("waMessagePreview").value;
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("Message copied to clipboard!", "success");
+        }).catch(() => {
+          showToast("Failed to copy automatically. Please copy manually.", "danger");
+        });
+      }
+
+      function launchWhatsApp() {
+        if (!activeOrderForWa) return;
+
+        const text = document.getElementById("waMessagePreview").value;
+        const cleanPhone = cleanLebanesePhone(activeOrderForWa.phoneNumber);
+
+        if (!cleanPhone) {
+          showToast("Customer has an invalid phone number.", "danger");
+          return;
+        }
+
+        // 1. Mark WhatsApp dispatched
+        activeOrderForWa.smsSent = true;
+
+        // 2. Only auto-update status to Arrived when using the arrival template
+        if (activeWaTemplateType === "arrival") {
+          activeOrderForWa.status = "Arrived";
+          if (!activeOrderForWa.arrivalDate) {
+            activeOrderForWa.arrivalDate = new Date().toISOString().split("T")[0];
+          }
+        }
+
+        persistOrders();
+        updateMetrics();
+        renderTable();
+
+        const encodedMsg = encodeURIComponent(text);
+        const waUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
+        window.open(waUrl, "_blank");
+
+        const toastMsg = activeWaTemplateType === "arrival"
+          ? `WhatsApp sent & order marked "Ready for Pickup" for ${activeOrderForWa.customerName}!`
+          : `WhatsApp confirmation sent to ${activeOrderForWa.customerName}.`;
+        showToast(toastMsg, "success");
+        closeWhatsappModal();
+      }
+
+      /* ==========================================================================
+         PHONE NUMBER UTILITIES (LEBANESE FORMAT)
+         ========================================================================== */
+      function cleanLebanesePhone(phone) {
+        if (!phone) return "";
+        let cleaned = String(phone).replace(/\D/g, "");
+        if (!cleaned) return "";
+
+        // If starts with 00961, strip 00
+        if (cleaned.startsWith("00961")) {
+          cleaned = cleaned.slice(2);
+        }
+
+        // Handle 9610 prefix (e.g. +961 03... or +961 07...)
+        if (cleaned.startsWith("9610")) {
+          cleaned = "961" + cleaned.slice(4);
+        } else if (cleaned.startsWith("0")) {
+          cleaned = "961" + cleaned.slice(1);
+        } else if (!cleaned.startsWith("961")) {
+          cleaned = "961" + cleaned;
+        }
+
+        return cleaned;
+      }
+
+      function formatLebanesePhoneDisplay(phone) {
+        if (!phone) return "N/A";
+        const cleaned = cleanLebanesePhone(phone);
+        if (cleaned.startsWith("961")) {
+          const rest = cleaned.slice(3);
+          if (rest.length === 7) {
+            // 7-digit Lebanese number (e.g. 03 xxxxxx)
+            return `+961 ${rest.slice(0, 1)} ${rest.slice(1, 4)} ${rest.slice(4)}`;
+          } else if (rest.length === 8) {
+            // 8-digit Lebanese mobile (e.g. 70 xxxxxx)
+            return `+961 ${rest.slice(0, 2)} ${rest.slice(2, 5)} ${rest.slice(5)}`;
+          } else if (rest.length > 0) {
+            return `+961 ${rest}`;
+          }
+        }
+        return phone;
+      }
+
+      function inferCategory(order) {
+        if (order.category && order.category.trim() !== "") return order.category;
+        const text = ((order.description || "") + " " + (order.itemNumber || "")).toLowerCase();
+        if (text.includes("fleece") || text.includes("hoodie") || text.includes("jacket") || text.includes("windrunner") || text.includes("tee") || text.includes("shirt")) {
+          return "Apparel - Tops & Hoodies";
+        }
+        if (text.includes("pant") || text.includes("short") || text.includes("jogger") || text.includes("tight")) {
+          return "Apparel - Pants & Shorts";
+        }
+        if (text.includes("bag") || text.includes("cap") || text.includes("sock") || text.includes("hat") || text.includes("bottle")) {
+          return "Accessories & Equipment";
+        }
+        if (text.includes("pegasus") || text.includes("running") || text.includes("run") || text.includes("vomero") || text.includes("invincible")) {
+          return "Footwear - Running";
+        }
+        if (text.includes("jordan") || text.includes("basketball") || text.includes("dunk") || text.includes("force") || text.includes("air max") || text.includes("blazer")) {
+          return "Footwear - Lifestyle & Retro";
+        }
+        return "Footwear - Lifestyle & Retro";
+      }
+
+      /* ==========================================================================
+         EXCEL & DATA MANAGEMENT
+         ========================================================================== */
+      function exportExcelFile() {
+        const dataset = getFilteredDataset();
+        if (dataset.length === 0) {
+          showToast("No orders available to export.", "danger");
+          return;
+        }
+
+        const formatted = dataset.map((o) => {
+          const isSupport = o.orderType === "store_support";
+          return {
+            "Order Ref": o.id || "",
+            "Order Type": isSupport ? "Store Support" : "Customer Order",
+            "Order Date": o.orderDate || "",
+            "Customer / Branch": isSupport ? (o.requestingBranch || "Main Branch") : (o.customerName || ""),
+            "Phone Number": isSupport ? "Internal" : (o.phoneNumber || ""),
+            "Category": o.category || inferCategory(o),
+            "Nike Item Code": o.itemNumber || "",
+            "Color": o.color || "",
+            "Size": o.size || "",
+            "Quantity": o.quantity || 1,
+            "Description / Notes": isSupport ? (o.supportReason || o.description || "") : (o.description || ""),
+            "Branch": o.branch || "",
+            "Employee": o.employee || "",
+            "Entered By": o.enteredBy || "",
+            "Status": o.status || (isSupport ? "Requested" : "Pending"),
+            "Arrival / Received Date": o.arrivalDate || "",
+            "WhatsApp Dispatched": o.smsSent ? "Yes" : "No",
+          };
+        });
+
+        try {
+          const ws = XLSX.utils.json_to_sheet(formatted);
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, "Nike Orders");
+          const dateStamp = new Date().toISOString().split("T")[0];
+          XLSX.writeFile(wb, `Nike_Orders_${dateStamp}.xlsx`);
+          showToast("Excel workbook downloaded successfully.", "success");
+        } catch (err) {
+          console.error("Excel export error:", err);
+          showToast("Excel generation failed.", "danger");
+        }
+      }
+
+      function exportCsvFile() {
+        const dataset = getFilteredDataset();
+        if (dataset.length === 0) {
+          showToast("No orders available to export.", "danger");
+          return;
+        }
+
+        const headers = [
+          "Order Ref",
+          "Order Type",
+          "Order Date",
+          "Customer / Branch",
+          "Phone Number",
+          "Category",
+          "Nike Item Code",
+          "Color",
+          "Size",
+          "Quantity",
+          "Description / Notes",
+          "Branch",
+          "Employee",
+          "Entered By",
+          "Status",
+          "Arrival / Received Date",
+          "WhatsApp Dispatched"
+        ];
+
+        const rows = dataset.map((o) => {
+          const isSupport = o.orderType === "store_support";
+          return [
+            `"${o.id || ""}"`,
+            `"${isSupport ? "Store Support" : "Customer Order"}"`,
+            `"${o.orderDate || ""}"`,
+            `"${(isSupport ? (o.requestingBranch || "Main Branch") : (o.customerName || "")).replace(/"/g, '""')}"`,
+            `"${(isSupport ? "Internal" : (o.phoneNumber || "")).replace(/"/g, '""')}"`,
+            `"${(o.category || inferCategory(o)).replace(/"/g, '""')}"`,
+            `"${(o.itemNumber || "").replace(/"/g, '""')}"`,
+            `"${(o.color || "").replace(/"/g, '""')}"`,
+            `"${(o.size || "").replace(/"/g, '""')}"`,
+            `"${o.quantity || 1}"`,
+            `"${(isSupport ? (o.supportReason || o.description || "") : (o.description || "")).replace(/"/g, '""')}"`,
+            `"${(o.branch || "").replace(/"/g, '""')}"`,
+            `"${(o.employee || "").replace(/"/g, '""')}"`,
+            `"${(o.enteredBy || "").replace(/"/g, '""')}"`,
+            `"${o.status || (isSupport ? "Requested" : "Pending")}"`,
+            `"${o.arrivalDate || ""}"`,
+            `"${o.smsSent ? "Yes" : "No"}"`
+          ];
+        });
+
+        const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `Nike_Orders_${new Date().toISOString().split("T")[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast("CSV file exported successfully.", "success");
+      }
+
+      function backupJsonData() {
+        const jsonStr = JSON.stringify(orders, null, 2);
+        const blob = new Blob([jsonStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `Nike_Orders_Backup_${new Date().toISOString().split("T")[0]}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        showToast("Full database backup downloaded.", "success");
+      }
+
+      function handleJsonRestore(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          try {
+            const imported = JSON.parse(evt.target.result);
+            if (Array.isArray(imported)) {
+              // Sanitize and validate every record
+              const sanitized = imported
+                .filter((o) => o && typeof o === "object")
+                .map((o, idx) => ({
+                  id: o.id ? String(o.id) : `NK-${Date.now()}-${idx}`,
+                  orderType: o.orderType === "store_support" ? "store_support" : "customer",
+                  requestingBranch: o.requestingBranch || "",
+                  supportReason: o.supportReason || "",
+                  quantity: o.quantity ? parseInt(o.quantity, 10) : 1,
+                  customerName: String(o.customerName || (o.orderType === "store_support" ? "[Support] " + (o.requestingBranch || "Main Branch") : "Customer")),
+                  phoneNumber: String(o.phoneNumber || ""),
+                  itemNumber: String(o.itemNumber || "SKU-UNKNOWN").toUpperCase(),
+                  color: String(o.color || ""),
+                  size: String(o.size || ""),
+                  price: o.price || "",
+                  description: String(o.description || ""),
+                  category: String(o.category || "Footwear - Lifestyle & Retro"),
+                  branch: String(o.branch || "Souks"),
+                  employee: String(o.employee || ""),
+                  enteredBy: String(o.enteredBy || ""),
+                  orderDate: o.orderDate || new Date().toISOString().split("T")[0],
+                  arrivalDate: o.arrivalDate || "",
+                  status: o.status || (o.orderType === "store_support" ? "Requested" : "Pending"),
+                  smsSent: Boolean(o.smsSent)
+                }));
+
+              if (sanitized.length === 0 && imported.length > 0) {
+                showToast("The JSON backup contained no valid order objects.", "warning");
+                return;
+              }
+
+              orders = sanitized;
+              persistOrders();
+              populateBranchFilter();
+              updateMetrics();
+              renderTable();
+              showToast(`Restored ${orders.length} orders successfully!`, "success");
+            } else {
+              showToast("Invalid JSON backup structure. Expected an array of orders.", "danger");
+            }
+          } catch (err) {
+            console.error("JSON restore parse error:", err);
+            showToast("Failed to parse JSON file. Please ensure it is valid.", "danger");
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = "";
+      }
+
+      /* ==========================================================================
+         HELPERS & TOAST SYSTEM
+         ========================================================================== */
+      function resetAllTableFilters() {
+        currentSearchQuery = "";
+        selectedBranch = "ALL";
+        selectedCategory = "ALL";
+        selectedStatus = "ALL";
+        selectedSort = "date-desc";
+        selectedDateFilter = "all";
+        selectedOrderType = "customer";
+        dashCustomStart = "";
+        dashCustomEnd = "";
+        currentActiveView = "all";
+        currentPage = 1;
+        const s = document.getElementById("search"); if (s) s.value = "";
+        const b = document.getElementById("branchFilter"); if (b) b.value = "ALL";
+        const c = document.getElementById("categoryFilter"); if (c) c.value = "ALL";
+        const st = document.getElementById("statusFilter"); if (st) st.value = "ALL";
+        const so = document.getElementById("sortOrder"); if (so) so.value = "date-desc";
+        const ot = document.getElementById("orderTypeFilter"); if (ot) ot.value = "customer";
+        const tabAll = document.getElementById("tabAllOrders"); if (tabAll) tabAll.classList.add("active");
+        const tabArr = document.getElementById("tabArrivalDesk"); if (tabArr) tabArr.classList.remove("active");
+        const tabOvd = document.getElementById("tabOverdueDesk"); if (tabOvd) tabOvd.classList.remove("active");
+        const tabUnp = document.getElementById("tabUnpickedDesk"); if (tabUnp) tabUnp.classList.remove("active");
+        const tabSup = document.getElementById("tabStoreSupport"); if (tabSup) tabSup.classList.remove("active");
+        // Reset date pills
+        ["dpAll","dpToday","dpYesterday","dp7d","dpThisMonth","dpCustom"].forEach(id => {
+          const el = document.getElementById(id); if (el) el.classList.remove("active");
+        });
+        const dpAll = document.getElementById("dpAll"); if (dpAll) dpAll.classList.add("active");
+        const dcc = document.getElementById("dashCustomDateContainer"); if (dcc) dcc.style.display = "none";
+        const ds = document.getElementById("dashCustomStart"); if (ds) ds.value = "";
+        const de = document.getElementById("dashCustomEnd"); if (de) de.value = "";
+        updateMetrics();
+        renderTable();
+        showToast("All filters cleared.", "info");
+      }
+
+
+      /* ==========================================================================
+         DATE FILTER PILLS
+         ========================================================================== */
+      function setDashDateFilter(tf) {
+        if (selectedDateFilter === tf && tf !== "all") {
+          tf = "all";
+          showToast("Date filter cleared", "info");
+        }
+        selectedDateFilter = tf;
+        const pills = ["dpAll","dpToday","dpYesterday","dp7d","dpThisMonth","dpCustom"];
+        pills.forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove("active"); });
+        if (tf === "all")        document.getElementById("dpAll")?.classList.add("active");
+        if (tf === "today")      document.getElementById("dpToday")?.classList.add("active");
+        if (tf === "yesterday")  document.getElementById("dpYesterday")?.classList.add("active");
+        if (tf === "7d")         document.getElementById("dp7d")?.classList.add("active");
+        if (tf === "this_month") document.getElementById("dpThisMonth")?.classList.add("active");
+        if (tf === "custom")     document.getElementById("dpCustom")?.classList.add("active");
+        const cdc = document.getElementById("dashCustomDateContainer");
+        if (cdc) {
+          cdc.style.display = tf === "custom" ? "inline-flex" : "none";
+          if (tf === "custom") {
+            setTimeout(() => {
+              try {
+                const s = document.getElementById("dashCustomStart");
+                if (s) {
+                  s.focus();
+                  s.showPicker?.();
+                }
+              } catch (e) {}
+            }, 60);
+          }
+        }
+        currentPage = 1;
+        renderTable();
+      }
+
+      function handleDashCustomDate() {
+        dashCustomStart = document.getElementById("dashCustomStart").value;
+        dashCustomEnd = document.getElementById("dashCustomEnd").value;
+        if (dashCustomStart && dashCustomEnd && dashCustomStart > dashCustomEnd) {
+          showToast("Start date cannot be after End date. Adjusted end date.", "warning");
+          dashCustomEnd = dashCustomStart;
+          document.getElementById("dashCustomEnd").value = dashCustomEnd;
+        }
+        // Set directly to avoid toggle-back bug
+        selectedDateFilter = "custom";
+        const pills = ["dpAll","dpToday","dpYesterday","dp7d","dpThisMonth","dpCustom"];
+        pills.forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove("active"); });
+        document.getElementById("dpCustom")?.classList.add("active");
+        const cdc = document.getElementById("dashCustomDateContainer");
+        if (cdc) cdc.style.display = "inline-flex";
+        currentPage = 1;
+        renderTable();
+      }
+
+      /* ==========================================================================
+         BULK ACTIONS
+         ========================================================================== */
+      function toggleRowSelect(cb) {
+        const id = cb.getAttribute("data-id");
+        const row = cb.closest("tr");
+        if (cb.checked) {
+          selectedOrderIds.add(id);
+          if (row) row.classList.add("row-selected");
+        } else {
+          selectedOrderIds.delete(id);
+          if (row) row.classList.remove("row-selected");
+        }
+        updateBulkBar();
+      }
+
+      function toggleSelectAll(checked) {
+        const dataset = getFilteredDataset();
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = Math.min(start + rowsPerPage, dataset.length);
+        const pageItems = dataset.slice(start, end);
+        pageItems.forEach(o => {
+          if (checked) selectedOrderIds.add(String(o.id));
+          else selectedOrderIds.delete(String(o.id));
+        });
+        updateBulkBar();
+        renderTable();
+      }
+
+      function updateBulkBar() {
+        const bar = document.getElementById("bulkActionBar");
+        const countEl = document.getElementById("bulkSelectedCount");
+        if (bar) bar.style.display = selectedOrderIds.size > 0 ? "flex" : "none";
+        if (countEl) countEl.textContent = selectedOrderIds.size + " selected";
+        const allCb = document.getElementById("selectAllCheckbox");
+        if (allCb) {
+          const dataset = getFilteredDataset();
+          const start = (currentPage - 1) * rowsPerPage;
+          const end = Math.min(start + rowsPerPage, dataset.length);
+          const pageItems = dataset.slice(start, end);
+          allCb.checked = pageItems.length > 0 && pageItems.every(o => selectedOrderIds.has(String(o.id)));
+          allCb.indeterminate = !allCb.checked && pageItems.some(o => selectedOrderIds.has(String(o.id)));
+        }
+      }
+
+      function clearBulkSelection() {
+        selectedOrderIds.clear();
+        updateBulkBar();
+        renderTable();
+      }
+
+      function bulkMarkArrived() {
+        if (selectedOrderIds.size === 0) return;
+        const today = new Date().toISOString().split("T")[0];
+        let count = 0;
+        orders.forEach(o => {
+          if (selectedOrderIds.has(String(o.id))) {
+            if (o.orderType === "store_support") {
+              if (o.status !== "Received") {
+                o.status = "Received";
+                if (!o.arrivalDate) o.arrivalDate = today;
+                count++;
+              }
+            } else if (o.status !== "Arrived") {
+              o.status = "Arrived";
+              if (!o.arrivalDate) o.arrivalDate = today;
+              count++;
+            }
+          }
+        });
+        persistOrders(); updateMetrics(); renderTable();
+        showToast(`${count} order(s) marked as Arrived / Received.`, "success");
+        clearBulkSelection();
+      }
+
+      function bulkMarkUnpicked() {
+        if (selectedOrderIds.size === 0) return;
+        let count = 0;
+        orders.forEach(o => {
+          if (selectedOrderIds.has(String(o.id)) && (o.status || "").toLowerCase() !== "unpicked") {
+            o.status = "Unpicked";
+            count++;
+          }
+        });
+        persistOrders(); updateMetrics(); renderTable();
+        showToast(`${count} order(s) marked as Unpicked.`, "danger");
+        clearBulkSelection();
+      }
+
+      function bulkDelete() {
+        if (selectedOrderIds.size === 0) return;
+        const count = selectedOrderIds.size;
+        showConfirmModal({
+          title: "Delete Selected Orders",
+          message: `Are you sure you want to permanently delete <strong>${count}</strong> selected order(s)? This action cannot be undone.`,
+          confirmText: `Delete ${count} Order(s)`,
+          isDanger: true,
+          onConfirm: () => {
+            orders = orders.filter(o => !selectedOrderIds.has(String(o.id)));
+            persistOrders(); updateMetrics(); renderTable();
+            showToast(`${count} order(s) permanently deleted.`, "danger");
+            clearBulkSelection();
+          }
+        });
+      }
+
+      function bulkExportExcel() {
+        if (selectedOrderIds.size === 0) return;
+        const selected = orders.filter(o => selectedOrderIds.has(String(o.id)));
+        const formatted = selected.map(o => ({
+          "Order Ref": o.id || "", "Order Date": o.orderDate || "",
+          "Customer Name": o.customerName || "", "Phone": o.phoneNumber || "",
+          "Category": o.category || inferCategory(o), "Nike Item Code": o.itemNumber || "",
+          "Color": o.color || "", "Size": o.size || "", "Description": o.description || "",
+          "Branch": o.branch || "", "Employee": o.employee || "", "Entered By": o.enteredBy || "",
+          "Status": o.status || "Pending", "Arrival Date": o.arrivalDate || "",
+          "WhatsApp Dispatched": o.smsSent ? "Yes" : "No"
+        }));
+        try {
+          const ws = XLSX.utils.json_to_sheet(formatted);
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, "Nike Orders");
+          XLSX.writeFile(wb, `Nike_Selected_Orders_${new Date().toISOString().split("T")[0]}.xlsx`);
+          showToast(`Exported ${selected.length} selected orders.`, "success");
+        } catch(err) {
+          showToast("Export failed.", "danger");
+        }
+      }
+
+      /* ==========================================================================
+         PRINT ORDER SLIP (STAR TSP700II / TSP743II 80MM THERMAL RECEIPT PRINTER)
+         ========================================================================== */
+      function printOrderSlip(id) {
+        const order = orders.find(o => String(o.id) === String(id));
+        if (!order) return;
+        const isSupport = order.orderType === "store_support";
+        const printDate = new Date().toLocaleString("en-GB", {
+          year: "numeric", month: "2-digit", day: "2-digit",
+          hour: "2-digit", minute: "2-digit"
+        });
+        const formattedPhone = formatLebanesePhoneDisplay(order.phoneNumber || "");
+        const status = (order.status || "Pending").toUpperCase();
+        const isArrived = status === "ARRIVED";
+
+        // Calculate 2-Day Hold Removal Deadline
+        let orderDateStr = order.orderDate || "N/A";
+        let arrivalDateStr = order.arrivalDate || "";
+        let holdDeadlineDisplay = "";
+        let isOverdue = false;
+
+        if (arrivalDateStr) {
+          try {
+            const arr = new Date(arrivalDateStr);
+            if (!isNaN(arr.getTime())) {
+              const rem = new Date(arr);
+              rem.setDate(rem.getDate() + 2);
+              const yyyy = rem.getFullYear();
+              const mm = String(rem.getMonth() + 1).padStart(2, "0");
+              const dd = String(rem.getDate()).padStart(2, "0");
+              const weekday = rem.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
+              holdDeadlineDisplay = `${weekday} ${dd}/${mm}/${yyyy}`;
+
+              const today = new Date(); today.setHours(0, 0, 0, 0);
+              if (today > rem) isOverdue = true;
+            }
+          } catch (e) {}
+        }
+
+        if (!holdDeadlineDisplay) {
+          holdDeadlineDisplay = "48H UPON ARRIVAL";
+        }
+
+        const w = window.open("", "_blank", "width=420,height=680");
+        w.document.write(`<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Order Slip - ${order.id}</title>
+  <style>
+    /* Star TSP700II / TSP743II - 80mm Thermal Paper (72mm Printable Area) */
+    @page {
+      size: 80mm auto;
+      margin: 0;
+    }
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 72mm;
+      max-width: 72mm;
+      margin: 0 auto;
+      padding: 3mm 1.5mm 12mm 1.5mm;
+      background: #ffffff;
+      color: #000000;
+      font-family: 'Courier New', Courier, 'Lucida Console', Monaco, monospace;
+      font-size: 11px;
+      line-height: 1.25;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .no-print {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #000;
+    }
+    .action-btn {
+      flex: 1;
+      padding: 6px;
+      font-size: 11px;
+      font-weight: bold;
+      border: 1px solid #000;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    .action-btn.secondary {
+      background: #fff;
+      color: #000;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        padding: 0mm 0mm 14mm 0mm;
+      }
+    }
+    .center {
+      text-align: center;
+    }
+    .d-line {
+      border-top: 1px dashed #000;
+      margin: 5px 0;
+    }
+    .s-line {
+      border-top: 2px solid #000;
+      margin: 5px 0;
+    }
+
+    /* COMPACT BRAND HEADER */
+    .header-box {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .brand-name {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      line-height: 1.1;
+    }
+    .store-name {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+    .order-meta {
+      font-size: 9px;
+      font-weight: bold;
+      color: #222;
+      margin-top: 2px;
+    }
+
+    /* PRIMARY FOCUS 1: CUSTOMER HERO */
+    .focus-customer {
+      border: 2.5px solid #000;
+      padding: 6px 4px;
+      margin: 6px 0;
+      text-align: center;
+      background: #fff;
+    }
+    .focus-customer-tag {
+      font-size: 8.5px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #333;
+    }
+    .focus-customer-name {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      line-height: 1.15;
+      margin: 3px 0 2px 0;
+      word-break: break-word;
+    }
+    .focus-customer-phone {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      border-top: 1px dashed #000;
+      padding-top: 3px;
+      margin-top: 3px;
+    }
+
+    /* PRIMARY FOCUS 2: REMOVAL DEADLINE HERO */
+    .focus-removal {
+      border: 2.5px solid #000;
+      background: #000;
+      color: #fff;
+      padding: 6px 4px;
+      margin: 6px 0;
+      text-align: center;
+    }
+    .focus-removal.overdue {
+      border: 3px dashed #000;
+    }
+    .focus-removal-tag {
+      font-size: 9.5px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+    }
+    .focus-removal-date {
+      background: #ffffff;
+      color: #000000;
+      padding: 5px 2px;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      margin: 4px 0 3px 0;
+    }
+    .focus-removal-sub {
+      font-size: 8px;
+      font-weight: bold;
+      letter-spacing: 0.4px;
+      opacity: 0.95;
+    }
+    .focus-dates-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5px;
+      font-weight: bold;
+      border-top: 1px dashed rgba(255,255,255,0.4);
+      padding-top: 3px;
+      margin-top: 4px;
+    }
+
+    /* SIMPLE PRODUCT & ORDER INFO */
+    .simple-item-section {
+      margin: 5px 0;
+      padding: 2px 0;
+    }
+    .item-primary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+    }
+    .item-sku {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+    .item-size {
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .item-desc {
+      font-size: 10.5px;
+      font-weight: bold;
+      line-height: 1.25;
+      margin: 2px 0;
+    }
+    .item-secondary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5px;
+      font-weight: bold;
+      color: #111;
+      margin-top: 2px;
+    }
+
+    /* FOOTER */
+    .simple-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5px;
+      font-weight: bold;
+      margin-top: 4px;
+      padding-top: 3px;
+      border-top: 1px dashed #000;
+    }
+    .policy-note {
+      text-align: center;
+      font-size: 8px;
+      font-weight: bold;
+      margin-top: 5px;
+      line-height: 1.25;
+    }
+    .cut-feed {
+      height: 14mm; /* Star TSP700II auto-cutter clearance */
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Print to Star TSP700II</button>
+    <button class="action-btn secondary" onclick="window.close()">✕ Close</button>
+  </div>
+
+  ${isSupport ? `
+  <!-- STORE SUPPORT SLIP -->
+  <div class="header-box">
+    <div class="brand-name">NIKE LEBANON</div>
+    <div class="store-name">INTERNAL BRANCH TRANSFER • SUPPORT</div>
+    <div class="order-meta">FULFILLING: ${escapeHtml((order.branch || "NIKE STORE").toUpperCase())}</div>
+    <div class="order-meta">TRANSFER REF: ${escapeHtml(order.id || "N/A")} | [ ${escapeHtml((order.status || "REQUESTED").toUpperCase())} ]</div>
+  </div>
+
+  <div class="s-line"></div>
+
+  <div class="focus-customer">
+    <div class="focus-customer-tag">★ REQUESTING DESTINATION ★</div>
+    <div class="focus-customer-name">${escapeHtml(order.requestingBranch || "MAIN BRANCH").toUpperCase()}</div>
+    ${(order.supportReason || order.notes) ? `
+    <div class="focus-customer-phone" style="font-size:11px;font-weight:bold;">
+      NOTES: ${escapeHtml(order.supportReason || order.notes)}
+    </div>` : ""}
+  </div>
+
+  <div class="focus-removal">
+    <div class="focus-removal-tag">📦 STOCK TRANSFER STATUS 📦</div>
+    <div class="focus-removal-date">${escapeHtml((order.status || "REQUESTED").toUpperCase())}</div>
+    <div class="focus-dates-row">
+      <span>REQUEST DATE: <strong>${escapeHtml(orderDateStr)}</strong></span>
+      <span>RECEIVED: <strong>${order.arrivalDate ? escapeHtml(order.arrivalDate) : "PENDING"}</strong></span>
+    </div>
+  </div>
+
+  <div class="d-line"></div>
+
+  <div class="simple-item-section">
+    <div class="item-primary-row">
+      <span class="item-sku">${escapeHtml(order.itemNumber || "N/A")}</span>
+      <span class="item-size">SZ: ${escapeHtml(order.size || "-")}</span>
+    </div>
+    ${order.description ? `<div class="item-desc">${escapeHtml(order.description)}</div>` : ""}
+    <div class="item-secondary-row">
+      <span>COLOR: ${escapeHtml(order.color || "-")}</span>
+      <span>QTY: <strong>${escapeHtml(order.quantity || 1)} UNIT(S)</strong></span>
+    </div>
+  </div>
+
+  <div class="simple-footer">
+    <span>LOGGED BY: ${escapeHtml(order.enteredBy || order.employee || "STORE STAFF")}</span>
+    <span>PRINTED: ${printDate}</span>
+  </div>
+
+  <div class="policy-note">
+    *** INTERNAL STORE USE ONLY ***<br>
+    sidewalks.net • Nike Logistics
+  </div>
+  ` : `
+  <!-- NORMAL CUSTOMER ORDER SLIP (FOCUSED & SIMPLE) -->
+  <div class="header-box">
+    <div class="brand-name">NIKE LEBANON</div>
+    <div class="store-name">${escapeHtml((order.branch || "NIKE STORE").toUpperCase())} • HOLD SLIP</div>
+    <div class="order-meta">ORDER REF: ${escapeHtml(order.id || "N/A")} | [ ${escapeHtml(status)} ]</div>
+  </div>
+
+  <div class="s-line"></div>
+
+  <!-- PRIMARY FOCUS 1: CUSTOMER NAME & PHONE -->
+  <div class="focus-customer">
+    <div class="focus-customer-tag">★ CUSTOMER FOR PICKUP ★</div>
+    <div class="focus-customer-name">${escapeHtml(order.customerName || "CUSTOMER").toUpperCase()}</div>
+    ${formattedPhone ? `<div class="focus-customer-phone">TEL: ${escapeHtml(formattedPhone)}</div>` : ""}
+  </div>
+
+  <!-- PRIMARY FOCUS 2: DATE TO BE REMOVED AT -->
+  <div class="focus-removal ${isOverdue ? 'overdue' : ''}">
+    <div class="focus-removal-tag">⚠️ REMOVE FROM HOLD AT ⚠️</div>
+    <div class="focus-removal-date">${holdDeadlineDisplay}</div>
+    <div class="focus-removal-sub">
+      ${isOverdue ? '*** 48H LIMIT EXPIRED - RETURN TO STOCK ***' : 'RESERVED FOR 2 DAYS ONLY • RETURN IF UNPICKED'}
+    </div>
+    <div class="focus-dates-row">
+      <span>ORDER: <strong>${escapeHtml(orderDateStr)}</strong></span>
+      <span>ARRIVAL: <strong>${arrivalDateStr ? escapeHtml(arrivalDateStr) : "PENDING"}</strong></span>
+    </div>
+  </div>
+
+  <div class="d-line"></div>
+
+  <!-- SIMPLE PRODUCT INFORMATION -->
+  <div class="simple-item-section">
+    <div class="item-primary-row">
+      <span class="item-sku">${escapeHtml(order.itemNumber || "N/A")}</span>
+      <span class="item-size">SZ: ${escapeHtml(order.size || "-")}</span>
+    </div>
+    ${order.description ? `<div class="item-desc">${escapeHtml(order.description)}</div>` : ""}
+    <div class="item-secondary-row">
+      <span>COLOR: ${escapeHtml(order.color || "-")}</span>
+      ${order.price ? `<span>PRICE: $${escapeHtml(order.price)}</span>` : ""}
+    </div>
+    ${order.quantity && Number(order.quantity) > 1 ? `
+    <div class="item-secondary-row" style="margin-top:2px;">
+      <span>QUANTITY: <strong>${escapeHtml(order.quantity)} UNITS</strong></span>
+    </div>` : ""}
+  </div>
+
+  <!-- SIMPLE STAFF & LOGISTICS FOOTER -->
+  <div class="simple-footer">
+    <span>STAFF: ${escapeHtml(order.enteredBy || order.employee || "STORE STAFF")}</span>
+    <span>PRINTED: ${printDate}</span>
+  </div>
+
+  <div class="policy-note">
+    PLEASE PRESENT TICKET UPON PICKUP.<br>
+    sidewalks.net • Nike Retail Operations
+  </div>
+  `}
+
+  <!-- Space for TSP700II auto-cutter -->
+  <div class="cut-feed"></div>
+
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.print();
+      }, 250);
+    };
+  <\/script>
+</body>
+</html>`);
+        w.document.close();
+      }
+
+      function resetWaSent(id) {
+        const order = orders.find(o => String(o.id) === String(id));
+        if (!order) return;
+        order.smsSent = false;
+        persistOrders();
+        updateMetrics();
+        renderTable();
+        showToast(`WhatsApp status reset for ${order.customerName} — can resend now.`, "info");
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function showToast(message, type = "info") {
+        const container = document.getElementById("toastContainer");
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+          <span>${escapeHtml(message)}</span>
+        `;
+        container.appendChild(toast);
+
+        // Animate in
+        requestAnimationFrame(() => {
+          toast.classList.add("show");
+        });
+
+        // Remove after 3.2s
+        setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+          }, 300);
+        }, 3200);
+      }
     </script>
+    <!-- Floating Store Copilot Chatbot -->
+    <script src="chatbot.js"></script>
   </body>
 </html>
+

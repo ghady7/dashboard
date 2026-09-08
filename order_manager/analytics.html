@@ -1,0 +1,3318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nike Analytics | Lebanon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,700..900&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="analytics.css" />
+    <link rel="stylesheet" href="transitions.css" />
+    <script src="transitions.js"></script>
+    <!-- Local Chart.js for 100% offline branch PC support with CDN fallback -->
+    <script src="chart.umd.min.js"></script>
+    <script>
+      if (typeof Chart === "undefined") {
+        document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>');
+      }
+    </script>
+
+  </head>
+  <body>
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <a href="index.html" class="brand-logo-link" title="Nike Order Operations">
+          <svg class="nike-logo-svg" viewBox="135.5 361.38 1000 356.39" aria-label="Nike Swoosh Logo" role="img">
+            <path d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z"/>
+          </svg>
+        </a>
+        <div class="brand-info">
+          <h1>NIKE <span class="highlight">ANALYTICS</span></h1>
+          <div class="brand-subtitle">Order Performance &amp; Store Reports • Lebanon</div>
+        </div>
+      </div>
+      <div class="header-controls">
+        <a href="index.html" class="btn btn-secondary" title="View Orders Dashboard">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Dashboard
+        </a>
+        <a href="todo.html" class="btn btn-secondary" title="View Operations Tasks & Objectives">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM17.99 9l-1.41-1.42-6.59 6.59-2.58-2.57-1.42 1.41 4 4z"/></svg>
+          To-Do Tasks
+        </a>
+        <a href="analytics.html" class="btn btn-secondary active" title="View Operations Analytics & Reports">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path fill="currentColor" d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+          Analytics
+        </a>
+        <a href="add_order.html" class="btn btn-nike" title="Register New Customer Order">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          Add Order
+        </a>
+      </div>
+    </header>
+
+    <div class="page-transition-content">
+      <!-- ==========================================================================
+           POWER BI CONTROL & SLICER BAR
+           ========================================================================== -->
+      <section class="analytics-filter-bar" id="analyticsFilterBar">
+      <!-- Row 1: Timeframe Slicers -->
+      <div class="slicer-row-primary">
+        <div class="timeframe-group">
+          <span class="slicer-label">PERIOD:</span>
+          <button class="filter-pill-btn active" id="filterAllTime" onclick="setTimeframe('all')">All Time</button>
+          <button class="filter-pill-btn" id="filterToday" onclick="setTimeframe('today')">Today</button>
+          <button class="filter-pill-btn" id="filterYesterday" onclick="setTimeframe('yesterday')">Yesterday</button>
+          <button class="filter-pill-btn" id="filter7Days" onclick="setTimeframe('7d')">Last 7 Days</button>
+          <button class="filter-pill-btn" id="filter30Days" onclick="setTimeframe('30d')">Last 30 Days</button>
+          <button class="filter-pill-btn" id="filterThisMonth" onclick="setTimeframe('this_month')">This Month</button>
+          <button class="filter-pill-btn" id="filterCustom" onclick="setTimeframe('custom')">Custom</button>
+          
+          <!-- Custom Range Date Inputs -->
+          <div class="custom-date-container" id="customDateContainer" style="display:none;">
+            <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">FROM:</span>
+            <input type="date" id="customStartDate" class="date-input-field" onclick="try{this.showPicker()}catch(e){}" onfocus="try{this.showPicker()}catch(e){}" onchange="handleCustomDateChange()" />
+            <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">TO:</span>
+            <input type="date" id="customEndDate" class="date-input-field" onclick="try{this.showPicker()}catch(e){}" onfocus="try{this.showPicker()}catch(e){}" onchange="handleCustomDateChange()" />
+          </div>
+        </div>
+
+        <div class="slicer-actions-group">
+          <span class="data-source-pill" id="dataSourcePill" style="margin-right: 0.25rem;">
+            <span class="indicator-dot"></span>
+            <span id="dataSourceLabel">Live Store DB</span>
+          </span>
+          <button class="btn btn-secondary" onclick="exportFilteredCSV()" title="Export filtered orders to CSV">
+            <svg viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z"/></svg>
+            Export CSV
+          </button>
+          <button class="btn btn-secondary btn-print-report" onclick="openPrintModal()" title="Print A4 Summary Report &amp; Analytics">
+            <svg viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+            Print
+          </button>
+          <button class="btn btn-secondary" id="btnResetFilters" onclick="resetAllFilters()">
+            <svg viewBox="0 0 24 24" style="width: 13px; height: 13px;"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            Reset Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 2: Multi-Dimensional Slicers & Global Search -->
+      <div class="slicer-row-secondary">
+        <div class="dropdown-slicers-group">
+          <span class="slicer-label">FILTERS:</span>
+          
+          <!-- Order Type Slicer -->
+          <select id="orderTypeFilter" class="slicer-select" onchange="handleOrderTypeChange(this.value)">
+            <option value="customer" selected>Customer Orders (Pure KPIs)</option>
+            <option value="ALL">All (Orders & Store Support)</option>
+            <option value="store_support">Store Support Only</option>
+          </select>
+
+          <!-- Sourcing Branch Slicer -->
+          <select id="branchFilter" class="slicer-select" onchange="handleBranchChange(this.value)">
+            <option value="ALL">All Branches</option>
+          </select>
+
+          <!-- Category Slicer -->
+          <select id="categoryFilter" class="slicer-select" onchange="handleCategoryChange(this.value)">
+            <option value="ALL">All Categories</option>
+            <option value="Footwear - Lifestyle & Retro">Footwear - Lifestyle & Retro</option>
+            <option value="Footwear - Running">Footwear - Running</option>
+            <option value="Footwear - Basketball">Footwear - Basketball</option>
+            <option value="Footwear - Training & Gym">Footwear - Training & Gym</option>
+            <option value="Footwear - Football / Soccer">Footwear - Football / Soccer</option>
+            <option value="Apparel - Tops & Hoodies">Apparel - Tops & Hoodies</option>
+            <option value="Apparel - Pants & Shorts">Apparel - Pants & Shorts</option>
+            <option value="Accessories & Equipment">Accessories & Equipment</option>
+          </select>
+
+          <!-- Staff Slicer -->
+          <select id="staffFilter" class="slicer-select" onchange="handleStaffChange(this.value)">
+            <option value="ALL">All Staff</option>
+          </select>
+
+          <!-- Status Slicer -->
+          <select id="statusFilter" class="slicer-select" onchange="handleStatusChange(this.value)">
+            <option value="ALL">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Arrived">Ready for Pickup</option>
+            <option value="Collected">Collected</option>
+            <option value="Unpicked">Unpicked</option>
+            <option value="Requested">Requested (Support)</option>
+            <option value="Received">Received (Support)</option>
+          </select>
+        </div>
+
+        <!-- Global Search -->
+        <div class="search-input-wrap">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="searchInput" class="search-input-field" placeholder="Search customer, phone, SKU..." oninput="handleSearchInput(this.value)" />
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Empty Database Banner (Shown if 0 orders found) -->
+    <div id="emptyDbBanner" style="display:none; margin: 1rem 1.5rem; padding: 1.25rem 1.5rem; background: linear-gradient(135deg, rgba(255,85,0,0.15), rgba(255,85,0,0.05)); border: 1px solid rgba(255,85,0,0.35); border-radius: 12px; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <span style="font-size: 1.8rem; filter: drop-shadow(0 2px 6px rgba(255,85,0,0.4));">📊</span>
+        <div>
+          <div style="font-weight: 700; color: #fff; font-size: 0.95rem;">Database is currently empty (0 orders detected)</div>
+          <div style="color: var(--text-secondary); font-size: 0.84rem;">Register customer reservations or store support transfers to generate analytics and PowerBI-style performance charts.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <a href="add_order.html" class="btn btn-nike" style="white-space: nowrap; padding: 0.65rem 1.4rem; box-shadow: 0 4px 14px rgba(255,85,0,0.35); text-decoration: none;">
+          + Add First Order
+        </a>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         A4 PRINT-ONLY EXECUTIVE REPORT HEADER (Visible only on printout)
+         ========================================================================== -->
+    <div class="print-only-header" id="printReportHeader">
+      <div class="print-header-top">
+        <div class="print-brand-wrap">
+          <svg class="print-nike-logo" viewBox="135.5 361.38 1000 356.39" aria-label="Nike Logo">
+            <path d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z"/>
+          </svg>
+          <div>
+            <h1 class="print-title">NIKE <span class="highlight">ANALYTICS</span> &bull; STORE OPERATIONS REPORT</h1>
+            <div class="print-subtitle">Executive Order Velocity, Sourcing Logistics &amp; Customer Intelligence &bull; Lebanon</div>
+          </div>
+        </div>
+        <div class="print-meta-right">
+          <div class="print-meta-badge"><strong>PRINTED:</strong> <span id="printMetaDateVal">—</span></div>
+          <div class="print-meta-badge"><strong>DATABASE:</strong> <span id="printMetaScopeVal">Live Store DB</span></div>
+        </div>
+      </div>
+
+      <div class="print-slicer-summary-box">
+        <div class="print-slicer-grid">
+          <div class="print-slicer-item">
+            <span class="print-slicer-label">TIMEFRAME</span>
+            <span class="print-slicer-val" id="printFilterTimeframe">All Time</span>
+          </div>
+          <div class="print-slicer-item">
+            <span class="print-slicer-label">BRANCH</span>
+            <span class="print-slicer-val" id="printFilterBranch">All Branches</span>
+          </div>
+          <div class="print-slicer-item">
+            <span class="print-slicer-label">CATEGORY</span>
+            <span class="print-slicer-val" id="printFilterCategory">All Categories</span>
+          </div>
+          <div class="print-slicer-item">
+            <span class="print-slicer-label">STAFF</span>
+            <span class="print-slicer-val" id="printFilterStaff">All Staff</span>
+          </div>
+          <div class="print-slicer-item">
+            <span class="print-slicer-label">STATUS</span>
+            <span class="print-slicer-val" id="printFilterStatus">All Statuses</span>
+          </div>
+          <div class="print-slicer-item highlight">
+            <span class="print-slicer-label">ORDERS ANALYZED</span>
+            <span class="print-slicer-val bold" id="printFilterOrderCount">0 Orders</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         EXECUTIVE KPI SUMMARY RIBBON
+         ========================================================================== -->
+    <section class="kpi-grid" id="kpiGridSection">
+      <!-- Total Orders -->
+      <div class="kpi-card clickable-visual-item" id="kpiCardTotal" onclick="resetAllFilters()" title="Click to clear all filters and view all orders">
+        <div class="kpi-header">
+          <span class="kpi-label">Total Orders</span>
+          <svg class="kpi-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path fill="currentColor" d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiTotal">0</div>
+        <div class="kpi-subtext" id="kpiTotalSub">Total orders</div>
+      </div>
+
+      <!-- Pending Pipeline -->
+      <div class="kpi-card pending clickable-visual-item" id="kpiCardPending" onclick="toggleStatusFilter('Pending')" title="Click to filter Pending orders (Click again to clear)">
+        <div class="kpi-header">
+          <span class="kpi-label">Pending</span>
+          <svg class="kpi-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiPending">0</div>
+        <div class="kpi-subtext" id="kpiPendingSub">Awaiting arrival</div>
+      </div>
+
+      <!-- Ready for Pickup (Arrived + Overdue Alert) -->
+      <div class="kpi-card arrived clickable-visual-item" id="kpiCardArrived" onclick="toggleStatusFilter('Arrived')" title="Click to filter Ready for Pickup orders (Click again to clear)">
+        <div class="kpi-header">
+          <span class="kpi-label">Ready for Pickup</span>
+          <svg class="kpi-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2zm-2 11l-4-4 1.41-1.41L12 14.17l6.59-6.59L20 9l-8 8z"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiArrived">0</div>
+        <div class="kpi-subtext" id="kpiArrivedSub">Arrived in store</div>
+      </div>
+
+      <!-- Fulfillment Rate -->
+      <div class="kpi-card fulfillment clickable-visual-item" id="kpiCardFulfillment" onclick="toggleStatusFilter('Collected')" title="Click to filter Collected orders (Click again to clear)">
+        <div class="kpi-header">
+          <span class="kpi-label">Fulfillment Rate</span>
+          <svg class="kpi-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiFulfillmentRate">0%</div>
+        <div class="kpi-subtext" id="kpiCollectedSub">0 completed</div>
+      </div>
+
+      <!-- Unpicked Orders -->
+      <div class="kpi-card unpicked clickable-visual-item" id="kpiCardUnpicked" onclick="toggleStatusFilter('Unpicked')" title="Click to filter Unpicked orders (Click again to clear)">
+        <div class="kpi-header">
+          <span class="kpi-label">Unpicked Orders</span>
+          <svg class="kpi-icon" viewBox="0 0 24 24" style="color:#ef4444;"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiUnpicked" style="color:#ef4444;">0</div>
+        <div class="kpi-subtext" id="kpiUnpickedSub">0% of orders · No-shows</div>
+      </div>
+
+      <!-- Avg Fulfillment Days -->
+      <div class="kpi-card avgdays">
+        <div class="kpi-header">
+          <span class="kpi-label">Avg Delivery Time</span>
+          <svg class="kpi-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+        </div>
+        <div class="kpi-value" id="kpiAvgDays">—</div>
+        <div class="kpi-subtext" id="kpiAvgDaysSub">Average days to arrival</div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         PERIOD GROWTH INTELLIGENCE: MONTH-TO-MONTH & YEAR-TO-YEAR (MoM / YoY)
+         ========================================================================== -->
+    <section class="period-analysis-grid" id="periodAnalysisSection">
+      <!-- MoM Analysis Card -->
+      <div class="growth-card" id="momGrowthCard" onclick="toggleMoMView()" title="Click to view Month-to-Month comparison (Click again to clear)">
+        <div class="growth-card-header">
+          <div class="growth-title-wrap">
+            <span class="growth-badge-pill mom">Monthly</span>
+            <h4>Monthly Comparison</h4>
+          </div>
+          <span class="growth-subtext" id="momPeriodLabel">Current vs Previous Month</span>
+        </div>
+        <div class="growth-metrics-row">
+          <div class="growth-metric-col">
+            <span class="growth-kpi-label">Orders</span>
+            <div class="growth-kpi-val" id="momVolumeVal">0 orders</div>
+            <span class="growth-indicator neutral" id="momVolumeChange">0% vs prior month</span>
+          </div>
+          <div class="growth-metric-col">
+            <span class="growth-kpi-label">Completed</span>
+            <div class="growth-kpi-val" id="momCollectedVal">0 completed</div>
+            <span class="growth-indicator neutral" id="momCollectedChange">0% vs prior month</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- YoY Analysis Card -->
+      <div class="growth-card" id="yoyGrowthCard" onclick="toggleYoYView()" title="Click to view Year-to-Year comparison (Click again to clear)">
+        <div class="growth-card-header">
+          <div class="growth-title-wrap">
+            <span class="growth-badge-pill yoy">Annual</span>
+            <h4>Annual Comparison</h4>
+          </div>
+          <span class="growth-subtext" id="yoyPeriodLabel">Current vs Previous Year</span>
+        </div>
+        <div class="growth-metrics-row">
+          <div class="growth-metric-col">
+            <span class="growth-kpi-label">Orders</span>
+            <div class="growth-kpi-val" id="yoyVolumeVal">0 orders</div>
+            <span class="growth-indicator neutral" id="yoyVolumeChange">0% vs prior year</span>
+          </div>
+          <div class="growth-metric-col">
+            <span class="growth-kpi-label">Completed</span>
+            <div class="growth-kpi-val" id="yoyCollectedVal">0 completed</div>
+            <span class="growth-indicator neutral" id="yoyCollectedChange">0% vs prior year</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         POWER BI VISUALS - ROW 1: TIME TREND & CATEGORY SHARE
+         ========================================================================== -->
+    <section class="charts-row-asymmetric" id="chartsRow1">
+      <!-- Visual 1: Time-Series Trend -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">
+              <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: var(--nike-orange);"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+              <span id="trendChartTitle">Orders Over Time</span>
+            </div>
+            <span class="chart-subtitle" id="trendChartSubtitle">Daily order volume (click any date to filter)</span>
+          </div>
+          <div class="trend-granularity-toggle" id="trendGranularityToggle">
+            <button type="button" class="granularity-btn active" id="btnGranDaily" onclick="setTrendGranularity('daily')" title="View day-by-day order velocity">Daily</button>
+            <button type="button" class="granularity-btn" id="btnGranMonthly" onclick="setTrendGranularity('monthly')" title="View aggregated monthly volume (avoids overcrowding)">Monthly</button>
+          </div>
+        </div>
+        <div class="chart-canvas-wrapper">
+          <canvas id="trendLineCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Visual 2: Category Distribution Donut -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">
+            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: var(--nike-orange);"><path d="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2 0v8.99L21.99 11c-.49-5.03-4.46-8.99-9.99-9zm0 11.01V22c5.53-.01 9.5-3.97 9.99-9H13z"/></svg>
+            Orders by Category
+          </div>
+          <span class="chart-subtitle">Breakdown by product category</span>
+        </div>
+        <div class="chart-canvas-wrapper">
+          <canvas id="categoryDonutCanvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- A4 Page Break after Executive Visuals -->
+    <div class="print-page-break"></div>
+
+    <!-- ==========================================================================
+         POWER BI VISUALS - ROW 2: CATEGORY VOLUME & STAFF PERFORMANCE
+         ========================================================================== -->
+    <section class="charts-row-equal" id="chartsRow2">
+      <!-- Visual 3: Category Volume Breakdown -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">
+            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: var(--nike-orange);"><path d="M4 9h4v11H4zm6-5h4v16h-4zm6 8h4v8h-4z"/></svg>
+            Category Volume
+          </div>
+          <span class="chart-subtitle">Total orders per category</span>
+        </div>
+        <div class="chart-canvas-wrapper">
+          <canvas id="categoryBarCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Visual 4: Staff Activity & Performance -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">
+              <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: var(--nike-orange);"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+              Orders by Staff
+            </div>
+            <span class="chart-subtitle">Orders logged by staff member</span>
+          </div>
+          <div class="trend-granularity-toggle" id="staffRosterToggle">
+            <button type="button" class="granularity-btn active" id="btnStaffActiveOnly" onclick="setStaffViewMode('active_only')" title="Show only active staff members">Active Roster</button>
+            <button type="button" class="granularity-btn" id="btnStaffIncludeFormer" onclick="setStaffViewMode('include_former')" title="Include departed staff grouped as 'Former Staff'">Include Former</button>
+          </div>
+        </div>
+        <div class="chart-canvas-wrapper">
+          <canvas id="staffBarCanvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         POWER BI VISUALS - ROW 3: TOP MODELS & TOP SOURCING BRANCHES
+         ========================================================================== -->
+    <section class="charts-row-equal" id="chartsRow3">
+      <!-- Visual 5: Top Requested Nike Models (Ranked Visual Cards) -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">
+            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: var(--nike-orange);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            Top Requested Products
+          </div>
+          <span class="chart-subtitle">Most requested items by order count</span>
+        </div>
+        <div class="ranking-list" id="topProductsList">
+          <!-- Dynamically Injected -->
+        </div>
+      </div>
+
+      <!-- Visual 6: Top Origin / Sourcing Branches -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">
+            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: var(--nike-orange);"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Orders by Branch
+          </div>
+          <span class="chart-subtitle">Order distribution across store locations</span>
+        </div>
+        <div class="chart-canvas-wrapper">
+          <canvas id="branchBarCanvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- A4 Page Break after Volume & Logistics Charts -->
+    <div class="print-page-break"></div>
+
+    <!-- ==========================================================================
+         POWER BI VISUALS - ROW 4: CUSTOMER INTELLIGENCE & RANKING (PHONE-AGGREGATED)
+         ========================================================================== -->
+    <section class="matrix-container" id="customerLeaderboardSection">
+      <div class="chart-header">
+        <div class="chart-title">
+          <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: var(--nike-orange);"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          Top Customers
+        </div>
+        <span class="chart-subtitle">Customers ranked by order count</span>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Orders</th>
+            <th>Last Order</th>
+            <th>Top Category</th>
+            <th>Branch</th>
+            <th class="col-action hide-on-print">Action</th>
+          </tr>
+        </thead>
+        <tbody id="customerLeaderboardTableBody">
+          <!-- Dynamically Injected -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ==========================================================================
+         POWER BI VISUALS - ROW 5: UNPICKED ORDERS LEADERBOARD (TOP 10 CUSTOMERS)
+         ========================================================================== -->
+    <section class="matrix-container" id="unpickedLeaderboardSection">
+      <div class="chart-header" style="justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+        <div>
+          <div class="chart-title" style="color: #ef4444; display: flex; align-items: center; gap: 0.5rem;">
+            <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: #ef4444;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            Top 10 Customers with Unpicked Orders
+            <span class="unpicked-alert-chip" id="unpickedTotalCountChip">0 unpicked</span>
+          </div>
+          <span class="chart-subtitle">High-risk customer tracking: Ranked by uncollected store reservations</span>
+        </div>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Rank & Customer</th>
+            <th>Phone</th>
+            <th>Unpicked Orders</th>
+            <th>Total Orders</th>
+            <th>Abandonment Rate</th>
+            <th>Preferred Branch</th>
+            <th>Recent Unpicked Item</th>
+            <th class="col-action hide-on-print">Resolution Action</th>
+          </tr>
+        </thead>
+        <tbody id="unpickedLeaderboardTableBody">
+          <!-- Dynamically Injected -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ==========================================================================
+         DETAILED OPERATIONAL MATRICES (CATEGORY, STAFF, LOGISTICS)
+         ========================================================================== -->
+    <!-- Category Intelligence Matrix -->
+    <section class="matrix-container" id="categoryMatrixSection">
+      <div class="chart-header">
+        <div class="chart-title">
+          <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: var(--nike-orange);"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          Category Details
+        </div>
+        <span class="chart-subtitle">Order status and fulfillment by category</span>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Total</th>
+            <th>Share</th>
+            <th>Pending</th>
+            <th>Ready</th>
+            <th>Collected</th>
+            <th>Unpicked</th>
+            <th>Fulfillment Rate</th>
+            <th>Top Item</th>
+          </tr>
+        </thead>
+        <tbody id="categoryMatrixTableBody">
+          <!-- Dynamically Injected -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Store Pickup & Transfer Logistics Matrix -->
+    <section class="matrix-container" id="branchMatrixSection">
+      <div class="chart-header">
+        <div class="chart-title">
+          <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: var(--nike-orange);"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Branch Details
+        </div>
+        <span class="chart-subtitle">Order status and fulfillment by branch</span>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>Total</th>
+            <th>Share</th>
+            <th>Pending</th>
+            <th>Ready</th>
+            <th>Collected</th>
+            <th>Unpicked</th>
+            <th>Fulfillment Rate</th>
+          </tr>
+        </thead>
+        <tbody id="routingMatrixTableBody">
+          <!-- Dynamically Injected -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- A4 Print-Only Running Footer (Visible exclusively on printout) -->
+    <div class="print-only-footer">
+      <div class="print-footer-left">
+        <span>Nike Lebanon Store Operations &bull; Retail Analytics &amp; Inventory Management &bull; Confidential Report</span>
+      </div>
+      <div class="print-footer-right">
+        <span id="printFooterDateVal">Printed: 08 Sep 2026</span>
+      </div>
+    </div>
+
+    </div>
+
+    <!-- ==========================================================================
+         A4 PRINT PREVIEW & CONFIGURATION MODAL (Screen UI)
+         ========================================================================== -->
+    <div class="print-modal-backdrop" id="printModalBackdrop" onclick="closePrintModal(event)">
+      <div class="print-modal-dialog" onclick="event.stopPropagation()">
+        <div class="print-modal-header">
+          <div class="print-modal-title-wrap">
+            <div class="print-modal-icon">🖨️</div>
+            <div>
+              <h3 class="print-modal-title">Print Operations Analytics</h3>
+              <div class="print-modal-sub">Formatted for Standard A4 Paper (210 &times; 297 mm) Portrait</div>
+            </div>
+          </div>
+          <button type="button" class="print-modal-close" onclick="closePrintModal()" title="Close dialog">&times;</button>
+        </div>
+
+        <div class="print-modal-body">
+          <!-- Active Filter Scope Card -->
+          <div class="print-scope-summary">
+            <div class="scope-summary-title">
+              <span>📋 Active Data Scope to be Printed:</span>
+              <span class="scope-count-badge" id="modalOrderCountBadge">0 Orders</span>
+            </div>
+            <div class="scope-tags-row" id="modalScopeTags">
+              <!-- Dynamically Injected Filter Badges -->
+            </div>
+          </div>
+
+          <!-- Quick Preset Buttons -->
+          <div class="print-preset-selector">
+            <span class="preset-label">REPORT PRESET:</span>
+            <div class="preset-btns-group">
+              <button type="button" class="preset-btn active" id="presetFullReport" onclick="applyPrintPreset('full')">Full Report (All 8 Sections)</button>
+              <button type="button" class="preset-btn" id="presetExecSummary" onclick="applyPrintPreset('summary')">Executive Summary</button>
+              <button type="button" class="preset-btn" id="presetTablesOnly" onclick="applyPrintPreset('tables')">Tables &amp; Matrices</button>
+            </div>
+          </div>
+
+          <!-- Section Selection Checkboxes -->
+          <div class="print-sections-list">
+            <div class="sections-list-title">SELECT SECTIONS TO INCLUDE ON A4 PRINTOUT:</div>
+            
+            <label class="print-section-check">
+              <input type="checkbox" id="checkPrintKpi" checked onchange="handlePrintSectionToggle()" />
+              <div class="check-content">
+                <span class="check-title">Executive KPI Ribbon</span>
+                <span class="check-desc">Total Orders, Pending, Ready for Pickup, Fulfillment Rate, Unpicked Orders, Avg Delivery Time</span>
+              </div>
+            </label>
+
+            <label class="print-section-check">
+              <input type="checkbox" id="checkPrintGrowth" checked onchange="handlePrintSectionToggle()" />
+              <div class="check-content">
+                <span class="check-title">Period Growth Intelligence (MoM &amp; YoY)</span>
+                <span class="check-desc">Month-to-Month &amp; Year-to-Year order velocity and fulfillment comparisons</span>
+              </div>
+            </label>
+
+            <label class="print-section-check">
+              <input type="checkbox" id="checkPrintCharts1" checked onchange="handlePrintSectionToggle()" />
+              <div class="check-content">
+                <span class="check-title">Visuals 1 &amp; 2: Time Trend &amp; Category Donut</span>
+                <span class="check-desc">Daily/Monthly order timeline and product category percentage share</span>
+              </div>
+            </label>
+
+            <label class="print-section-check">
+              <input type="checkbox" id="checkPrintCharts2" checked onchange="handlePrintSectionToggle()" />
+              <div class="check-content">
+                <span class="check-title">Visuals 3 &amp; 4: Category Volume &amp; Staff Performance</span>
+                <span class="check-desc">Order breakdown per product category &amp; orders entered per active staff member</span>
+              </div>
+            </label>
+
+            <label class="print-section-check">
+              <input type="checkbox" id="checkPrintCharts3" checked onchange="handlePrintSectionToggle()" />
+              <div class="check-content">
+                <span class="check-title">Visuals 5 &amp; 6: Top Requested Products &amp; Sourcing Branches</span>
+                <span class="check-desc">Ranked Nike merchandise demand and branch logistics order distribution</span>
+              </div>
+            </label>
+
+            <label class="print-section-check">
+              <input type="checkbox" id="checkPrintCustomerLeaderboard" checked onchange="handlePrintSectionToggle()" />
+              <div class="check-content">
+                <span class="check-title">Top Customers Leaderboard</span>
+                <span class="check-desc">High-volume customers, contact numbers, order frequency &amp; preferred branch</span>
+              </div>
+            </label>
+
+            <label class="print-section-check">
+              <input type="checkbox" id="checkPrintUnpickedLeaderboard" checked onchange="handlePrintSectionToggle()" />
+              <div class="check-content">
+                <span class="check-title">Top 10 Customers with Unpicked Orders</span>
+                <span class="check-desc">High-risk customer tracking: uncollected reservations and abandonment rates</span>
+              </div>
+            </label>
+
+            <label class="print-section-check">
+              <input type="checkbox" id="checkPrintMatrices" checked onchange="handlePrintSectionToggle()" />
+              <div class="check-content">
+                <span class="check-title">Category &amp; Branch Operational Matrices</span>
+                <span class="check-desc">Full status breakdowns (Pending, Ready, Collected, Unpicked) and fulfillment %</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- A4 Formatting Tips -->
+          <div class="print-modal-tip">
+            <span class="tip-icon">💡</span>
+            <span><strong>A4 Print Tip:</strong> In the browser print dialog, select <strong>Paper Size: A4</strong>, <strong>Layout: Portrait</strong>, and enable <strong>"Background graphics"</strong> for optimal contrast and sharpness.</span>
+          </div>
+        </div>
+
+        <div class="print-modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closePrintModal()">Cancel</button>
+          <button type="button" class="btn btn-nike" id="btnConfirmPrint" onclick="executeA4Print()">
+            <svg viewBox="0 0 24 24" style="width: 15px; height: 15px;"><path fill="currentColor" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+            Print to A4
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- In-Page Confirmation Modal -->
+    <div class="print-modal-backdrop" id="genericConfirmModal" onclick="closeGenericConfirmModal(event)" style="display: none;">
+      <div class="print-modal-dialog" onclick="event.stopPropagation()" style="max-width: 480px;">
+        <div class="print-modal-header">
+          <div class="print-modal-title-wrap">
+            <div class="print-modal-icon" id="genericConfirmIcon">⚡</div>
+            <div>
+              <h3 class="print-modal-title" id="genericConfirmTitle">Confirm Action</h3>
+              <div class="print-modal-sub" id="genericConfirmSub">Operations Data Management</div>
+            </div>
+          </div>
+          <button type="button" class="print-modal-close" onclick="closeGenericConfirmModal()">&times;</button>
+        </div>
+        <div class="print-modal-body">
+          <p id="genericConfirmMsg" style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin: 0;"></p>
+        </div>
+        <div class="print-modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeGenericConfirmModal()">Cancel</button>
+          <button type="button" class="btn btn-nike" id="genericConfirmOkBtn">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         CENTRALIZED STATE MANAGEMENT, FILTER ENGINE & CHART.JS BI DRIVER
+         ========================================================================== -->
+    <script>
+      /* ==========================================================================
+         1. APPLICATION STATE
+         ========================================================================== */
+      const DEFAULT_STAFF_LIST = [
+        "Maya Khoury", "Rami Gemayel", "Elie Haddad", "Sarah Atallah",
+        "Ahmad Zein", "Nour Saleh", "Karim Bitar", "Ghady", "Tony Khoury", "Lara Haddad"
+      ];
+
+      function getActiveStaffList() {
+        try {
+          const raw = localStorage.getItem("nike_staff_list");
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          }
+        } catch (e) {}
+        return [...DEFAULT_STAFF_LIST];
+      }
+
+      const state = {
+        allOrders: [],
+        filteredOrders: [],
+        trendGranularity: "daily", // 'daily' | 'monthly' | 'yearly'
+        staffViewMode: "active_only", // 'active_only' | 'include_former'
+        selectedMonthFilter: null,
+        selectedYearFilter: null,
+        filters: {
+          timeframe: "all", // 'all' | 'today' | 'yesterday' | '7d' | '30d' | 'this_month' | 'mom' | 'yoy' | 'custom'
+          orderType: "customer", // 'customer' | 'ALL' | 'store_support'
+          customStart: "",
+          customEnd: "",
+          branch: "ALL",
+          category: "ALL",
+          staff: "ALL",
+          status: "ALL",
+          searchQuery: ""
+        },
+        charts: {
+          trend: null,
+          categoryDonut: null,
+          categoryBar: null,
+          staffBar: null,
+          branchBar: null
+        }
+      };
+
+      function normalizeDateStr(raw) {
+        if (!raw) return null;
+        if (typeof raw === "number") {
+          if (raw > 100000000000) {
+            const d = new Date(raw);
+            if (!isNaN(d.getTime())) return d.toISOString().split("T")[0];
+          } else if (raw > 20000 && raw < 80000) {
+            const d = new Date(Math.round((raw - 25569) * 86400 * 1000));
+            if (!isNaN(d.getTime())) return d.toISOString().split("T")[0];
+          }
+        }
+        const s = String(raw).trim();
+        if (!s) return null;
+
+        // Match YYYY-MM-DD or YYYY/MM/DD
+        const isoMatch = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+        if (isoMatch) {
+          const y = isoMatch[1];
+          const m = isoMatch[2].padStart(2, "0");
+          const d = isoMatch[3].padStart(2, "0");
+          return `${y}-${m}-${d}`;
+        }
+
+        // Match DD/MM/YYYY or DD-MM-YYYY or DD.MM.YYYY
+        const dmyMatch = s.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
+        if (dmyMatch) {
+          let p1 = parseInt(dmyMatch[1], 10);
+          let p2 = parseInt(dmyMatch[2], 10);
+          const y = dmyMatch[3];
+          let day = p1;
+          let month = p2;
+          if (p2 > 12 && p1 <= 12) {
+            month = p1;
+            day = p2;
+          }
+          return `${y}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        }
+
+        // Fallback to Date.parse
+        const parsed = new Date(s);
+        if (!isNaN(parsed.getTime())) {
+          try {
+            return parsed.toISOString().split("T")[0];
+          } catch (e) {}
+        }
+        return null;
+      }
+
+      function getValidOrderDates(dataset) {
+        const dateSet = new Set();
+        (dataset || []).forEach((o) => {
+          if (!o) return;
+          const norm = normalizeDateStr(o.orderDate);
+          if (norm) dateSet.add(norm);
+        });
+        return Array.from(dateSet).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+      }
+
+      /* ==========================================================================
+         2. INITIALIZATION & DATA LOADING PIPELINE
+         ========================================================================== */
+      function initChartDefaults() {
+        if (!window.Chart) return;
+        try {
+          Chart.defaults.color = "#9ea8b6";
+          Chart.defaults.font.family = "'Poppins', -apple-system, sans-serif";
+          Chart.defaults.borderColor = "rgba(255, 255, 255, 0.08)";
+          if (Chart.defaults.plugins && Chart.defaults.plugins.tooltip) {
+            Chart.defaults.plugins.tooltip.backgroundColor = "#1a202c";
+            Chart.defaults.plugins.tooltip.titleColor = "#ffffff";
+            Chart.defaults.plugins.tooltip.bodyColor = "#e2e8f0";
+            Chart.defaults.plugins.tooltip.borderColor = "rgba(255, 85, 0, 0.4)";
+            Chart.defaults.plugins.tooltip.borderWidth = 1;
+            Chart.defaults.plugins.tooltip.padding = 10;
+            Chart.defaults.plugins.tooltip.cornerRadius = 8;
+          }
+        } catch (e) {
+          console.warn("Chart defaults init warning:", e);
+        }
+      }
+
+      function initApp() {
+        initChartDefaults();
+        loadData();
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initApp);
+      } else {
+        initApp();
+      }
+
+      function loadData() {
+        let stored = [];
+        try {
+          stored = JSON.parse(localStorage.getItem("orders")) || [];
+        } catch (e) {
+          stored = [];
+        }
+        if (!Array.isArray(stored)) stored = [];
+
+        state.allOrders = stored.filter((o) => o && typeof o === "object").map((o) => {
+          if (!o.category) {
+            o.category = inferCategory(o);
+          }
+          return o;
+        });
+
+        updateDataSourceUI();
+        populateFilterDropdowns();
+        dispatchUpdate();
+      }
+
+      function updateDataSourceUI() {
+        const label = document.getElementById("dataSourceLabel");
+        if (label) {
+          label.textContent = `Live Store DB (${state.allOrders.length} orders)`;
+        }
+        const banner = document.getElementById("emptyDbBanner");
+        if (banner) {
+          banner.style.display = state.allOrders.length === 0 ? "flex" : "none";
+        }
+      }
+
+
+
+      function populateFilterDropdowns() {
+        // 1. Branch Slicer
+        const branchSelect = document.getElementById("branchFilter");
+        const branches = new Set();
+        try {
+          const storedBranches = JSON.parse(localStorage.getItem("nike_branch_list")) || [];
+          if (Array.isArray(storedBranches)) {
+            storedBranches.forEach((b) => { if (b && b.trim()) branches.add(b.trim()); });
+          }
+        } catch (e) {}
+        if (branches.size === 0) {
+          const defaultBranches = [
+            "Souks", "ABC Verdun", "ABC Ash", "BCC", "Nike Abc Dbayeh",
+            "Nike Dbayeh Highway", "Ghazir", "Tripoli", "Gs", "Warehouse"
+          ];
+          defaultBranches.forEach((b) => branches.add(b));
+        }
+        state.allOrders.forEach((o) => {
+          if (!o) return;
+          if (o.branch && o.branch.trim()) branches.add(o.branch.trim());
+        });
+        branchSelect.innerHTML = '<option value="ALL">All Sourcing Branches</option>';
+        Array.from(branches).sort().forEach((b) => {
+          const opt = document.createElement("option");
+          opt.value = b;
+          opt.textContent = b;
+          branchSelect.appendChild(opt);
+        });
+        if (state.filters.branch) {
+          branchSelect.value = state.filters.branch;
+        }
+
+        // 2. Staff Slicer (Entered By)
+        const staffSelect = document.getElementById("staffFilter");
+        const activeStaff = getActiveStaffList();
+        const activeSet = new Set(activeStaff.map((s) => s.toLowerCase()));
+        let hasFormerOrders = false;
+
+        state.allOrders.forEach((o) => {
+          if (!o) return;
+          const emp = (o.enteredBy || o.employee || "").trim().toLowerCase();
+          if (emp && !activeSet.has(emp)) {
+            hasFormerOrders = true;
+          }
+        });
+
+        staffSelect.innerHTML = '<option value="ALL">All Staff (Active Roster)</option>';
+        activeStaff.slice().sort().forEach((s) => {
+          const opt = document.createElement("option");
+          opt.value = s;
+          opt.textContent = s;
+          staffSelect.appendChild(opt);
+        });
+
+        if (hasFormerOrders) {
+          const opt = document.createElement("option");
+          opt.value = "Former Staff";
+          opt.textContent = "— Former Staff (Departed) —";
+          staffSelect.appendChild(opt);
+        }
+
+        if (state.filters.staff) {
+          staffSelect.value = state.filters.staff;
+        }
+      }
+
+      /* ==========================================================================
+         4. SLICER ENGINE & DIRECT VISUAL CLICK FILTER TOGGLES
+         ========================================================================== */
+      function toggleStatusFilter(statusVal) {
+        if (state.filters.status === statusVal) {
+          resetAllFilters();
+          showToast("Status filter cleared: Showing All Data", "info");
+        } else {
+          resetAllFilters();
+          state.filters.status = statusVal;
+          const sel = document.getElementById("statusFilter");
+          if (sel) sel.value = statusVal;
+          dispatchUpdate();
+          showToast(`Filtered by Status: ${statusVal} (Click again to clear)`, "info");
+        }
+      }
+
+      function toggleMoMView() {
+        const now = new Date();
+        const curMonthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+        if (state.selectedMonthFilter === curMonthPrefix || state.filters.timeframe === "this_month") {
+          resetAllFilters();
+          showToast("Cleared Month filter: Showing All Data", "info");
+        } else {
+          resetAllFilters();
+          state.selectedMonthFilter = curMonthPrefix;
+          state.filters.timeframe = "this_month";
+          dispatchUpdate();
+          showToast(`Visuals filtered by Month: ${curMonthPrefix} (Click card again to clear)`, "info");
+        }
+      }
+
+      function toggleYoYView() {
+        const curYearPrefix = String(new Date().getFullYear());
+        if (state.selectedYearFilter === curYearPrefix) {
+          resetAllFilters();
+          showToast("Cleared Year filter: Showing All Data", "info");
+        } else {
+          resetAllFilters();
+          state.selectedYearFilter = curYearPrefix;
+          dispatchUpdate();
+          showToast(`Visuals filtered by Year: ${curYearPrefix} (Click card again to clear)`, "info");
+        }
+      }
+
+      function setTimeframe(tf) {
+        if (state.filters.timeframe === tf && tf !== "all") {
+          // Re-click active timeframe button clears back to all
+          tf = "all";
+          showToast("Timeframe cleared: Showing All Time", "info");
+        }
+
+        state.filters.timeframe = tf;
+
+        if (tf === "mom") {
+          state.trendGranularity = "monthly";
+        } else if (tf === "yoy") {
+          state.trendGranularity = "yearly";
+        } else if (state.trendGranularity !== "daily" && tf !== "all") {
+          state.trendGranularity = "daily";
+        }
+
+        
+
+        const pills = ["filterAllTime", "filterToday", "filterYesterday", "filter7Days", "filter30Days", "filterThisMonth", "filterCustom"];
+        pills.forEach((pId) => {
+          const btn = document.getElementById(pId);
+          if (btn) btn.classList.remove("active");
+        });
+
+        if (tf === "all") document.getElementById("filterAllTime")?.classList.add("active");
+        if (tf === "today") document.getElementById("filterToday")?.classList.add("active");
+        if (tf === "yesterday") document.getElementById("filterYesterday")?.classList.add("active");
+        if (tf === "7d") document.getElementById("filter7Days")?.classList.add("active");
+        if (tf === "30d") document.getElementById("filter30Days")?.classList.add("active");
+        if (tf === "this_month") document.getElementById("filterThisMonth")?.classList.add("active");
+        if (tf === "mom") document.getElementById("filterMoM")?.classList.add("active");
+        if (tf === "yoy") document.getElementById("filterYoY")?.classList.add("active");
+        if (tf === "custom") document.getElementById("filterCustom")?.classList.add("active");
+
+        // Show/hide custom date inputs
+        const customContainer = document.getElementById("customDateContainer");
+        if (customContainer) {
+          customContainer.style.display = tf === "custom" ? "flex" : "none";
+          if (tf === "custom") {
+            setTimeout(() => {
+              try {
+                const s = document.getElementById("customStartDate");
+                if (s) {
+                  s.focus();
+                  s.showPicker?.();
+                }
+              } catch (e) {}
+            }, 60);
+          }
+        }
+
+        dispatchUpdate();
+      }
+
+      function handleCustomDateChange() {
+        let start = document.getElementById("customStartDate").value;
+        let end = document.getElementById("customEndDate").value;
+        if (start && end && start > end) {
+          showToast("Start date cannot be after End date. Adjusted end date.", "warning");
+          end = start;
+          document.getElementById("customEndDate").value = end;
+        }
+        state.filters.customStart = start;
+        state.filters.customEnd = end;
+        // Directly set timeframe to 'custom' without going through setTimeframe()
+        // to avoid the toggle-back-to-all bug when timeframe is already 'custom'
+        state.filters.timeframe = "custom";
+        const pills = ["filterAllTime","filterToday","filterYesterday","filter7Days","filter30Days","filterThisMonth","filterCustom"];
+        pills.forEach(pId => { const btn = document.getElementById(pId); if (btn) btn.classList.remove("active"); });
+        document.getElementById("filterCustom")?.classList.add("active");
+        const customContainer = document.getElementById("customDateContainer");
+        if (customContainer) customContainer.style.display = "flex";
+        dispatchUpdate();
+      }
+
+      function handleOrderTypeChange(val) {
+        state.filters.orderType = val;
+        dispatchUpdate();
+      }
+
+      function handleBranchChange(val) {
+        if (state.filters.branch === val && val !== "ALL") {
+          resetAllFilters();
+          showToast("Branch filter cleared", "info");
+          return;
+        }
+        state.filters.branch = val;
+        dispatchUpdate();
+      }
+
+      function handleCategoryChange(val) {
+        if (state.filters.category === val && val !== "ALL") {
+          resetAllFilters();
+          showToast("Category filter cleared", "info");
+          return;
+        }
+        state.filters.category = val;
+        dispatchUpdate();
+      }
+
+      function handleStaffChange(val) {
+        if (state.filters.staff === val && val !== "ALL") {
+          resetAllFilters();
+          showToast("Staff filter cleared", "info");
+          return;
+        }
+        state.filters.staff = val;
+        dispatchUpdate();
+      }
+
+      function handleStatusChange(val) {
+        if (state.filters.status === val && val !== "ALL") {
+          resetAllFilters();
+          showToast("Status filter cleared", "info");
+          return;
+        }
+        state.filters.status = val;
+        dispatchUpdate();
+      }
+
+      function handleSearchInput(val) {
+        state.filters.searchQuery = val.trim().toLowerCase();
+        dispatchUpdate();
+      }
+
+      function resetAllFilters() {
+        state.selectedMonthFilter = null;
+        state.selectedYearFilter = null;
+        state.trendGranularity = "daily";
+        updateGranularityButtons();
+        state.staffViewMode = "active_only";
+        document.getElementById("btnStaffActiveOnly")?.classList.add("active");
+        document.getElementById("btnStaffIncludeFormer")?.classList.remove("active");
+        state.filters = {
+          timeframe: "all",
+          orderType: "customer",
+          customStart: "",
+          customEnd: "",
+          branch: "ALL",
+          category: "ALL",
+          staff: "ALL",
+          status: "ALL",
+          searchQuery: ""
+        };
+
+        const ot = document.getElementById("orderTypeFilter"); if (ot) ot.value = "customer";
+        const b = document.getElementById("branchFilter"); if (b) b.value = "ALL";
+        const c = document.getElementById("categoryFilter"); if (c) c.value = "ALL";
+        const s = document.getElementById("staffFilter"); if (s) s.value = "ALL";
+        const st = document.getElementById("statusFilter"); if (st) st.value = "ALL";
+        const si = document.getElementById("searchInput"); if (si) si.value = "";
+        const cs = document.getElementById("customStartDate"); if (cs) cs.value = "";
+        const ce = document.getElementById("customEndDate"); if (ce) ce.value = "";
+
+        const pills = ["filterAllTime", "filterToday", "filterYesterday", "filter7Days", "filter30Days", "filterThisMonth", "filterCustom"];
+        pills.forEach((pId) => {
+          const btn = document.getElementById(pId);
+          if (btn) btn.classList.remove("active");
+        });
+        document.getElementById("filterAllTime")?.classList.add("active");
+        const customContainer = document.getElementById("customDateContainer");
+        if (customContainer) customContainer.style.display = "none";
+
+        dispatchUpdate();
+      }
+
+      function applyFilters() {
+        let dataset = state.allOrders.filter((o) => o && typeof o === "object");
+
+        // 0. Order Type Filter (Default: Customer Orders Only for pure retail KPIs)
+        if (state.filters.orderType === "customer") {
+          dataset = dataset.filter((o) => o.orderType !== "store_support");
+        } else if (state.filters.orderType === "store_support") {
+          dataset = dataset.filter((o) => o.orderType === "store_support");
+        }
+
+        // Direct visual month click filter
+        if (state.selectedMonthFilter) {
+          dataset = dataset.filter((o) => {
+            const nd = normalizeDateStr(o.orderDate);
+            return nd && nd.startsWith(state.selectedMonthFilter);
+          });
+        }
+
+        // Direct visual year click filter
+        if (state.selectedYearFilter) {
+          dataset = dataset.filter((o) => {
+            const nd = normalizeDateStr(o.orderDate);
+            return nd && nd.startsWith(state.selectedYearFilter);
+          });
+        }
+
+        // 1. Timeframe Filter
+        const now = new Date();
+        const tf = state.filters.timeframe;
+
+        if (tf === "today") {
+          const todayStr = now.toISOString().split("T")[0];
+          dataset = dataset.filter((o) => normalizeDateStr(o.orderDate) === todayStr);
+        } else if (tf === "yesterday") {
+          const yesterday = new Date(now);
+          yesterday.setDate(yesterday.getDate() - 1);
+          const yStr = yesterday.toISOString().split("T")[0];
+          dataset = dataset.filter((o) => normalizeDateStr(o.orderDate) === yStr);
+        } else if (tf === "7d") {
+          const cutoff = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          dataset = dataset.filter((o) => {
+            const nd = normalizeDateStr(o.orderDate);
+            return nd && new Date(nd) >= cutoff;
+          });
+        } else if (tf === "30d") {
+          const cutoff = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+          dataset = dataset.filter((o) => {
+            const nd = normalizeDateStr(o.orderDate);
+            return nd && new Date(nd) >= cutoff;
+          });
+        } else if (tf === "this_month") {
+          const curYear = now.getFullYear();
+          const curMonth = String(now.getMonth() + 1).padStart(2, "0");
+          const monthPrefix = `${curYear}-${curMonth}`;
+          dataset = dataset.filter((o) => {
+            const nd = normalizeDateStr(o.orderDate);
+            return nd && nd.startsWith(monthPrefix);
+          });
+        } else if (tf === "mom") {
+          // Month-to-Month shows all orders so user can analyze monthly progression
+        } else if (tf === "yoy") {
+          // Year-to-Year shows all orders so user can analyze annual progression
+        } else if (tf === "custom") {
+          const start = state.filters.customStart ? new Date(state.filters.customStart) : null;
+          const end = state.filters.customEnd ? new Date(state.filters.customEnd + "T23:59:59") : null;
+          dataset = dataset.filter((o) => {
+            const nd = normalizeDateStr(o.orderDate);
+            if (!nd) return false;
+            const d = new Date(nd);
+            if (isNaN(d.getTime())) return false;
+            if (start && d < start) return false;
+            if (end && d > end) return false;
+            return true;
+          });
+        }
+
+        // 2. Branch Filter
+        if (state.filters.branch !== "ALL") {
+          const target = state.filters.branch.toLowerCase();
+          dataset = dataset.filter((o) => {
+            const b = (o.branch || "").trim().toLowerCase();
+            return b === target || b.includes(target) || target.includes(b);
+          });
+        }
+
+        // 3. Category Filter
+        if (state.filters.category !== "ALL") {
+          dataset = dataset.filter((o) => inferCategory(o).toLowerCase() === state.filters.category.toLowerCase());
+        }
+
+        // 4. Staff Filter (Entered By)
+        if (state.filters.staff !== "ALL") {
+          const target = state.filters.staff.toLowerCase();
+          const activeStaff = getActiveStaffList();
+          const activeSet = new Set(activeStaff.map((s) => s.toLowerCase()));
+
+          if (target === "former staff") {
+            dataset = dataset.filter((o) => {
+              const entered = (o.enteredBy || o.employee || "").trim().toLowerCase();
+              return entered !== "" && !activeSet.has(entered);
+            });
+          } else {
+            dataset = dataset.filter((o) => {
+              const entered = (o.enteredBy || o.employee || "").trim().toLowerCase();
+              return entered === target;
+            });
+          }
+        }
+
+        // 5. Status Filter
+        if (state.filters.status !== "ALL") {
+          dataset = dataset.filter((o) => (o.status || "").trim().toLowerCase() === state.filters.status.toLowerCase());
+        }
+
+        // 6. Global Search Query
+        if (state.filters.searchQuery) {
+          const q = state.filters.searchQuery.toLowerCase().trim();
+          const qDigits = q.replace(/\D/g, "");
+          dataset = dataset.filter((o) => {
+            const rawPhone = String(o.phoneNumber || "");
+            const phoneDigits = rawPhone.replace(/\D/g, "");
+            const phoneMatches = rawPhone.toLowerCase().includes(q) || (qDigits.length >= 2 && phoneDigits.includes(qDigits));
+            return (
+              (o.customerName && o.customerName.toLowerCase().includes(q)) ||
+              phoneMatches ||
+              (o.itemNumber && o.itemNumber.toLowerCase().includes(q)) ||
+              (o.description && o.description.toLowerCase().includes(q)) ||
+              (o.branch && o.branch.toLowerCase().includes(q)) ||
+              (o.employee && o.employee.toLowerCase().includes(q)) ||
+              (o.enteredBy && o.enteredBy.toLowerCase().includes(q)) ||
+              (inferCategory(o).toLowerCase().includes(q))
+            );
+          });
+        }
+
+        state.filteredOrders = dataset;
+        return dataset;
+      }
+
+      /* ==========================================================================
+         5. MASTER DISPATCHER: UPDATE KPIS, CHARTS, LEADERBOARD & MATRICES
+         ========================================================================== */
+      function hasActiveFilters() {
+        return (
+          (state.filters.timeframe && state.filters.timeframe !== "all") ||
+          Boolean(state.filters.customStart) ||
+          Boolean(state.filters.customEnd) ||
+          (state.filters.branch && state.filters.branch !== "ALL") ||
+          (state.filters.category && state.filters.category !== "ALL") ||
+          (state.filters.staff && state.filters.staff !== "ALL") ||
+          (state.filters.status && state.filters.status !== "ALL") ||
+          Boolean(state.filters.searchQuery) ||
+          Boolean(state.selectedMonthFilter) ||
+          Boolean(state.selectedYearFilter) ||
+          state.trendGranularity !== "daily" ||
+          state.staffViewMode !== "active_only"
+        );
+      }
+
+      function updateResetButtonVisibility() {
+        const btn = document.getElementById("btnResetFilters");
+        if (btn) {
+          btn.style.display = hasActiveFilters() ? "inline-flex" : "none";
+        }
+      }
+
+      function dispatchUpdate() {
+        const data = applyFilters();
+        updateResetButtonVisibility();
+        updateKpiRibbon(data);
+        updatePeriodGrowthAnalytics(data);
+        renderVisualCharts(data);
+        renderTopModelsList(data);
+        renderCustomerIntelligenceLeaderboard(data);
+        renderTopUnpickedCustomersLeaderboard(data);
+        renderCategoryIntelligenceMatrix(data);
+        renderRoutingLogisticsMatrix(data);
+      }
+
+      /* ==========================================================================
+         6. KPI METRICS CALCULATION
+         ========================================================================== */
+      function updateKpiRibbon(data) {
+        const total = data.length;
+        const pending = data.filter((o) => (o.status || "").toLowerCase() === "pending").length;
+        const arrived = data.filter((o) => (o.status || "").toLowerCase() === "arrived").length;
+        const collected = data.filter((o) => (o.status || "").toLowerCase() === "collected").length;
+        const unpicked = data.filter((o) => (o.status || "").toLowerCase() === "unpicked").length;
+        const smsSent = data.filter((o) => o.smsSent === true).length;
+
+        const fulfillmentRate = total > 0 ? Math.round((collected / total) * 100) : 0;
+        const unpickedRate = total > 0 ? Math.round((unpicked / total) * 100) : 0;
+        const waRate = total > 0 ? Math.round((smsSent / total) * 100) : 0;
+
+        // Calculate average fulfillment days (orderDate → arrivalDate) for arrived+collected orders
+        const fulfilledOrders = (data || []).filter((o) => {
+          if (!o) return false;
+          const od = normalizeDateStr(o.orderDate);
+          const ad = normalizeDateStr(o.arrivalDate);
+          return od && ad && !isNaN(new Date(od)) && !isNaN(new Date(ad));
+        });
+        let avgDaysText = "—";
+        if (fulfilledOrders.length > 0) {
+          const totalDays = fulfilledOrders.reduce((sum, o) => {
+            const od = new Date(normalizeDateStr(o.orderDate));
+            const ad = new Date(normalizeDateStr(o.arrivalDate));
+            const diff = (ad - od) / (1000 * 60 * 60 * 24);
+            return sum + Math.max(0, diff);
+          }, 0);
+          const avg = (totalDays / fulfilledOrders.length).toFixed(1);
+          avgDaysText = avg + "d";
+        }
+
+        // Overdue Pickups: Arrived orders waiting 2+ days
+        const todayForOverdue = new Date();
+        todayForOverdue.setHours(0, 0, 0, 0);
+        const overdueCount = data.filter((o) => {
+          if ((o.status || "").toLowerCase() !== "arrived" || !o.arrivalDate) return false;
+          const arrDate = new Date(normalizeDateStr(o.arrivalDate) || o.arrivalDate);
+          if (isNaN(arrDate.getTime())) return false;
+          return Math.floor((todayForOverdue - arrDate) / (1000 * 60 * 60 * 24)) >= 2;
+        }).length;
+
+        document.getElementById("kpiTotal").textContent = total;
+        document.getElementById("kpiTotalSub").textContent = `${pending} pending · ${arrived} ready · ${unpicked} unpicked`;
+
+        document.getElementById("kpiPending").textContent = pending;
+        document.getElementById("kpiPendingSub").textContent = `${Math.round((pending / (total || 1)) * 100)}% of total orders`;
+
+        document.getElementById("kpiArrived").textContent = arrived;
+        document.getElementById("kpiArrivedSub").innerHTML = overdueCount > 0
+          ? `${arrived} in store · <span style="color:#ff3b30;font-weight:700;">⚠️ ${overdueCount} overdue (>48h)</span>`
+          : `${arrived} awaiting customer pickup`;
+
+        const kpiUnpicked = document.getElementById("kpiUnpicked");
+        if (kpiUnpicked) kpiUnpicked.textContent = unpicked;
+        const kpiUnpickedSub = document.getElementById("kpiUnpickedSub");
+        if (kpiUnpickedSub) kpiUnpickedSub.textContent = `${unpickedRate}% of orders · Customer no-shows`;
+
+        document.getElementById("kpiFulfillmentRate").textContent = fulfillmentRate + "%";
+        document.getElementById("kpiCollectedSub").textContent = `${collected} completed orders`;
+
+        document.getElementById("kpiAvgDays").textContent = avgDaysText;
+        document.getElementById("kpiAvgDaysSub").textContent = fulfilledOrders.length > 0 ? `Based on ${fulfilledOrders.length} fulfilled orders` : "No fulfillment data yet";
+
+        // Active KPI card indicators
+        const kpiCardPending = document.getElementById("kpiCardPending");
+        if (kpiCardPending) kpiCardPending.classList.toggle("active-filtered", state.filters.status === "Pending");
+        const kpiCardArrived = document.getElementById("kpiCardArrived");
+        if (kpiCardArrived) kpiCardArrived.classList.toggle("active-filtered", state.filters.status === "Arrived");
+        const kpiCardUnpicked = document.getElementById("kpiCardUnpicked");
+        if (kpiCardUnpicked) kpiCardUnpicked.classList.toggle("active-filtered", state.filters.status === "Unpicked");
+        const kpiCardFulfillment = document.getElementById("kpiCardFulfillment");
+        if (kpiCardFulfillment) kpiCardFulfillment.classList.toggle("active-filtered", state.filters.status === "Collected");
+      }
+
+      
+      /* ==========================================================================
+         PERIOD GROWTH INTELLIGENCE CALCULATION (MoM & YoY)
+         ========================================================================== */
+      function updatePeriodGrowthAnalytics(data) {
+        const now = new Date();
+        const curYear = now.getFullYear();
+        const curMonth = now.getMonth();
+
+        const curMonthKey = `${curYear}-${String(curMonth + 1).padStart(2, "0")}`;
+        const prevMonthDate = new Date(curYear, curMonth - 1, 1);
+        const prevMonthKey = `${prevMonthDate.getFullYear()}-${String(prevMonthDate.getMonth() + 1).padStart(2, "0")}`;
+
+        const curMonthName = now.toLocaleString("en-US", { month: "short", year: "numeric" });
+        const prevMonthName = prevMonthDate.toLocaleString("en-US", { month: "short", year: "numeric" });
+
+        // Calculate MoM from active dataset (or state.allOrders if filtered set has orders)
+        const sourceData = (data && data.length > 0) ? data : state.allOrders;
+
+        const curMonthOrders = sourceData.filter((o) => {
+          if (!o) return false;
+          const nd = normalizeDateStr(o.orderDate);
+          return nd && nd.startsWith(curMonthKey);
+        });
+        const prevMonthOrders = sourceData.filter((o) => {
+          if (!o) return false;
+          const nd = normalizeDateStr(o.orderDate);
+          return nd && nd.startsWith(prevMonthKey);
+        });
+
+        const curMonthCount = curMonthOrders.length;
+        const prevMonthCount = prevMonthOrders.length;
+        const curMonthCollected = curMonthOrders.filter((o) => (o.status || "").toLowerCase() === "collected").length;
+        const prevMonthCollected = prevMonthOrders.filter((o) => (o.status || "").toLowerCase() === "collected").length;
+
+        const volDiff = curMonthCount - prevMonthCount;
+        const volPct = prevMonthCount > 0 ? Math.round((volDiff / prevMonthCount) * 100) : (curMonthCount > 0 ? 100 : 0);
+        const collDiff = curMonthCollected - prevMonthCollected;
+        const collPct = prevMonthCollected > 0 ? Math.round((collDiff / prevMonthCollected) * 100) : (curMonthCollected > 0 ? 100 : 0);
+
+        const momLabel = document.getElementById("momPeriodLabel");
+        if (momLabel) momLabel.textContent = `${curMonthName} vs ${prevMonthName}`;
+
+        const momVolEl = document.getElementById("momVolumeVal");
+        if (momVolEl) momVolEl.textContent = `${curMonthCount} orders (vs ${prevMonthCount})`;
+
+        const momVolChg = document.getElementById("momVolumeChange");
+        if (momVolChg) {
+          const sign = volPct > 0 ? "+" : "";
+          const icon = volPct > 0 ? "▲" : (volPct < 0 ? "▼" : "—");
+          const colorClass = volPct > 0 ? "positive" : (volPct < 0 ? "negative" : "neutral");
+          momVolChg.className = `growth-indicator ${colorClass}`;
+          momVolChg.textContent = `${sign}${volPct}% ${icon} (${sign}${volDiff} orders)`;
+        }
+
+        const momCollEl = document.getElementById("momCollectedVal");
+        if (momCollEl) momCollEl.textContent = `${curMonthCollected} completed (vs ${prevMonthCollected})`;
+
+        const momCollChg = document.getElementById("momCollectedChange");
+        if (momCollChg) {
+          const sign = collPct > 0 ? "+" : "";
+          const icon = collPct > 0 ? "▲" : (collPct < 0 ? "▼" : "—");
+          const colorClass = collPct > 0 ? "positive" : (collPct < 0 ? "negative" : "neutral");
+          momCollChg.className = `growth-indicator ${colorClass}`;
+          momCollChg.textContent = `${sign}${collPct}% ${icon} (${sign}${collDiff} completed)`;
+        }
+
+        // Calculate YoY
+        const curYearStr = String(curYear);
+        const prevYearStr = String(curYear - 1);
+
+        const curYearOrders = sourceData.filter((o) => {
+          if (!o) return false;
+          const nd = normalizeDateStr(o.orderDate);
+          return nd && nd.startsWith(curYearStr);
+        });
+        const prevYearOrders = sourceData.filter((o) => {
+          if (!o) return false;
+          const nd = normalizeDateStr(o.orderDate);
+          return nd && nd.startsWith(prevYearStr);
+        });
+
+        const curYearCount = curYearOrders.length;
+        const prevYearCount = prevYearOrders.length;
+        const curYearCollected = curYearOrders.filter((o) => (o.status || "").toLowerCase() === "collected").length;
+        const prevYearCollected = prevYearOrders.filter((o) => (o.status || "").toLowerCase() === "collected").length;
+
+        const yoyVolDiff = curYearCount - prevYearCount;
+        const yoyVolPct = prevYearCount > 0 ? Math.round((yoyVolDiff / prevYearCount) * 100) : (curYearCount > 0 ? 100 : 0);
+        const yoyCollDiff = curYearCollected - prevYearCollected;
+        const yoyCollPct = prevYearCollected > 0 ? Math.round((yoyCollDiff / prevYearCollected) * 100) : (curYearCollected > 0 ? 100 : 0);
+
+        const yoyLabel = document.getElementById("yoyPeriodLabel");
+        if (yoyLabel) yoyLabel.textContent = `${curYearStr} vs ${prevYearStr}`;
+
+        const yoyVolEl = document.getElementById("yoyVolumeVal");
+        if (yoyVolEl) yoyVolEl.textContent = `${curYearCount} orders (vs ${prevYearCount})`;
+
+        const yoyVolChg = document.getElementById("yoyVolumeChange");
+        if (yoyVolChg) {
+          if (prevYearCount === 0) {
+            yoyVolChg.className = "growth-indicator neutral";
+            yoyVolChg.textContent = "Prior year baseline not in local records";
+          } else {
+            const sign = yoyVolPct > 0 ? "+" : "";
+            const icon = yoyVolPct > 0 ? "▲" : (yoyVolPct < 0 ? "▼" : "—");
+            const colorClass = yoyVolPct > 0 ? "positive" : (yoyVolPct < 0 ? "negative" : "neutral");
+            yoyVolChg.className = `growth-indicator ${colorClass}`;
+            yoyVolChg.textContent = `${sign}${yoyVolPct}% ${icon} (${sign}${yoyVolDiff} orders)`;
+          }
+        }
+
+        const yoyCollEl = document.getElementById("yoyCollectedVal");
+        if (yoyCollEl) yoyCollEl.textContent = `${curYearCollected} completed (vs ${prevYearCollected})`;
+
+        const yoyCollChg = document.getElementById("yoyCollectedChange");
+        if (yoyCollChg) {
+          if (prevYearCount === 0) {
+            yoyCollChg.className = "growth-indicator neutral";
+            yoyCollChg.textContent = "Annual comparison unlocks with multi-year data";
+          } else {
+            const sign = yoyCollPct > 0 ? "+" : "";
+            const icon = yoyCollPct > 0 ? "▲" : (yoyCollPct < 0 ? "▼" : "—");
+            const colorClass = yoyCollPct > 0 ? "positive" : (yoyCollPct < 0 ? "negative" : "neutral");
+            yoyCollChg.className = `growth-indicator ${colorClass}`;
+            yoyCollChg.textContent = `${sign}${yoyCollPct}% ${icon} (${sign}${yoyCollDiff} completed)`;
+          }
+        }
+
+        // Active visual card indicators
+        const momCard = document.getElementById("momGrowthCard");
+        const yoyCard = document.getElementById("yoyGrowthCard");
+        if (momCard) momCard.classList.toggle("active-filtered", Boolean(state.selectedMonthFilter) || state.filters.timeframe === "this_month");
+        if (yoyCard) yoyCard.classList.toggle("active-filtered", Boolean(state.selectedYearFilter));
+
+        // Active KPI cards indicators
+        const kpiArrived = document.getElementById("kpiCardArrived");
+        const kpiUnpicked = document.getElementById("kpiCardUnpicked");
+        const kpiFulfillment = document.getElementById("kpiCardFulfillment");
+        if (kpiArrived) kpiArrived.classList.toggle("active-filtered", state.filters.status === "Arrived");
+        if (kpiUnpicked) kpiUnpicked.classList.toggle("active-filtered", state.filters.status === "Unpicked");
+        if (kpiFulfillment) kpiFulfillment.classList.toggle("active-filtered", state.filters.status === "Collected");
+      }
+
+      /* ==========================================================================
+         7. CHART.JS POWER BI VISUALIZATIONS
+         ========================================================================== */
+      function renderVisualCharts(data) {
+        if (!window.Chart) {
+          console.warn("Chart.js is not loaded yet. Waiting...");
+          let retries = 0;
+          const waitTimer = setInterval(() => {
+            retries++;
+            if (window.Chart) {
+              clearInterval(waitTimer);
+              initChartDefaults();
+              renderVisualCharts(data);
+            } else if (retries > 8) {
+              clearInterval(waitTimer);
+              displayChartOfflineNotice();
+            }
+          }, 250);
+          return;
+        }
+
+        try { renderTrendChart(data); } catch (e) { console.error("Error in renderTrendChart:", e); }
+        try { renderCategoryDonutChart(data); } catch (e) { console.error("Error in renderCategoryDonutChart:", e); }
+        try { renderCategoryBarChart(data); } catch (e) { console.error("Error in renderCategoryBarChart:", e); }
+        try { renderStaffBarChart(data); } catch (e) { console.error("Error in renderStaffBarChart:", e); }
+        try { renderBranchBarChart(data); } catch (e) { console.error("Error in renderBranchBarChart:", e); }
+      }
+
+      function displayChartOfflineNotice() {
+        const wrappers = document.querySelectorAll(".chart-canvas-wrapper");
+        wrappers.forEach((w) => {
+          if (!w.querySelector(".chart-offline-msg")) {
+            const msg = document.createElement("div");
+            msg.className = "chart-offline-msg";
+            msg.style.cssText = "text-align:center;color:var(--text-muted);font-size:0.82rem;padding:1.5rem;";
+            msg.innerHTML = `
+              <div style="color:var(--nike-orange);font-weight:700;margin-bottom:6px;font-size:0.92rem;">📊 Chart Engine Offline</div>
+              <div>Please ensure <code>chart.umd.min.js</code> is in the same folder as <code>analytics.html</code>, or connect to the internet.</div>
+            `;
+            w.appendChild(msg);
+          }
+        });
+      }
+
+      /* ==========================================================================
+         LINE CHART GRANULARITY CONTROLS (DAILY / MONTHLY)
+         ========================================================================== */
+      function setTrendGranularity(mode) {
+        if (mode !== "daily" && mode !== "monthly") mode = "daily";
+        state.trendGranularity = mode;
+        updateGranularityButtons();
+        const data = (state.filteredOrders && state.filteredOrders.length > 0) ? state.filteredOrders : state.allOrders;
+        renderTrendChart(data);
+        showToast(`Line chart switched to ${mode === "monthly" ? "Monthly" : "Daily"} view`, "info");
+      }
+
+      function updateGranularityButtons() {
+        const isMonthly = state.trendGranularity === "monthly";
+        const btnDaily = document.getElementById("btnGranDaily");
+        const btnMonthly = document.getElementById("btnGranMonthly");
+        if (btnDaily) btnDaily.classList.toggle("active", !isMonthly);
+        if (btnMonthly) btnMonthly.classList.toggle("active", isMonthly);
+      }
+
+      // Visual 1: Time-Series Velocity & Spend Trend (Continuous Timeline / Monthly Aggregation)
+      function renderTrendChart(data) {
+        const canvas = document.getElementById("trendLineCanvas");
+        if (!canvas) return;
+
+        const validDates = getValidOrderDates(data);
+        const titleEl = document.getElementById("trendChartTitle");
+        const subEl = document.getElementById("trendChartSubtitle");
+
+        updateGranularityButtons();
+
+        if (!data || data.length === 0 || validDates.length === 0) {
+          if (state.charts.trend && state.charts.trend.ctx) {
+            state.charts.trend.data.labels = [];
+            state.charts.trend.data.datasets[0].data = [];
+            state.charts.trend.update();
+          }
+          if (subEl) subEl.textContent = "No valid order dates in current selection";
+          return;
+        }
+
+        const firstDate = validDates[0];
+        const lastDate = validDates[validDates.length - 1];
+
+        let labels = [];
+        let fullDates = [];
+        let counts = [];
+
+        const isMonthly = state.trendGranularity === "monthly";
+
+        if (isMonthly) {
+          if (titleEl) titleEl.textContent = "Orders Over Time (Monthly)";
+          if (subEl) subEl.textContent = `Monthly volume (${firstDate} to ${lastDate}) • Click to filter`;
+
+          const countsByMonth = {};
+          (data || []).forEach((o) => {
+            if (!o) return;
+            const nd = normalizeDateStr(o.orderDate);
+            if (nd) {
+              const mKey = nd.slice(0, 7); // YYYY-MM
+              countsByMonth[mKey] = (countsByMonth[mKey] || 0) + 1;
+            }
+          });
+
+          // Build continuous month list from start to end
+          const startYear = parseInt(firstDate.slice(0, 4), 10);
+          const startMonth = parseInt(firstDate.slice(5, 7), 10) - 1;
+          const endYear = parseInt(lastDate.slice(0, 4), 10);
+          const endMonth = parseInt(lastDate.slice(5, 7), 10) - 1;
+
+          const cur = new Date(startYear, startMonth, 1);
+          const end = new Date(endYear, endMonth, 1);
+          let guard = 0;
+          while (cur <= end && guard++ < 120) {
+            const yyyy = cur.getFullYear();
+            const mm = String(cur.getMonth() + 1).padStart(2, "0");
+            const mKey = `${yyyy}-${mm}`;
+            fullDates.push(mKey);
+            labels.push(cur.toLocaleString("en-US", { month: "short", year: "numeric" }));
+            counts.push(countsByMonth[mKey] || 0);
+            cur.setMonth(cur.getMonth() + 1);
+          }
+        } else {
+          // Daily Granularity
+          if (titleEl) titleEl.textContent = "Orders Over Time (Daily)";
+          if (subEl) subEl.textContent = `Daily volume (${firstDate} to ${lastDate}) • Click to filter`;
+
+          const countsByDay = {};
+          (data || []).forEach((o) => {
+            if (!o) return;
+            const nd = normalizeDateStr(o.orderDate);
+            if (nd) {
+              countsByDay[nd] = (countsByDay[nd] || 0) + 1;
+            }
+          });
+
+          const start = new Date(firstDate + "T00:00:00");
+          const end = new Date(lastDate + "T00:00:00");
+          const daySpan = Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+
+          if (daySpan >= 0 && daySpan <= 730) {
+            const cur = new Date(start);
+            let guard = 0;
+            while (cur <= end && guard++ < 800) {
+              const yyyy = cur.getFullYear();
+              const mm = String(cur.getMonth() + 1).padStart(2, "0");
+              const dd = String(cur.getDate()).padStart(2, "0");
+              const dStr = `${yyyy}-${mm}-${dd}`;
+              fullDates.push(dStr);
+              labels.push(cur.toLocaleString("en-US", { month: "short", day: "numeric" }));
+              counts.push(countsByDay[dStr] || 0);
+              cur.setDate(cur.getDate() + 1);
+            }
+          } else {
+            validDates.forEach((dStr) => {
+              fullDates.push(dStr);
+              const d = new Date(dStr + "T00:00:00");
+              labels.push(isNaN(d.getTime()) ? dStr : d.toLocaleString("en-US", { month: "short", day: "numeric" }));
+              counts.push(countsByDay[dStr] || 0);
+            });
+          }
+        }
+
+        state.trendDates = fullDates;
+
+        if (state.charts.trend && state.charts.trend.ctx) {
+          state.charts.trend.data.labels = labels;
+          state.charts.trend.data.datasets[0].data = counts;
+          state.charts.trend.data.datasets[0].label = isMonthly ? "Monthly Orders" : "Daily Orders";
+          state.charts.trend.data.datasets[0].tension = isMonthly ? 0.25 : 0.35;
+          state.charts.trend.data.datasets[0].pointRadius = isMonthly ? 5 : (counts.length > 50 ? 2 : 4);
+          state.charts.trend.data.datasets[0].pointHoverRadius = isMonthly ? 8 : 7;
+          if (state.charts.trend.options && state.charts.trend.options.scales && state.charts.trend.options.scales.x) {
+            state.charts.trend.options.scales.x.ticks.maxTicksLimit = isMonthly ? 12 : 14;
+          }
+          state.charts.trend.update();
+          return;
+        }
+
+        if (Chart.getChart(canvas)) {
+          Chart.getChart(canvas).destroy();
+        }
+
+        const ctx = canvas.getContext("2d");
+        const orangeGrad = ctx.createLinearGradient(0, 0, 0, 260);
+        orangeGrad.addColorStop(0, "rgba(255, 85, 0, 0.35)");
+        orangeGrad.addColorStop(1, "rgba(255, 85, 0, 0.0)");
+
+        state.charts.trend = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: isMonthly ? "Monthly Orders" : "Daily Orders",
+                data: counts,
+                borderColor: "#ff5500",
+                backgroundColor: orangeGrad,
+                borderWidth: 3,
+                tension: isMonthly ? 0.25 : 0.35,
+                fill: true,
+                pointRadius: isMonthly ? 5 : (counts.length > 50 ? 2 : 4),
+                pointHoverRadius: isMonthly ? 8 : 7,
+                pointBackgroundColor: "#ff5500",
+                pointBorderColor: "#141722",
+                pointBorderWidth: 2
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+              duration: 800,
+              easing: "easeOutQuart"
+            },
+            animations: {
+              y: {
+                duration: 800,
+                easing: "easeOutQuart"
+              },
+              numbers: {
+                duration: 800,
+                easing: "easeOutQuart"
+              }
+            },
+            interaction: { mode: "index", intersect: false },
+            plugins: {
+              legend: {
+                position: "top",
+                labels: { boxWidth: 12, font: { size: 11, weight: "600" } }
+              },
+              tooltip: {
+                callbacks: {
+                  title: (items) => {
+                    if (!items.length) return "";
+                    const idx = items[0].dataIndex;
+                    const dateStr = state.trendDates ? state.trendDates[idx] : null;
+                    if (!dateStr) return items[0].label;
+                    if (state.trendGranularity === "monthly") {
+                      const d = new Date(dateStr + "-01T00:00:00");
+                      return !isNaN(d.getTime()) ? d.toLocaleString("en-US", { month: "long", year: "numeric" }) : dateStr;
+                    }
+                    const d = new Date(dateStr + "T00:00:00");
+                    const dayName = !isNaN(d.getTime()) ? d.toLocaleString("en-US", { weekday: "long" }) : "";
+                    return dayName ? `${dayName}, ${items[0].label}` : items[0].label;
+                  },
+                  label: (context) => ` Orders: ${context.raw || 0} requests`,
+                  afterBody: () => ["", state.trendGranularity === "monthly" ? " 💡 Click to filter by this month" : " 💡 Click to cross-filter by date"]
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: "rgba(255, 255, 255, 0.05)" },
+                ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: isMonthly ? 12 : 14 }
+              },
+              y: {
+                type: "linear",
+                position: "left",
+                grid: { color: "rgba(255, 255, 255, 0.05)" },
+                ticks: { precision: 0, beginAtZero: true }
+              }
+            },
+            onClick: (evt, elements, chartInstance) => {
+              const ch = chartInstance || state.charts.trend;
+              const points = (elements && elements.length > 0)
+                ? elements
+                : (ch ? ch.getElementsAtEventForMode(evt, "index", { intersect: false }, true) : []);
+              if (points && points.length > 0) {
+                const idx = points[0].index;
+                const clickedKey = state.trendDates ? state.trendDates[idx] : null;
+                if (!clickedKey) return;
+
+                if (state.trendGranularity === "monthly") {
+                  if (state.selectedMonthFilter === clickedKey) {
+                    resetAllFilters();
+                    showToast("Month filter cleared: Showing All Data", "info");
+                  } else {
+                    resetAllFilters();
+                    state.selectedMonthFilter = clickedKey;
+                    state.trendGranularity = "monthly";
+                    updateGranularityButtons();
+                    dispatchUpdate();
+                    showToast(`Visuals filtered by Month: ${clickedKey} (Click again to clear)`, "info");
+                  }
+                  return;
+                }
+
+                // Daily Click
+                if (state.filters.timeframe === "custom" && state.filters.customStart === clickedKey && state.filters.customEnd === clickedKey) {
+                  resetAllFilters();
+                  showToast("Date filter cleared: Showing All Data", "info");
+                } else {
+                  resetAllFilters();
+                  state.filters.timeframe = "custom";
+                  state.filters.customStart = clickedKey;
+                  state.filters.customEnd = clickedKey;
+                  const s = document.getElementById("customStartDate"); if (s) s.value = clickedKey;
+                  const e = document.getElementById("customEndDate"); if (e) e.value = clickedKey;
+                  dispatchUpdate();
+                  showToast(`Cross-filtered to date: ${clickedKey} (Click again to clear)`, "info");
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Visual 2: Category Market Share Donut Chart
+      function renderCategoryDonutChart(data) {
+        const canvas = document.getElementById("categoryDonutCanvas");
+        if (!canvas) return;
+
+        const categoryPalette = {
+          "Footwear - Lifestyle & Retro": "#ff5500",
+          "Footwear - Running": "#10b981",
+          "Footwear - Basketball": "#f59e0b",
+          "Footwear - Training & Gym": "#3b82f6",
+          "Footwear - Football / Soccer": "#06b6d4",
+          "Apparel - Tops & Hoodies": "#8b5cf6",
+          "Apparel - Pants & Shorts": "#ec4899",
+          "Accessories & Equipment": "#64748b"
+        };
+
+        const counts = {};
+        (data || []).forEach((o) => {
+          if (!o) return;
+          const cat = inferCategory(o);
+          counts[cat] = (counts[cat] || 0) + 1;
+        });
+
+        const labels = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+        const values = labels.map((l) => counts[l]);
+        const bgColors = labels.map((l) => categoryPalette[l] || "#a855f7");
+
+        if (state.charts.categoryDonut && state.charts.categoryDonut.ctx) {
+          state.charts.categoryDonut.data.labels = labels;
+          state.charts.categoryDonut.data.datasets[0].data = values;
+          state.charts.categoryDonut.data.datasets[0].backgroundColor = bgColors;
+          state.charts.categoryDonut.update();
+          return;
+        }
+
+        if (Chart.getChart(canvas)) {
+          Chart.getChart(canvas).destroy();
+        }
+
+        const ctx = canvas.getContext("2d");
+        state.charts.categoryDonut = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                data: values,
+                backgroundColor: bgColors,
+                borderWidth: 2,
+                borderColor: "#12151d"
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "68%",
+            plugins: {
+              legend: {
+                position: "right",
+                labels: { boxWidth: 10, font: { size: 10 } }
+              },
+              tooltip: {
+                callbacks: {
+                  label: (item) => {
+                    const total = item.dataset.data.reduce((a, b) => a + b, 0);
+                    const val = item.raw;
+                    const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                    return ` ${item.label}: ${val} orders (${pct}%)`;
+                  }
+                }
+              }
+            },
+            onClick: (evt, elements) => {
+              if (elements && elements.length > 0) {
+                const clickedIndex = elements[0].index;
+                const activeLabels = state.charts.categoryDonut ? state.charts.categoryDonut.data.labels : labels;
+                const clickedCategory = activeLabels[clickedIndex];
+                if (state.filters.category === clickedCategory) {
+                  resetAllFilters();
+                  showToast("Category filter cleared: Showing All Data", "info");
+                } else {
+                  const catSelect = document.getElementById("categoryFilter");
+                  if (catSelect) catSelect.value = clickedCategory;
+                  handleCategoryChange(clickedCategory);
+                  showToast(`Cross-filtered by: ${clickedCategory} (Click again to clear)`, "info");
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Visual 3: Category Volume Breakdown Bar Chart
+      function renderCategoryBarChart(data) {
+        const canvas = document.getElementById("categoryBarCanvas");
+        if (!canvas) return;
+
+        const counts = {};
+        (data || []).forEach((o) => {
+          if (!o) return;
+          const cat = inferCategory(o);
+          counts[cat] = (counts[cat] || 0) + 1;
+        });
+
+        const labels = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+        const values = labels.map((l) => counts[l]);
+
+        if (state.charts.categoryBar && state.charts.categoryBar.ctx) {
+          state.charts.categoryBar.data.labels = labels;
+          state.charts.categoryBar.data.datasets[0].data = values;
+          state.charts.categoryBar.update();
+          return;
+        }
+
+        if (Chart.getChart(canvas)) {
+          Chart.getChart(canvas).destroy();
+        }
+
+        const ctx = canvas.getContext("2d");
+        state.charts.categoryBar = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Orders",
+                data: values,
+                backgroundColor: "rgba(255, 85, 0, 0.75)",
+                hoverBackgroundColor: "#ff5500",
+                borderRadius: 4,
+                borderWidth: 0
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: {
+                  font: { size: 9 },
+                  callback: function (val) {
+                    const str = this.getLabelForValue(val) || "";
+                    return str.length > 14 ? str.slice(0, 12) + "..." : str;
+                  }
+                }
+              },
+              y: {
+                grid: { color: "rgba(255, 255, 255, 0.05)" },
+                ticks: { precision: 0, beginAtZero: true }
+              }
+            },
+            onClick: (evt, elements) => {
+              if (elements && elements.length > 0) {
+                const activeLabels = state.charts.categoryBar ? state.charts.categoryBar.data.labels : labels;
+                const clickedCategory = activeLabels[elements[0].index];
+                if (state.filters.category === clickedCategory) {
+                  resetAllFilters();
+                  showToast("Category filter cleared: Showing All Data", "info");
+                } else {
+                  const catSelect = document.getElementById("categoryFilter");
+                  if (catSelect) catSelect.value = clickedCategory;
+                  handleCategoryChange(clickedCategory);
+                  showToast(`Cross-filtered by Category: ${clickedCategory} (Click again to clear)`, "info");
+                }
+              }
+            }
+          }
+        });
+      }
+
+      function setStaffViewMode(mode) {
+        state.staffViewMode = mode;
+        const btnActive = document.getElementById("btnStaffActiveOnly");
+        const btnFormer = document.getElementById("btnStaffIncludeFormer");
+        if (btnActive) btnActive.classList.toggle("active", mode === "active_only");
+        if (btnFormer) btnFormer.classList.toggle("active", mode === "include_former");
+        updateResetButtonVisibility();
+        renderStaffBarChart(state.filteredOrders || state.allOrders);
+      }
+
+      // Visual 4: Staff Entry Activity Bar Chart (Based on "Entered By")
+      function renderStaffBarChart(data) {
+        const canvas = document.getElementById("staffBarCanvas");
+        if (!canvas) return;
+
+        const activeStaff = getActiveStaffList();
+        const activeSet = new Set(activeStaff.map((s) => s.toLowerCase()));
+
+        const staffMap = {};
+        let formerCount = 0;
+
+        (data || []).forEach((o) => {
+          if (!o) return;
+          const emp = (o.enteredBy || o.employee || "").trim();
+          if (!emp) return;
+
+          if (activeSet.has(emp.toLowerCase())) {
+            const canonicalName = activeStaff.find((s) => s.toLowerCase() === emp.toLowerCase()) || emp;
+            staffMap[canonicalName] = (staffMap[canonicalName] || 0) + 1;
+          } else {
+            formerCount++;
+          }
+        });
+
+        // In 'include_former' mode, aggregate all departed staff orders into a single bar
+        if (state.staffViewMode === "include_former" && formerCount > 0) {
+          staffMap["Former Staff"] = formerCount;
+        }
+
+        const labels = Object.keys(staffMap).sort((a, b) => staffMap[b] - staffMap[a]);
+        const values = labels.map((l) => staffMap[l]);
+        const backgroundColors = labels.map((l) => l === "Former Staff" ? "rgba(148, 163, 184, 0.55)" : "rgba(16, 185, 129, 0.75)");
+        const hoverColors = labels.map((l) => l === "Former Staff" ? "rgba(148, 163, 184, 0.85)" : "#10b981");
+
+        if (state.charts.staffBar && state.charts.staffBar.ctx) {
+          state.charts.staffBar.data.labels = labels;
+          state.charts.staffBar.data.datasets[0].data = values;
+          state.charts.staffBar.data.datasets[0].backgroundColor = backgroundColors;
+          state.charts.staffBar.data.datasets[0].hoverBackgroundColor = hoverColors;
+          state.charts.staffBar.update();
+          return;
+        }
+
+        if (Chart.getChart(canvas)) {
+          Chart.getChart(canvas).destroy();
+        }
+
+        const ctx = canvas.getContext("2d");
+        state.charts.staffBar = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Orders Entered",
+                data: values,
+                backgroundColor: backgroundColors,
+                hoverBackgroundColor: hoverColors,
+                borderRadius: 4
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  title: (items) => (items.length ? `Staff: ${items[0].label}` : ""),
+                  label: (context) => ` Orders Entered: ${context.raw || 0} orders`,
+                  afterBody: (items) => {
+                    const lbl = items.length ? items[0].label : "";
+                    if (lbl === "Former Staff") {
+                      return ["", " ⚠️ Departed store personnel (grouped)", " 💡 Click to view all orders by former staff"];
+                    }
+                    return ["", " 💡 Click to cross-filter dashboard"];
+                  }
+                }
+              }
+            },
+            scales: {
+              x: { grid: { display: false } },
+              y: {
+                grid: { color: "rgba(255, 255, 255, 0.05)" },
+                ticks: { precision: 0, beginAtZero: true }
+              }
+            },
+            onClick: (evt, elements) => {
+              if (elements && elements.length > 0) {
+                const activeLabels = state.charts.staffBar ? state.charts.staffBar.data.labels : labels;
+                const clickedStaff = activeLabels[elements[0].index];
+                if (state.filters.staff === clickedStaff) {
+                  resetAllFilters();
+                  showToast("Staff filter cleared: Showing All Personnel", "info");
+                } else {
+                  const staffSelect = document.getElementById("staffFilter");
+                  if (staffSelect) staffSelect.value = clickedStaff;
+                  handleStaffChange(clickedStaff);
+                  showToast(`Cross-filtered by Staff: ${clickedStaff} (Click again to clear)`, "info");
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Visual 6: Top Origin & Sourcing Branches Horizontal Bar Chart
+      function renderBranchBarChart(data) {
+        const canvas = document.getElementById("branchBarCanvas");
+        if (!canvas) return;
+
+        const branchMap = {};
+        (data || []).forEach((o) => {
+          if (!o) return;
+          const b = (o.branch || "In-Store").trim();
+          branchMap[b] = (branchMap[b] || 0) + 1;
+        });
+
+        const labels = Object.keys(branchMap).sort((a, b) => branchMap[b] - branchMap[a]);
+        const values = labels.map((l) => branchMap[l]);
+
+        if (state.charts.branchBar && state.charts.branchBar.ctx) {
+          state.charts.branchBar.data.labels = labels;
+          state.charts.branchBar.data.datasets[0].data = values;
+          state.charts.branchBar.update();
+          return;
+        }
+
+        if (Chart.getChart(canvas)) {
+          Chart.getChart(canvas).destroy();
+        }
+
+        const ctx = canvas.getContext("2d");
+        state.charts.branchBar = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Orders Dispatched",
+                data: values,
+                backgroundColor: "rgba(6, 182, 212, 0.75)",
+                hoverBackgroundColor: "#06b6d4",
+                borderRadius: 4
+              }
+            ]
+          },
+          options: {
+            indexAxis: "y",
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              x: {
+                grid: { color: "rgba(255, 255, 255, 0.05)" },
+                ticks: { precision: 0, beginAtZero: true }
+              },
+              y: { grid: { display: false } }
+            },
+            onClick: (evt, elements) => {
+              if (elements && elements.length > 0) {
+                const activeLabels = state.charts.branchBar ? state.charts.branchBar.data.labels : labels;
+                const clickedBranch = activeLabels[elements[0].index];
+                if (state.filters.branch === clickedBranch) {
+                  resetAllFilters();
+                  showToast("Branch filter cleared: Showing All Branches", "info");
+                } else {
+                  const bSelect = document.getElementById("branchFilter");
+                  if (bSelect) bSelect.value = clickedBranch;
+                  handleBranchChange(clickedBranch);
+                  showToast(`Cross-filtered by Branch: ${clickedBranch} (Click again to clear)`, "info");
+                }
+              }
+            }
+          }
+        });
+      }
+
+      /* ==========================================================================
+         8. TOP REQUESTED MODELS LIST (VISUAL 5)
+         ========================================================================== */
+      function renderTopModelsList(data) {
+        const container = document.getElementById("topProductsList");
+        if (!container) return;
+        container.innerHTML = "";
+
+        const productMap = {};
+        data.forEach((o) => {
+          const key = (o.itemNumber || "Unknown").trim().toUpperCase();
+          if (!productMap[key]) {
+            productMap[key] = {
+              itemNumber: key,
+              description: o.description || "Nike Merchandise",
+              category: inferCategory(o),
+              count: 0
+            };
+          }
+          productMap[key].count++;
+        });
+
+        const sorted = Object.values(productMap).sort((a, b) => b.count - a.count).slice(0, 6);
+
+        if (sorted.length === 0) {
+          container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:2rem;">No model demand records in selected view.</div>';
+          return;
+        }
+
+        sorted.forEach((item, idx) => {
+          const badgeClass = idx === 0 ? "top-1" : idx === 1 ? "top-2" : idx === 2 ? "top-3" : "";
+          const el = document.createElement("div");
+          el.className = "ranking-item clickable-visual-item" + (state.filters.searchQuery === item.itemNumber.toLowerCase() ? " active-filtered" : "");
+          el.title = `Click to filter by ${item.itemNumber} (Click again to clear)`;
+          el.onclick = () => {
+            if (state.filters.searchQuery === item.itemNumber.toLowerCase()) {
+              resetAllFilters();
+              showToast("Model filter cleared: Showing All Data", "info");
+            } else {
+              state.filters.searchQuery = item.itemNumber.toLowerCase();
+              document.getElementById("searchInput").value = item.itemNumber;
+              dispatchUpdate();
+              showToast(`Filtered by Model: ${item.itemNumber} (Click again to clear)`, "info");
+            }
+          };
+          el.innerHTML = `
+            <div class="ranking-left">
+              <div class="ranking-badge ${badgeClass}">#${idx + 1}</div>
+              <div>
+                <div class="product-code-title">
+                  ${escapeHtml(item.itemNumber)}
+                  <span class="category-tag">${escapeHtml(item.category)}</span>
+                  <a href="https://www.nike.com/w?q=${encodeURIComponent(item.itemNumber)}" target="_blank" rel="noopener noreferrer" class="hide-on-print" style="color:var(--nike-orange);display:inline-flex;" title="Search model on Nike.com">
+                    <svg style="width:13px;height:13px;" viewBox="0 0 24 24"><path fill="currentColor" d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+                  </a>
+                </div>
+                <div class="product-desc-sub">${escapeHtml(item.description)}</div>
+              </div>
+            </div>
+            <div class="ranking-stats">
+              <div class="ranking-count">${item.count}</div>
+              <div class="ranking-units-label">Orders</div>
+            </div>
+          `;
+          container.appendChild(el);
+        });
+      }
+
+      /* ==========================================================================
+         9. CUSTOMER INTELLIGENCE & LEADERBOARD (VISUAL 7 - PHONE AGGREGATED)
+         ========================================================================== */
+      function renderCustomerIntelligenceLeaderboard(data) {
+        const tbody = document.getElementById("customerLeaderboardTableBody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        const customerMap = {};
+
+        data.forEach((o) => {
+          const rawPhone = (o.phoneNumber || "").trim();
+          const cleanPhone = rawPhone.replace(/\D/g, "");
+          if (!cleanPhone) return;
+
+          if (!customerMap[cleanPhone]) {
+            customerMap[cleanPhone] = {
+              phone: rawPhone,
+              cleanPhone: cleanPhone,
+              name: o.customerName || "Customer",
+              orderCount: 0,
+              unpickedCount: 0,
+              lastActiveDate: o.orderDate || "2026-01-01",
+              branches: {},
+              categories: {}
+            };
+          }
+
+          const c = customerMap[cleanPhone];
+          c.orderCount++;
+          if ((o.status || "").toLowerCase() === "unpicked") {
+            c.unpickedCount++;
+          }
+
+          if (o.orderDate && o.orderDate > c.lastActiveDate) {
+            c.lastActiveDate = o.orderDate;
+          }
+          if (o.customerName && (!c.name || c.name === "Customer")) {
+            c.name = o.customerName;
+          }
+
+          const b = (o.branch || "In-Store").trim();
+          c.branches[b] = (c.branches[b] || 0) + 1;
+
+          const cat = inferCategory(o);
+          c.categories[cat] = (c.categories[cat] || 0) + 1;
+        });
+
+        const patrons = Object.values(customerMap).map((c) => {
+          const topBranch = Object.entries(c.branches).sort((a, b) => b[1] - a[1])[0]?.[0] || "Nike Lebanon";
+          const topCat = Object.entries(c.categories).sort((a, b) => b[1] - a[1])[0]?.[0] || "Footwear";
+          return {
+            name: c.name,
+            phone: c.phone,
+            cleanPhone: c.cleanPhone,
+            orderCount: c.orderCount,
+            unpickedCount: c.unpickedCount,
+            lastActiveDate: c.lastActiveDate,
+            topBranch: topBranch,
+            topCat: topCat
+          };
+        });
+
+        // Rank by Order Count descending
+        patrons.sort((a, b) => b.orderCount - a.orderCount);
+
+        if (patrons.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:2rem;">No customer records matching the active filter criteria.</td></tr>';
+          return;
+        }
+
+        patrons.slice(0, 15).forEach((p, idx) => {
+          const initials = p.name.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
+          const rankBadge = idx === 0 ? "top-1" : idx === 1 ? "top-2" : idx === 2 ? "top-3" : "";
+          const formattedPhone = formatLebanesePhone(p.phone);
+          const waInternational = getCleanPhoneForWhatsApp(p.phone);
+
+          const waMsg = encodeURIComponent(
+            `Hello ${p.name}! 👋 Thank you for being a valued Nike Lebanon VIP customer. We are reviewing your recent orders and wanted to check in if you need any assistance with product sizing, availability, or upcoming arrivals.`
+          );
+          const waLink = `https://wa.me/${waInternational}?text=${waMsg}`;
+
+          const tr = document.createElement("tr");
+          tr.className = "clickable-visual-item" + (state.filters.searchQuery === p.name.toLowerCase() ? " active-filtered" : "");
+          tr.title = `Click to filter by ${p.name} (Click again to clear)`;
+          tr.onclick = (e) => {
+            if (e.target.closest("a")) return;
+            if (state.filters.searchQuery === p.name.toLowerCase()) {
+              resetAllFilters();
+              showToast("Customer filter cleared: Showing All Data", "info");
+            } else {
+              state.filters.searchQuery = p.name.toLowerCase();
+              document.getElementById("searchInput").value = p.name;
+              dispatchUpdate();
+              showToast(`Filtered by Customer: ${p.name} (Click again to clear)`, "info");
+            }
+          };
+          tr.innerHTML = `
+            <td>
+              <div class="customer-cell">
+                <span class="ranking-badge ${rankBadge}" style="font-size:0.75rem;">#${idx + 1}</span>
+                <div class="customer-avatar">${escapeHtml(initials || "NK")}</div>
+                <div>
+                  <strong style="color:var(--text-primary);">${escapeHtml(p.name)}</strong>
+                  <div style="font-size:0.72rem;color:var(--text-muted);">${p.orderCount > 2 ? "🔥 VIP Frequent Buyer" : "Registered Customer"}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="phone-badge">
+                <svg style="width:11px;height:11px;fill:var(--text-muted);" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                ${escapeHtml(formattedPhone)}
+              </span>
+            </td>
+            <td>
+              <strong style="color:var(--nike-orange);font-size:0.95rem;">${p.orderCount}</strong>
+              ${p.unpickedCount > 0 ? `<div style="font-size:0.7rem;color:var(--color-danger);font-weight:600;white-space:nowrap;">(${p.unpickedCount} unpicked)</div>` : ""}
+            </td>
+            <td><span style="font-size:0.78rem;color:var(--text-secondary);">${escapeHtml(p.lastActiveDate)}</span></td>
+            <td><span class="category-tag">${escapeHtml(p.topCat)}</span></td>
+            <td><span style="font-size:0.8rem;color:var(--text-secondary);">${escapeHtml(p.topBranch)}</span></td>
+            <td class="col-action hide-on-print">
+              <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-wa-direct" title="Open direct WhatsApp VIP conversation">
+                <svg style="width:12px;height:12px;fill:currentColor;" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                Chat
+              </a>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      /* ==========================================================================
+         9B. UNPICKED ORDERS LEADERBOARD (TOP 10 CUSTOMERS BY UNPICKED ORDERS)
+         ========================================================================== */
+      function renderTopUnpickedCustomersLeaderboard(data) {
+        const tbody = document.getElementById("unpickedLeaderboardTableBody");
+        const countChip = document.getElementById("unpickedTotalCountChip");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        // Global order count lookup per customer across the complete store database
+        const customerTotalOrders = {};
+        (state.allOrders || []).forEach((o) => {
+          if (!o) return;
+          const raw = (o.phoneNumber || "").trim();
+          const clean = raw.replace(/\D/g, "");
+          const key = clean || (o.customerName || "Unknown").trim().toLowerCase();
+          customerTotalOrders[key] = (customerTotalOrders[key] || 0) + 1;
+        });
+
+        // Group unpicked orders in current filtered view
+        const unpickedCustomerMap = {};
+        let totalUnpickedCountInView = 0;
+
+        (data || []).forEach((o) => {
+          if (!o) return;
+          const isUnpicked = (o.status || "").trim().toLowerCase() === "unpicked";
+          if (!isUnpicked) return;
+          totalUnpickedCountInView++;
+
+          const rawPhone = (o.phoneNumber || "").trim();
+          const cleanPhone = rawPhone.replace(/\D/g, "");
+          const key = cleanPhone || (o.customerName || "Customer").trim().toLowerCase();
+
+          if (!unpickedCustomerMap[key]) {
+            const histTotal = customerTotalOrders[key] || 0;
+            unpickedCustomerMap[key] = {
+              phone: rawPhone,
+              cleanPhone: cleanPhone,
+              name: (o.customerName || "Customer").trim(),
+              unpickedCount: 0,
+              totalOrders: histTotal,
+              lastUnpickedDate: o.arrivalDate || o.orderDate || "",
+              lastUnpickedItem: `${o.itemNumber ? o.itemNumber + " - " : ""}${o.description || "Nike Item"}`.trim(),
+              branches: {}
+            };
+          }
+
+          const c = unpickedCustomerMap[key];
+          c.unpickedCount++;
+          if (c.unpickedCount > c.totalOrders) {
+            c.totalOrders = c.unpickedCount;
+          }
+
+          const itemDate = o.arrivalDate || o.orderDate || "";
+          if (itemDate && (!c.lastUnpickedDate || itemDate >= c.lastUnpickedDate)) {
+            c.lastUnpickedDate = itemDate;
+            c.lastUnpickedItem = `${o.itemNumber ? o.itemNumber + " - " : ""}${o.description || "Nike Item"}`.trim();
+          }
+
+          if (o.customerName && (!c.name || c.name === "Customer")) {
+            c.name = o.customerName.trim();
+          }
+
+          const b = (o.branch || "In-Store").trim();
+          c.branches[b] = (c.branches[b] || 0) + 1;
+        });
+
+        if (countChip) {
+          countChip.textContent = `${totalUnpickedCountInView} unpicked`;
+        }
+
+        const unpickedList = Object.values(unpickedCustomerMap);
+
+        if (unpickedList.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align:center;color:var(--text-muted);padding:2.5rem 1rem;">
+                <div style="font-size:1.5rem;margin-bottom:0.4rem;">🎉</div>
+                <strong style="color:var(--text-primary);font-size:0.92rem;">No Unpicked Orders in Current View</strong>
+                <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem;">
+                  All customer orders matching current filters have been collected or are pending store arrival.
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        const ranked = unpickedList.map((c) => {
+          const topBranch = Object.entries(c.branches).sort((a, b) => b[1] - a[1])[0]?.[0] || "Nike Lebanon";
+          const total = Math.max(c.totalOrders, c.unpickedCount);
+          const rate = Math.round((c.unpickedCount / total) * 100);
+          return {
+            ...c,
+            topBranch,
+            totalOrders: total,
+            abandonmentRate: rate
+          };
+        });
+
+        // Rank primarily by unpicked count descending, then by abandonment rate descending, then by total orders
+        ranked.sort((a, b) => {
+          if (b.unpickedCount !== a.unpickedCount) {
+            return b.unpickedCount - a.unpickedCount;
+          }
+          if (b.abandonmentRate !== a.abandonmentRate) {
+            return b.abandonmentRate - a.abandonmentRate;
+          }
+          return b.totalOrders - a.totalOrders;
+        });
+
+        const top10 = ranked.slice(0, 10);
+
+        top10.forEach((c, idx) => {
+          const rankBadgeClass = idx === 0 ? "top-unpicked-1" : idx === 1 ? "top-unpicked-2" : idx === 2 ? "top-unpicked-3" : "top-unpicked-other";
+          const initials = (c.name || "Customer").split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
+          const formattedPhone = formatLebanesePhone(c.phone);
+          const waInternational = getCleanPhoneForWhatsApp(c.phone);
+
+          const riskTag = c.unpickedCount >= 3
+            ? '<span class="unpicked-risk-tag danger">⚠️ High Abandonment Risk</span>'
+            : c.unpickedCount >= 2
+            ? '<span class="unpicked-risk-tag warning">⚠️ Repeat Abandoner</span>'
+            : '<span class="unpicked-risk-tag notice">ℹ️ Single Abandonment</span>';
+
+          const waMsg = encodeURIComponent(
+            `Hello ${c.name}! 👋 We are following up from Nike Lebanon regarding your order reservation (${c.lastUnpickedItem || "store order"}) at our ${c.topBranch} branch. It has not been collected yet. Please let us know if you still wish to pick it up or if you would like us to reserve a different size or style for you.`
+          );
+          const waLink = waInternational ? `https://wa.me/${waInternational}?text=${waMsg}` : "#";
+
+          const tr = document.createElement("tr");
+          tr.className = "clickable-visual-item" + (state.filters.searchQuery === c.name.toLowerCase() ? " active-filtered" : "");
+          tr.title = `Click to filter by ${c.name} (Click again to clear)`;
+          tr.onclick = (e) => {
+            if (e.target.closest("a")) return;
+            if (state.filters.searchQuery === c.name.toLowerCase()) {
+              resetAllFilters();
+              showToast("Customer filter cleared: Showing All Data", "info");
+            } else {
+              state.filters.searchQuery = c.name.toLowerCase();
+              const searchInput = document.getElementById("searchInput");
+              if (searchInput) searchInput.value = c.name;
+              dispatchUpdate();
+              showToast(`Filtered by Customer: ${c.name} (Click again to clear)`, "info");
+            }
+          };
+          tr.innerHTML = `
+            <td>
+              <div class="customer-cell">
+                <span class="ranking-badge ${rankBadgeClass}" style="font-size:0.75rem;">#${idx + 1}</span>
+                <div class="customer-avatar unpicked-avatar">${escapeHtml(initials || "NK")}</div>
+                <div>
+                  <strong style="color:var(--text-primary);">${escapeHtml(c.name)}</strong>
+                  <div>${riskTag}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="phone-badge">
+                <svg style="width:11px;height:11px;fill:var(--text-muted);" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                ${escapeHtml(formattedPhone)}
+              </span>
+            </td>
+            <td>
+              <span class="unpicked-count-pill">${c.unpickedCount} unpicked</span>
+            </td>
+            <td>
+              <strong style="color:var(--text-primary);font-size:0.92rem;">${c.totalOrders}</strong>
+            </td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: ${c.abandonmentRate}%; background-color: var(--color-danger);"></div>
+                </div>
+                <span style="font-size:0.78rem;font-weight:700;color:var(--color-danger);">${c.abandonmentRate}%</span>
+              </div>
+            </td>
+            <td>
+              <span style="font-size:0.8rem;color:var(--text-secondary);">${escapeHtml(c.topBranch)}</span>
+            </td>
+            <td>
+              <div>
+                <div style="font-weight:600;font-size:0.8rem;color:var(--text-primary);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${escapeHtml(c.lastUnpickedItem)}">
+                  ${escapeHtml(c.lastUnpickedItem)}
+                </div>
+                <div style="font-size:0.72rem;color:var(--text-muted);">${escapeHtml(c.lastUnpickedDate || "-")}</div>
+              </div>
+            </td>
+            <td class="col-action hide-on-print">
+              ${waInternational ? `
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-wa-direct unpicked-wa-btn" title="Open WhatsApp Follow-Up">
+                  <svg style="width:12px;height:12px;fill:currentColor;" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                  Follow Up
+                </a>
+              ` : `
+                <span style="font-size:0.72rem;color:var(--text-muted);">No Phone</span>
+              `}
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      /* ==========================================================================
+         10. CATEGORY INTELLIGENCE & STORE LOGISTICS MATRICES
+         ========================================================================== */
+      function renderCategoryIntelligenceMatrix(data) {
+        const tbody = document.getElementById("categoryMatrixTableBody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        const allCategories = [
+          "Footwear - Lifestyle & Retro",
+          "Footwear - Running",
+          "Footwear - Basketball",
+          "Footwear - Training & Gym",
+          "Footwear - Football / Soccer",
+          "Apparel - Tops & Hoodies",
+          "Apparel - Pants & Shorts",
+          "Accessories & Equipment"
+        ];
+
+        const totalFilteredOrders = data.length;
+        const stats = {};
+        allCategories.forEach((c) => {
+          stats[c] = { total: 0, pending: 0, arrived: 0, collected: 0, unpicked: 0, models: {} };
+        });
+
+        data.forEach((o) => {
+          const cat = inferCategory(o);
+          if (!stats[cat]) {
+            stats[cat] = { total: 0, pending: 0, arrived: 0, collected: 0, unpicked: 0, models: {} };
+          }
+          stats[cat].total++;
+
+          const status = (o.status || "").toLowerCase();
+          if (status === "pending") stats[cat].pending++;
+          else if (status === "arrived") stats[cat].arrived++;
+          else if (status === "collected") stats[cat].collected++;
+          else if (status === "unpicked") stats[cat].unpicked++;
+
+          const modelKey = (o.itemNumber || "").trim().toUpperCase();
+          if (modelKey) {
+            stats[cat].models[modelKey] = (stats[cat].models[modelKey] || 0) + 1;
+          }
+        });
+
+        allCategories.forEach((cat) => {
+          const s = stats[cat];
+          if (s.total === 0) return; // Hide categories with no orders in current filter
+          const sharePct = totalFilteredOrders > 0 ? Math.round((s.total / totalFilteredOrders) * 100) : 0;
+          const fulfillmentRate = s.total > 0 ? Math.round((s.collected / s.total) * 100) : 0;
+          const topModelEntry = Object.entries(s.models).sort((a, b) => b[1] - a[1])[0];
+          const topModel = topModelEntry ? `${topModelEntry[0]} (${topModelEntry[1]})` : "-";
+          const progressColor = fulfillmentRate >= 70 ? "var(--color-arrived)" : fulfillmentRate >= 40 ? "var(--color-gold)" : "var(--color-pending)";
+
+          const tr = document.createElement("tr");
+          tr.className = "clickable-visual-item" + (state.filters.category === cat ? " active-filtered" : "");
+          tr.title = `Click to filter by ${cat} (Click again to clear)`;
+          tr.onclick = () => {
+            if (state.filters.category === cat) {
+              resetAllFilters();
+              showToast("Category filter cleared: Showing All Data", "info");
+            } else {
+              state.filters.category = cat;
+              const catSelect = document.getElementById("categoryFilter");
+              if (catSelect) catSelect.value = cat;
+              dispatchUpdate();
+              showToast(`Filtered by Category: ${cat} (Click again to clear)`, "info");
+            }
+          };
+          tr.innerHTML = `
+            <td><strong style="color:var(--text-primary);">${escapeHtml(cat)}</strong></td>
+            <td><strong style="color:var(--nike-orange);">${s.total}</strong></td>
+            <td><span style="font-weight:600;color:var(--text-secondary);">${sharePct}%</span></td>
+            <td><span style="color:var(--color-pending);font-weight:600;">${s.pending}</span></td>
+            <td><span style="color:var(--color-arrived);font-weight:600;">${s.arrived}</span></td>
+            <td><span style="color:var(--color-collected);font-weight:600;">${s.collected}</span></td>
+            <td><span style="color:var(--color-danger);font-weight:600;">${s.unpicked}</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: ${fulfillmentRate}%; background-color: ${progressColor};"></div>
+                </div>
+                <span style="font-size:0.78rem;font-weight:600;">${fulfillmentRate}%</span>
+              </div>
+            </td>
+            <td><span style="font-family:monospace;font-size:0.8rem;color:var(--text-secondary);">${escapeHtml(topModel)}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        if (tbody.children.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:1.5rem;">No category data in selected view.</td></tr>';
+        }
+      }
+
+      function renderRoutingLogisticsMatrix(data) {
+        const tbody = document.getElementById("routingMatrixTableBody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        const routeStats = {};
+        data.forEach((o) => {
+          const loc = (o.branch || "In-Store Pickup").trim();
+          if (!routeStats[loc]) {
+            routeStats[loc] = { total: 0, pending: 0, arrived: 0, collected: 0, unpicked: 0 };
+          }
+          routeStats[loc].total++;
+          const status = (o.status || "").toLowerCase();
+          if (status === "pending") routeStats[loc].pending++;
+          else if (status === "arrived") routeStats[loc].arrived++;
+          else if (status === "collected") routeStats[loc].collected++;
+          else if (status === "unpicked") routeStats[loc].unpicked++;
+        });
+
+        const routeList = Object.keys(routeStats).sort((a, b) => routeStats[b].total - routeStats[a].total);
+
+        if (routeList.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:1.5rem;">No destination routing data available.</td></tr>';
+          return;
+        }
+
+        const totalVolume = data.length;
+
+        routeList.forEach((loc) => {
+          const r = routeStats[loc];
+          const sharePct = totalVolume > 0 ? Math.round((r.total / totalVolume) * 100) : 0;
+          const fulfillmentRate = r.total > 0 ? Math.round((r.collected / r.total) * 100) : 0;
+          const progressColor = fulfillmentRate >= 70 ? "var(--color-arrived)" : fulfillmentRate >= 40 ? "var(--color-gold)" : "var(--color-pending)";
+
+          const tr = document.createElement("tr");
+          tr.className = "clickable-visual-item" + (state.filters.branch === loc ? " active-filtered" : "");
+          tr.title = `Click to filter by ${loc} (Click again to clear)`;
+          tr.onclick = () => {
+            if (state.filters.branch === loc) {
+              resetAllFilters();
+              showToast("Branch filter cleared: Showing All Branches", "info");
+            } else {
+              state.filters.branch = loc;
+              const bSelect = document.getElementById("branchFilter");
+              if (bSelect) bSelect.value = loc;
+              dispatchUpdate();
+              showToast(`Filtered by Branch: ${loc} (Click again to clear)`, "info");
+            }
+          };
+          tr.innerHTML = `
+            <td><strong style="color:var(--text-primary);">${escapeHtml(loc)}</strong></td>
+            <td><strong style="font-size:0.95rem;color:var(--nike-orange);">${r.total}</strong></td>
+            <td><span style="font-weight:600;color:var(--text-secondary);">${sharePct}%</span></td>
+            <td><span style="color:var(--color-pending);font-weight:600;">${r.pending}</span></td>
+            <td><span style="color:var(--color-arrived);font-weight:600;">${r.arrived}</span></td>
+            <td><span style="color:var(--color-collected);font-weight:600;">${r.collected}</span></td>
+            <td><span style="color:var(--color-danger);font-weight:600;">${r.unpicked}</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: ${fulfillmentRate}%; background-color: ${progressColor};"></div>
+                </div>
+                <span style="font-size:0.78rem;font-weight:600;">${fulfillmentRate}%</span>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      /* ==========================================================================
+         11. UTILITIES & HELPERS
+         ========================================================================== */
+      function inferCategory(order) {
+        if (order.category && order.category.trim()) return order.category.trim();
+        const text = `${order.description || ""} ${order.itemNumber || ""}`.toLowerCase();
+        if (text.includes("pegasus") || text.includes("invincible") || text.includes("running")) return "Footwear - Running";
+        if (text.includes("jordan") || text.includes("dunk") || text.includes("basketball")) return "Footwear - Basketball";
+        if (text.includes("metcon") || text.includes("training") || text.includes("gym")) return "Footwear - Training & Gym";
+        if (text.includes("cleat") || text.includes("mercurial") || text.includes("phantom") || text.includes("football") || text.includes("soccer")) return "Footwear - Football / Soccer";
+        if (text.includes("hoodie") || text.includes("jacket") || text.includes("tee") || text.includes("top") || text.includes("windrunner")) return "Apparel - Tops & Hoodies";
+        if (text.includes("pant") || text.includes("short") || text.includes("cargo") || text.includes("sweatpant")) return "Apparel - Pants & Shorts";
+        if (text.includes("bag") || text.includes("duffel") || text.includes("sock") || text.includes("cap") || text.includes("backpack")) return "Accessories & Equipment";
+        return "Footwear - Lifestyle & Retro";
+      }
+
+      function formatLebanesePhone(phone) {
+        if (!phone) return "N/A";
+        let clean = String(phone).replace(/\D/g, "");
+        if (clean.startsWith("961")) clean = clean.substring(3);
+        if (clean.startsWith("0")) clean = clean.substring(1);
+        if (clean.length === 7) return `+961 ${clean.slice(0, 1)} ${clean.slice(1, 4)} ${clean.slice(4)}`;
+        if (clean.length === 8) return `+961 ${clean.slice(0, 2)} ${clean.slice(2, 5)} ${clean.slice(5)}`;
+        return phone;
+      }
+
+      function getCleanPhoneForWhatsApp(phone) {
+        if (!phone) return "";
+        let clean = String(phone).replace(/\D/g, "");
+        if (clean.startsWith("00961")) clean = clean.substring(5);
+        else if (clean.startsWith("961")) clean = clean.substring(3);
+        else if (clean.startsWith("0")) clean = clean.substring(1);
+        return "961" + clean;
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function showToast(msg, type = "info") {
+        const container = document.getElementById("toastContainer");
+        if (!container) return;
+        const t = document.createElement("div");
+        t.className = `toast ${type}`;
+        t.innerHTML = `<span>${escapeHtml(msg)}</span>`;
+        container.appendChild(t);
+        requestAnimationFrame(() => t.classList.add("show"));
+        setTimeout(() => {
+          t.classList.remove("show");
+          setTimeout(() => t.remove(), 300);
+        }, 3200);
+      }
+
+      function exportFilteredCSV() {
+        const data = state.filteredOrders.length > 0 ? state.filteredOrders : state.allOrders;
+        if (data.length === 0) {
+          showToast("No data to export — add some orders first.", "danger");
+          return;
+        }
+        const headers = ["Order Date","Customer Name","Phone","SKU / Item #","Description","Category","Branch","Staff","Status","Arrival Date","SMS Sent"];
+        const rows = data.map((o) => [
+          o.orderDate || "",
+          o.customerName || "",
+          o.phoneNumber || "",
+          o.itemNumber || "",
+          (o.description || "").replace(/,/g, " "),
+          inferCategory(o),
+          o.branch || "",
+          o.enteredBy || o.employee || "",
+          o.status || "",
+          o.arrivalDate || "",
+          o.smsSent ? "Yes" : "No"
+        ]);
+        const csvContent = [headers, ...rows].map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        const dateStr = new Date().toISOString().split("T")[0];
+        link.href = url;
+        link.download = `nike_orders_export_${dateStr}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        showToast(`Exported ${data.length} orders to CSV ✓`, "success");
+      }
+
+      /* In-Page Confirmation Modal Helper */
+      function showConfirmModal({ title, subtitle, message, confirmText = "Confirm", isDanger = false, onConfirm }) {
+        const modal = document.getElementById("genericConfirmModal");
+        const titleEl = document.getElementById("genericConfirmTitle");
+        const subEl = document.getElementById("genericConfirmSub");
+        const msgEl = document.getElementById("genericConfirmMsg");
+        const okBtn = document.getElementById("genericConfirmOkBtn");
+        if (!modal) {
+          if (confirm(message)) onConfirm?.();
+          return;
+        }
+        if (titleEl) titleEl.textContent = title || "Confirm Action";
+        if (subEl) subEl.textContent = subtitle || "Operations Data Management";
+        if (msgEl) msgEl.innerHTML = String(message).replace(/\n/g, "<br>");
+        if (okBtn) {
+          okBtn.textContent = confirmText;
+          okBtn.style.backgroundColor = isDanger ? "var(--color-danger, #ef4444)" : "var(--nike-orange, #ff5500)";
+          okBtn.onclick = function () {
+            closeGenericConfirmModal();
+            if (typeof onConfirm === "function") onConfirm();
+          };
+        }
+        modal.style.display = "flex";
+        requestAnimationFrame(() => modal.classList.add("show"));
+      }
+
+      function closeGenericConfirmModal(e) {
+        if (e && e.target && e.target !== e.currentTarget && !e.target.classList.contains("print-modal-close") && !e.target.classList.contains("btn-secondary")) {
+          return;
+        }
+        const modal = document.getElementById("genericConfirmModal");
+        if (modal) {
+          modal.classList.remove("show");
+          setTimeout(() => { modal.style.display = "none"; }, 200);
+        }
+      }
+
+      /* ==========================================================================
+         12. A4 PRINT & EXECUTIVE REPORT GENERATOR
+         ========================================================================== */
+      function openPrintModal() {
+        updatePrintModalScope();
+        applyPrintPreset("full");
+        const modal = document.getElementById("printModalBackdrop");
+        if (modal) {
+          modal.style.display = "flex";
+          requestAnimationFrame(() => modal.classList.add("show"));
+        }
+      }
+
+      function closePrintModal(e) {
+        if (e && e.target && e.target !== e.currentTarget && !e.target.classList.contains("print-modal-close") && !e.target.classList.contains("btn-secondary")) {
+          return;
+        }
+        const modal = document.getElementById("printModalBackdrop");
+        if (modal) {
+          modal.classList.remove("show");
+          setTimeout(() => {
+            modal.style.display = "none";
+          }, 220);
+        }
+      }
+
+      function updatePrintModalScope() {
+        const data = (state.filteredOrders && state.filteredOrders.length > 0) ? state.filteredOrders : state.allOrders;
+        const countBadge = document.getElementById("modalOrderCountBadge");
+        if (countBadge) {
+          countBadge.textContent = `${data.length} Orders`;
+        }
+
+        const tagsContainer = document.getElementById("modalScopeTags");
+        if (!tagsContainer) return;
+        tagsContainer.innerHTML = "";
+
+        // Build active filter tags
+        let tfText = "All Time";
+        const tf = state.filters.timeframe;
+        if (tf === "today") tfText = "Today";
+        else if (tf === "yesterday") tfText = "Yesterday";
+        else if (tf === "7d") tfText = "Last 7 Days";
+        else if (tf === "30d") tfText = "Last 30 Days";
+        else if (tf === "this_month") tfText = "This Month";
+        else if (tf === "custom") tfText = `${state.filters.customStart || "Start"} to ${state.filters.customEnd || "End"}`;
+        else if (state.selectedMonthFilter) tfText = `Month: ${state.selectedMonthFilter}`;
+        else if (state.selectedYearFilter) tfText = `Year: ${state.selectedYearFilter}`;
+
+        const tags = [
+          { label: "Period", val: tfText },
+          { label: "Branch", val: state.filters.branch === "ALL" ? "All Branches" : state.filters.branch },
+          { label: "Category", val: state.filters.category === "ALL" ? "All Categories" : state.filters.category },
+          { label: "Staff", val: state.filters.staff === "ALL" ? "All Staff" : state.filters.staff },
+          { label: "Status", val: state.filters.status === "ALL" ? "All Statuses" : state.filters.status }
+        ];
+
+        if (state.filters.searchQuery) {
+          tags.push({ label: "Search", val: `"${state.filters.searchQuery}"` });
+        }
+
+        tags.forEach(t => {
+          const chip = document.createElement("span");
+          chip.className = "scope-tag-chip";
+          chip.innerHTML = `<strong>${escapeHtml(t.label)}:</strong> ${escapeHtml(t.val)}`;
+          tagsContainer.appendChild(chip);
+        });
+      }
+
+      function applyPrintPreset(preset) {
+        const pFull = document.getElementById("presetFullReport");
+        const pSum = document.getElementById("presetExecSummary");
+        const pTab = document.getElementById("presetTablesOnly");
+        if (pFull) pFull.classList.toggle("active", preset === "full");
+        if (pSum) pSum.classList.toggle("active", preset === "summary");
+        if (pTab) pTab.classList.toggle("active", preset === "tables");
+
+        const checks = {
+          checkPrintKpi: preset !== "tables",
+          checkPrintGrowth: preset === "full" || preset === "summary",
+          checkPrintCharts1: preset === "full" || preset === "summary",
+          checkPrintCharts2: preset === "full",
+          checkPrintCharts3: preset === "full",
+          checkPrintCustomerLeaderboard: preset === "full" || preset === "tables",
+          checkPrintUnpickedLeaderboard: preset === "full" || preset === "tables",
+          checkPrintMatrices: preset === "full" || preset === "tables"
+        };
+
+        if (preset === "tables") {
+          checks.checkPrintKpi = true;
+        }
+
+        Object.entries(checks).forEach(([id, val]) => {
+          const el = document.getElementById(id);
+          if (el) el.checked = val;
+        });
+      }
+
+      function handlePrintSectionToggle() {
+        const pFull = document.getElementById("presetFullReport");
+        const pSum = document.getElementById("presetExecSummary");
+        const pTab = document.getElementById("presetTablesOnly");
+        if (pFull) pFull.classList.remove("active");
+        if (pSum) pSum.classList.remove("active");
+        if (pTab) pTab.classList.remove("active");
+      }
+
+      function executeA4Print() {
+        // Apply exclusion classes based on modal checkboxes
+        const sectionMap = {
+          checkPrintKpi: ["kpiGridSection"],
+          checkPrintGrowth: ["periodAnalysisSection"],
+          checkPrintCharts1: ["chartsRow1"],
+          checkPrintCharts2: ["chartsRow2"],
+          checkPrintCharts3: ["chartsRow3"],
+          checkPrintCustomerLeaderboard: ["customerLeaderboardSection"],
+          checkPrintUnpickedLeaderboard: ["unpickedLeaderboardSection"],
+          checkPrintMatrices: ["categoryMatrixSection", "branchMatrixSection"]
+        };
+
+        // First remove all print-exclude
+        document.querySelectorAll(".print-exclude").forEach(el => el.classList.remove("print-exclude"));
+
+        Object.entries(sectionMap).forEach(([checkId, sectionIds]) => {
+          const chk = document.getElementById(checkId);
+          if (chk && !chk.checked) {
+            sectionIds.forEach(sId => {
+              const sec = document.getElementById(sId);
+              if (sec) sec.classList.add("print-exclude");
+            });
+          }
+        });
+
+        // Close modal
+        const modal = document.getElementById("printModalBackdrop");
+        if (modal) {
+          modal.classList.remove("show");
+          modal.style.display = "none";
+        }
+
+        // Trigger print
+        setTimeout(() => {
+          window.print();
+        }, 80);
+      }
+
+      function updatePrintMetadata() {
+        const data = (state.filteredOrders && state.filteredOrders.length > 0) ? state.filteredOrders : state.allOrders;
+        const now = new Date();
+        const dateFormatted = now.toLocaleString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+
+        const dateEl = document.getElementById("printMetaDateVal");
+        if (dateEl) dateEl.textContent = dateFormatted;
+
+        const footerDateEl = document.getElementById("printFooterDateVal");
+        if (footerDateEl) footerDateEl.textContent = `Generated: ${dateFormatted}`;
+
+        const scopeEl = document.getElementById("printMetaScopeVal");
+        if (scopeEl) scopeEl.textContent = `Store DB (${data.length} Orders)`;
+
+        let tfText = "All Time";
+        const tf = state.filters.timeframe;
+        if (tf === "today") tfText = "Today";
+        else if (tf === "yesterday") tfText = "Yesterday";
+        else if (tf === "7d") tfText = "Last 7 Days";
+        else if (tf === "30d") tfText = "Last 30 Days";
+        else if (tf === "this_month") tfText = "This Month";
+        else if (tf === "custom") tfText = `${state.filters.customStart || "Start"} to ${state.filters.customEnd || "End"}`;
+        else if (state.selectedMonthFilter) tfText = `Month: ${state.selectedMonthFilter}`;
+        else if (state.selectedYearFilter) tfText = `Year: ${state.selectedYearFilter}`;
+
+        const tfEl = document.getElementById("printFilterTimeframe");
+        if (tfEl) tfEl.textContent = tfText;
+
+        const brEl = document.getElementById("printFilterBranch");
+        if (brEl) brEl.textContent = state.filters.branch === "ALL" ? "All Branches" : state.filters.branch;
+
+        const catEl = document.getElementById("printFilterCategory");
+        if (catEl) catEl.textContent = state.filters.category === "ALL" ? "All Categories" : state.filters.category;
+
+        const stfEl = document.getElementById("printFilterStaff");
+        if (stfEl) stfEl.textContent = state.filters.staff === "ALL" ? "All Staff" : state.filters.staff;
+
+        const stEl = document.getElementById("printFilterStatus");
+        if (stEl) stEl.textContent = state.filters.status === "ALL" ? "All Statuses" : state.filters.status;
+
+        const ordEl = document.getElementById("printFilterOrderCount");
+        if (ordEl) ordEl.textContent = `${data.length} Orders`;
+      }
+
+      function prepareChartsForPrint() {
+        if (!window.Chart) return;
+        Chart.defaults.color = "#1e293b";
+        Chart.defaults.borderColor = "#cbd5e1";
+
+        if (state.charts.trend && state.charts.trend.options) {
+          if (state.charts.trend.options.scales) {
+            if (state.charts.trend.options.scales.x) {
+              state.charts.trend.options.scales.x.grid.color = "rgba(0, 0, 0, 0.07)";
+              state.charts.trend.options.scales.x.ticks.color = "#1e293b";
+            }
+            if (state.charts.trend.options.scales.y) {
+              state.charts.trend.options.scales.y.grid.color = "rgba(0, 0, 0, 0.07)";
+              state.charts.trend.options.scales.y.ticks.color = "#1e293b";
+            }
+          }
+          state.charts.trend.update("none");
+        }
+
+        if (state.charts.categoryDonut && state.charts.categoryDonut.data) {
+          if (state.charts.categoryDonut.data.datasets[0]) {
+            state.charts.categoryDonut.data.datasets[0].borderColor = "#ffffff";
+          }
+          if (state.charts.categoryDonut.options && state.charts.categoryDonut.options.plugins && state.charts.categoryDonut.options.plugins.legend) {
+            state.charts.categoryDonut.options.plugins.legend.labels.color = "#0f172a";
+          }
+          state.charts.categoryDonut.update("none");
+        }
+
+        if (state.charts.categoryBar && state.charts.categoryBar.options) {
+          if (state.charts.categoryBar.options.scales) {
+            if (state.charts.categoryBar.options.scales.x) state.charts.categoryBar.options.scales.x.ticks.color = "#1e293b";
+            if (state.charts.categoryBar.options.scales.y) {
+              state.charts.categoryBar.options.scales.y.grid.color = "rgba(0, 0, 0, 0.07)";
+              state.charts.categoryBar.options.scales.y.ticks.color = "#1e293b";
+            }
+          }
+          state.charts.categoryBar.update("none");
+        }
+
+        if (state.charts.staffBar && state.charts.staffBar.options) {
+          if (state.charts.staffBar.options.scales) {
+            if (state.charts.staffBar.options.scales.x) state.charts.staffBar.options.scales.x.ticks.color = "#1e293b";
+            if (state.charts.staffBar.options.scales.y) {
+              state.charts.staffBar.options.scales.y.grid.color = "rgba(0, 0, 0, 0.07)";
+              state.charts.staffBar.options.scales.y.ticks.color = "#1e293b";
+            }
+          }
+          state.charts.staffBar.update("none");
+        }
+
+        if (state.charts.branchBar && state.charts.branchBar.options) {
+          if (state.charts.branchBar.options.scales) {
+            if (state.charts.branchBar.options.scales.x) {
+              state.charts.branchBar.options.scales.x.grid.color = "rgba(0, 0, 0, 0.07)";
+              state.charts.branchBar.options.scales.x.ticks.color = "#1e293b";
+            }
+            if (state.charts.branchBar.options.scales.y) state.charts.branchBar.options.scales.y.ticks.color = "#1e293b";
+          }
+          state.charts.branchBar.update("none");
+        }
+      }
+
+      function restoreChartsAfterPrint() {
+        // Clear any excluded sections
+        document.querySelectorAll(".print-exclude").forEach(el => el.classList.remove("print-exclude"));
+
+        if (!window.Chart) return;
+        initChartDefaults();
+
+        if (state.charts.trend && state.charts.trend.options) {
+          if (state.charts.trend.options.scales) {
+            if (state.charts.trend.options.scales.x) {
+              state.charts.trend.options.scales.x.grid.color = "rgba(255, 255, 255, 0.05)";
+              state.charts.trend.options.scales.x.ticks.color = "#9ea8b6";
+            }
+            if (state.charts.trend.options.scales.y) {
+              state.charts.trend.options.scales.y.grid.color = "rgba(255, 255, 255, 0.05)";
+              state.charts.trend.options.scales.y.ticks.color = "#9ea8b6";
+            }
+          }
+          state.charts.trend.update("none");
+        }
+
+        if (state.charts.categoryDonut && state.charts.categoryDonut.data) {
+          if (state.charts.categoryDonut.data.datasets[0]) {
+            state.charts.categoryDonut.data.datasets[0].borderColor = "#12151d";
+          }
+          if (state.charts.categoryDonut.options && state.charts.categoryDonut.options.plugins && state.charts.categoryDonut.options.plugins.legend) {
+            state.charts.categoryDonut.options.plugins.legend.labels.color = "#9ea8b6";
+          }
+          state.charts.categoryDonut.update("none");
+        }
+
+        if (state.charts.categoryBar && state.charts.categoryBar.options) {
+          if (state.charts.categoryBar.options.scales) {
+            if (state.charts.categoryBar.options.scales.x) state.charts.categoryBar.options.scales.x.ticks.color = "#9ea8b6";
+            if (state.charts.categoryBar.options.scales.y) {
+              state.charts.categoryBar.options.scales.y.grid.color = "rgba(255, 255, 255, 0.05)";
+              state.charts.categoryBar.options.scales.y.ticks.color = "#9ea8b6";
+            }
+          }
+          state.charts.categoryBar.update("none");
+        }
+
+        if (state.charts.staffBar && state.charts.staffBar.options) {
+          if (state.charts.staffBar.options.scales) {
+            if (state.charts.staffBar.options.scales.x) state.charts.staffBar.options.scales.x.ticks.color = "#9ea8b6";
+            if (state.charts.staffBar.options.scales.y) {
+              state.charts.staffBar.options.scales.y.grid.color = "rgba(255, 255, 255, 0.05)";
+              state.charts.staffBar.options.scales.y.ticks.color = "#9ea8b6";
+            }
+          }
+          state.charts.staffBar.update("none");
+        }
+
+        if (state.charts.branchBar && state.charts.branchBar.options) {
+          if (state.charts.branchBar.options.scales) {
+            if (state.charts.branchBar.options.scales.x) {
+              state.charts.branchBar.options.scales.x.grid.color = "rgba(255, 255, 255, 0.05)";
+              state.charts.branchBar.options.scales.x.ticks.color = "#9ea8b6";
+            }
+            if (state.charts.branchBar.options.scales.y) state.charts.branchBar.options.scales.y.ticks.color = "#9ea8b6";
+          }
+          state.charts.branchBar.update("none");
+        }
+      }
+
+      // Auto-hook into native browser print events (e.g. Ctrl+P, browser menu, or button)
+      window.addEventListener("beforeprint", () => {
+        updatePrintMetadata();
+        prepareChartsForPrint();
+      });
+
+      window.addEventListener("afterprint", () => {
+        restoreChartsAfterPrint();
+      });
+
+      // Escape key to dismiss modals
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closePrintModal();
+          closeGenericConfirmModal();
+        }
+      });
+    </script>
+    <!-- Floating Store Copilot Chatbot -->
+    <script src="chatbot.js"></script>
+  </body>
+</html>

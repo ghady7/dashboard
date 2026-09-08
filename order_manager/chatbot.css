@@ -1,0 +1,806 @@
+/* ==========================================================================
+   NIKE STORE COPILOT - PREMIUM ATHLETIC AI CHATBOT STYLESHEET
+   Aesthetic: Nike Athletic Carbon, Total Orange (#ff5500), Glassmorphic Polish
+   Supports: Floating Drawer & Immersive Full-Page Modes
+   ========================================================================== */
+
+/* Floating Launcher Button */
+.nike-chat-launcher {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff5500 0%, #ff6b1a 100%);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(255, 85, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+  outline: none;
+}
+
+.nike-chat-launcher:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 32px rgba(255, 85, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.nike-chat-launcher svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nike-chat-launcher.is-active svg {
+  transform: rotate(90deg) scale(0.92);
+}
+
+/* Badge on launcher */
+.nike-chat-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 99px;
+  border: 2px solid #0c0c0d;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
+  animation: badgePulse 2s infinite ease-in-out;
+}
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+/* Chatbot Window Container (Default: Floating Drawer) */
+.nike-chat-window {
+  position: fixed;
+  bottom: 94px;
+  right: 24px;
+  width: 440px;
+  max-width: calc(100vw - 32px);
+  height: 630px;
+  max-height: calc(100vh - 120px);
+  background: #111114;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 1px rgba(255, 85, 0, 0.35);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 99999;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  animation: chatWindowOpen 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1), height 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.2s ease;
+}
+
+.nike-chat-window.is-open {
+  display: flex;
+}
+
+/* ==========================================================================
+   FULL PAGE EXPANDED MODE
+   Triggered via window.NikeCopilot.toggleFullPage() or '⤢' button
+   ========================================================================== */
+.nike-chat-window.is-fullpage {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  z-index: 999999 !important;
+  background: #0d0d0f;
+}
+
+@keyframes chatWindowOpen {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Chat Header */
+.nike-chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.25rem;
+  background: #16161a;
+  border-bottom: 1px solid #24242c;
+  flex-shrink: 0;
+}
+
+.nike-chat-window.is-fullpage .nike-chat-header {
+  padding: 1.1rem 2.5rem;
+  background: #141418;
+  border-bottom: 1px solid #23232b;
+}
+
+.nike-chat-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nike-chat-avatar-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(255, 85, 0, 0.15);
+  color: #ff5500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 14px rgba(255, 85, 0, 0.15);
+}
+
+.nike-chat-avatar-icon svg {
+  width: 19px;
+  height: 19px;
+  fill: currentColor;
+}
+
+.nike-chat-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  letter-spacing: -0.2px;
+}
+
+.nike-chat-mode-pill {
+  font-size: 0.65rem;
+  background: rgba(255, 85, 0, 0.15);
+  color: #ff5500;
+  padding: 2px 7px;
+  border-radius: 99px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  border: 1px solid rgba(255, 85, 0, 0.25);
+}
+
+.nike-chat-mode-pill.cloud-ai {
+  background: rgba(16, 185, 129, 0.16);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.nike-chat-status {
+  font-size: 0.69rem;
+  color: #8c8c9a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1px;
+}
+
+.nike-chat-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.nike-chat-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.nike-chat-control-btn {
+  background: #1d1d23;
+  border: 1px solid #2a2a34;
+  color: #9292a0;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.88rem;
+  transition: all 0.16s ease;
+  user-select: none;
+}
+
+.nike-chat-control-btn:hover {
+  background: #282832;
+  color: #ffffff;
+  border-color: #3e3e4c;
+}
+
+.nike-chat-control-btn.active {
+  background: #ff5500;
+  color: #ffffff;
+  border-color: #ff5500;
+}
+
+
+/* Chat Messages Scrollable Area */
+.nike-chat-messages {
+  flex: 1;
+  padding: 1.15rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #0f0f12;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+.nike-chat-window.is-fullpage .nike-chat-messages {
+  padding: 2rem 1.5rem;
+  align-items: center;
+  background: #0d0d10;
+}
+
+/* Scrollbar for chat */
+.nike-chat-messages::-webkit-scrollbar {
+  width: 5px;
+}
+.nike-chat-messages::-webkit-scrollbar-thumb {
+  background: #26262e;
+  border-radius: 4px;
+}
+.nike-chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #3a3a46;
+}
+
+/* Message Bubble */
+.nike-chat-bubble {
+  max-width: 88%;
+  padding: 0.8rem 1rem;
+  border-radius: 14px;
+  font-size: 0.84rem;
+  line-height: 1.52;
+  word-break: break-word;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.nike-chat-window.is-fullpage .nike-chat-bubble,
+.nike-chat-window.is-fullpage .nike-chat-thought-container,
+.nike-chat-window.is-fullpage .nike-chat-fallback-alert,
+.nike-chat-window.is-fullpage .nike-chat-thinking {
+  width: 100%;
+  max-width: 840px;
+}
+
+.nike-chat-bubble.bot {
+  background: #17171b;
+  color: #ededed;
+  border: 1px solid #26262e;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.nike-chat-bubble.user {
+  background: linear-gradient(135deg, #ff5500 0%, #ff6b1a 100%);
+  color: #ffffff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(255, 85, 0, 0.35);
+}
+
+/* Message Author Bar for Bot */
+.nike-chat-msg-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #ff7733;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Animated Thinking State Bubble */
+.nike-chat-thinking {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #ffaa77;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.5rem 0.4rem;
+}
+
+.nike-chat-brain-pulse {
+  display: inline-block;
+  font-size: 1.15rem;
+  animation: brainPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes brainPulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.22); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.nike-chat-typing-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.nike-chat-typing-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ff7733;
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+
+.nike-chat-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.nike-chat-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
+  40% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* Thought Process Accordion Box */
+.nike-chat-thought-container {
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(255, 85, 0, 0.25);
+  border-left: 3px solid #ff5500;
+  border-radius: 8px;
+  background: rgba(255, 85, 0, 0.04);
+  overflow: hidden;
+}
+
+.nike-chat-thought-toggle {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0.48rem 0.75rem;
+  color: #ff9955;
+  font-size: 0.73rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease;
+}
+
+.nike-chat-thought-toggle:hover {
+  background: rgba(255, 85, 0, 0.08);
+}
+
+.nike-chat-thought-toggle .thought-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nike-chat-thought-toggle .thought-arrow {
+  font-size: 0.68rem;
+  transition: transform 0.2s ease;
+}
+
+.nike-chat-thought-container.is-open .thought-arrow {
+  transform: rotate(180deg);
+}
+
+.nike-chat-thought-body {
+  display: none;
+  padding: 0.6rem 0.85rem;
+  border-top: 1px dashed rgba(255, 85, 0, 0.2);
+  background: #141417;
+  font-size: 0.72rem;
+  color: #a8a8b6;
+  line-height: 1.55;
+}
+
+.nike-chat-thought-container.is-open .nike-chat-thought-body {
+  display: block;
+}
+
+.thought-step-line {
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+.thought-step-line:last-child {
+  margin-bottom: 0;
+}
+
+.thought-step-bullet {
+  color: #ff5500;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+/* Rich Metric Badges & Mini Grid */
+.nike-chat-grid-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.nike-chat-stat-box {
+  background: #131316;
+  border: 1px solid #25252c;
+  border-radius: 9px;
+  padding: 0.55rem 0.75rem;
+  transition: border-color 0.15s ease;
+}
+
+.nike-chat-stat-box:hover {
+  border-color: #ff5500;
+}
+
+.nike-chat-stat-val {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.nike-chat-stat-lbl {
+  font-size: 0.69rem;
+  color: #8e8e9c;
+  margin-top: 1px;
+}
+
+/* Rich Cards inside Bot Messages */
+.nike-chat-card {
+  background: #131316;
+  border: 1px solid #282830;
+  border-radius: 9px;
+  padding: 0.75rem 0.85rem;
+  margin-top: 0.55rem;
+  font-size: 0.8rem;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.nike-chat-card:hover {
+  border-color: rgba(255, 85, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.nike-chat-card-title {
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nike-chat-badge-pill {
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 99px;
+  text-transform: uppercase;
+}
+
+.nike-chat-badge-pill.pending { background: rgba(59,130,246,0.15); color: #60a5fa; }
+.nike-chat-badge-pill.arrived { background: rgba(16,185,129,0.15); color: #34d399; }
+.nike-chat-badge-pill.urgent { background: rgba(239,68,68,0.15); color: #f87171; }
+.nike-chat-badge-pill.collected { background: rgba(156,163,175,0.15); color: #9ca3af; }
+.nike-chat-badge-pill.unpicked { background: rgba(245,158,11,0.15); color: #fbbf24; }
+
+.nike-chat-action-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #ff5500;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+.nike-chat-action-link:hover {
+  text-decoration: underline;
+}
+
+.nike-chat-action-btn-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #25d366;
+  color: #ffffff;
+  padding: 3px 9px;
+  border-radius: 99px;
+  text-decoration: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.nike-chat-action-btn-sm:hover {
+  opacity: 0.92;
+  transform: scale(1.04);
+}
+
+/* Quick Prompt Suggestion Chips */
+.nike-chat-chips-tray {
+  padding: 0.55rem 0.95rem;
+  background: #141417;
+  border-top: 1px solid #202026;
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nike-chat-window.is-fullpage .nike-chat-chips-tray {
+  justify-content: center;
+  padding: 0.75rem 2.5rem;
+  background: #121215;
+}
+
+.nike-chat-chips-tray::-webkit-scrollbar {
+  display: none;
+}
+
+.nike-chat-chip-btn {
+  background: #1b1b20;
+  border: 1px solid #282832;
+  color: #a5a5b4;
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 0.32rem 0.75rem;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+  transition: all 0.16s ease;
+}
+
+.nike-chat-chip-btn:hover {
+  background: #ff5500;
+  color: #ffffff;
+  border-color: #ff5500;
+  transform: translateY(-1px);
+}
+
+/* Chat Input Bar */
+.nike-chat-input-bar {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #16161a;
+  border-top: 1px solid #24242c;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.nike-chat-window.is-fullpage .nike-chat-input-bar {
+  padding: 1.25rem 2rem 1.75rem;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border-top: none;
+}
+
+.nike-chat-text-input {
+  flex: 1;
+  background: #0f0f12;
+  border: 1px solid #2b2b34;
+  border-radius: 22px;
+  color: #ffffff;
+  padding: 0.62rem 1rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.nike-chat-text-input:focus {
+  border-color: #ff5500;
+  box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.18);
+}
+
+.nike-chat-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ff5500;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 12px rgba(255, 85, 0, 0.35);
+}
+
+.nike-chat-send-btn:hover {
+  opacity: 0.92;
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(255, 85, 0, 0.55);
+}
+
+.nike-chat-send-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  margin-left: 2px;
+}
+
+/* Settings Modal Overlay inside Chat Window */
+.nike-chat-settings-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 15, 18, 0.97);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  display: none;
+  flex-direction: column;
+  padding: 1.35rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.nike-chat-settings-panel.is-open {
+  display: flex;
+}
+
+.nike-chat-settings-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.nike-chat-settings-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  font-size: 0.82rem;
+  color: #b5b5c2;
+}
+
+.nike-chat-settings-input,
+.nike-chat-settings-select {
+  background: #0b0b0d;
+  border: 1px solid #2d2d38;
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.82rem;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.nike-chat-settings-input:focus,
+.nike-chat-settings-select:focus {
+  border-color: #ff5500;
+}
+
+.nike-chat-settings-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: #ededed;
+  user-select: none;
+}
+
+.nike-chat-settings-toggle-row input[type="checkbox"] {
+  accent-color: #ff5500;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.nike-chat-settings-btn {
+  background: #ff5500;
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.nike-chat-settings-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.nike-chat-settings-btn.secondary {
+  background: #24242c;
+  color: #ededed;
+  border: 1px solid #33333d;
+}
+
+/* Fallback on High Rates Alert */
+.nike-chat-fallback-alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fbbf24;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 7px;
+  margin-bottom: 0.5rem;
+  line-height: 1.35;
+}
+
+.nike-chat-model-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  color: #8c8c9a;
+  margin-bottom: 0.4rem;
+  font-family: monospace;
+}
+
+.nike-chat-model-tag .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+/* Responsive adjustment on small screens */
+@media (max-width: 480px) {
+  .nike-chat-window {
+    width: calc(100vw - 20px);
+    height: 540px;
+    right: 10px;
+    bottom: 84px;
+  }
+  .nike-chat-launcher {
+    right: 16px;
+    bottom: 16px;
+  }
+}
