@@ -136,6 +136,9 @@
         document.querySelectorAll('.terminal-body').forEach(b => b.classList.remove('active'));
         const targetBody = document.getElementById('tab-' + tabKey);
         if (targetBody) targetBody.classList.add('active');
+
+        // Ensure active tab is visible in scroll container on mobile devices
+        tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       });
     });
   }
@@ -223,7 +226,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.6 });
+    }, { threshold: 0.25 });
 
     counterElements.forEach(el => observer.observe(el));
   }
@@ -273,31 +276,73 @@
           });
         }
       });
-    }, { threshold: 0.35, rootMargin: '-10% 0px -40% 0px' });
+    }, { threshold: 0.25, rootMargin: '-10% 0px -40% 0px' });
 
     sections.forEach(s => observer.observe(s));
   }
 
   /* ═══════════════════════════════════════════════════════════
-     9. MOBILE MENU
+     9. MOBILE MENU (Accessible Drawer with Backdrop & Scroll Lock)
      ═══════════════════════════════════════════════════════════ */
   function setupMobileMenu() {
-    if (!menuToggle || !navList) return;
+    const nav = document.getElementById('mastheadNav');
+    const backdrop = document.getElementById('navBackdrop');
+    if (!menuToggle || !nav) return;
 
-    const navContainer = navList.closest('.masthead-nav');
+    function openMenu() {
+      nav.classList.add('open');
+      if (backdrop) backdrop.classList.add('open');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('nav-open');
+    }
 
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navContainer.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    function closeMenu() {
+      nav.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('nav-open');
+    }
+
+    function toggleMenu() {
+      const isOpen = nav.classList.contains('open');
+      isOpen ? closeMenu() : openMenu();
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
+
+    if (backdrop) {
+      backdrop.addEventListener('click', closeMenu);
+    }
+
+    // Close on any link click inside the navigation drawer
+    nav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', closeMenu);
     });
 
-    // Close on link click
-    navList.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        navContainer.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
+    // Close when Escape key is pressed
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('open')) {
+        closeMenu();
+        menuToggle.focus();
+      }
+    });
+
+    // Automatically close drawer when window is resized past mobile breakpoint
+    const mediaQuery = window.matchMedia('(min-width: 961px)');
+    const handleBreakpoint = (e) => {
+      if (e.matches && nav.classList.contains('open')) {
+        closeMenu();
+      }
+    };
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleBreakpoint);
+    } else {
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 960 && nav.classList.contains('open')) {
+          closeMenu();
+        }
       });
-    });
+    }
   }
 
   /* ═══════════════════════════════════════════════════════════

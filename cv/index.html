@@ -2,7 +2,9 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#090a0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
   <meta name="description" content="Ghady Tayeh — Data Analyst & Business Intelligence Specialist. Computer Science graduate specializing in Power BI executive dashboards, advanced SQL modeling, exploratory data analysis, and predictive customer analytics.">
   <meta name="keywords" content="Ghady Tayeh, Data Analyst, Business Intelligence, Power BI, DAX, SQL Server, Python, Data Analytics, Lebanon, Star Schema, Churn Analytics, Exploratory Data Analysis">
   <meta name="author" content="Ghady Tayeh">
@@ -27,6 +29,9 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
+  <!-- Mobile Navigation Backdrop Overlay -->
+  <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
   <!-- ═══════════════════════════════════════════════════════════
        EXECUTIVE MASTHEAD / NAVIGATION BAR
        ═══════════════════════════════════════════════════════════ -->
@@ -45,7 +50,7 @@
       </div>
 
       <!-- Segmented Navigation Links -->
-      <nav class="masthead-nav" aria-label="Primary navigation">
+      <nav class="masthead-nav" id="mastheadNav" aria-label="Primary navigation">
         <ul class="nav-list" id="navList">
           <li><a href="#about" class="nav-item">About</a></li>
           <li><a href="#experience" class="nav-item">Experience</a></li>
@@ -54,6 +59,18 @@
           <li><a href="#education" class="nav-item">Credentials</a></li>
           <li><a href="#contact" class="nav-item">Contact</a></li>
         </ul>
+
+        <!-- Mobile Drawer Auxiliary Actions -->
+        <div class="nav-drawer-footer">
+          <a href="../index.html" class="action-btn action-hub nav-drawer-hub" title="Open interactive portfolio hub">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard Hub</span>
+          </a>
+          <div class="status-indicator nav-drawer-status" title="Current status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-label">Available for Hire</span>
+          </div>
+        </div>
       </nav>
 
       <!-- Utility Actions -->
@@ -68,8 +85,10 @@
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
 
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
-          <span></span><span></span>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mastheadNav">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+          <span class="bar bar-3"></span>
         </button>
       </div>
     </div>
