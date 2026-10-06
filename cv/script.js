@@ -259,11 +259,12 @@
   }
 
   /* ═══════════════════════════════════════════════════════════
-     8. SCROLL SPY & NAVIGATION
+     8. SCROLL SPY & NAVIGATION DOCK SYNC
      ═══════════════════════════════════════════════════════════ */
   function setupScrollSpy() {
     const sections = document.querySelectorAll('section[id]');
     const navItems = document.querySelectorAll('.nav-item');
+    const dockItems = document.querySelectorAll('.dock-item[data-section]');
     if (!sections.length || !window.IntersectionObserver) return;
 
     const observer = new IntersectionObserver((entries) => {
@@ -274,6 +275,10 @@
             const href = item.getAttribute('href');
             item.classList.toggle('active', href === '#' + id);
           });
+          dockItems.forEach(item => {
+            const sec = item.getAttribute('data-section');
+            item.classList.toggle('active', sec === id);
+          });
         }
       });
     }, { threshold: 0.25, rootMargin: '-10% 0px -40% 0px' });
@@ -282,7 +287,7 @@
   }
 
   /* ═══════════════════════════════════════════════════════════
-     9. MOBILE MENU (Accessible Drawer with Backdrop & Scroll Lock)
+     9. ACCESSIBLE MOBILE MENU & SMOOTH IN-PAGE NAVIGATION
      ═══════════════════════════════════════════════════════════ */
   function setupMobileMenu() {
     const nav = document.getElementById('mastheadNav');
@@ -314,11 +319,6 @@
       backdrop.addEventListener('click', closeMenu);
     }
 
-    // Close on any link click inside the navigation drawer
-    nav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', closeMenu);
-    });
-
     // Close when Escape key is pressed
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && nav.classList.contains('open')) {
@@ -343,6 +343,122 @@
         }
       });
     }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     10. SMOOTH SCROLLING & BOTTOM DOCK ACTIONS
+     ═══════════════════════════════════════════════════════════ */
+  function setupSmoothScroll() {
+    // Intercept in-page hash links for guaranteed smooth navigation across browsers
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+
+          // Close mobile menu drawer if open
+          const nav = document.getElementById('mastheadNav');
+          const backdrop = document.getElementById('navBackdrop');
+          if (nav && nav.classList.contains('open')) {
+            nav.classList.remove('open');
+            if (backdrop) backdrop.classList.remove('open');
+            if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('nav-open');
+          }
+
+          target.scrollIntoView({ behavior: 'smooth' });
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, null, href);
+          }
+        }
+      });
+    });
+
+    // Floating mobile dock "Top" action button
+    const dockTopBtn = document.getElementById('dockScrollTop');
+    if (dockTopBtn) {
+      dockTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, null, '#hero');
+        }
+      });
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     11. MOBILE PROGRESSIVE DISCLOSURE & ACCORDIONS
+     ═══════════════════════════════════════════════════════════ */
+  function setupMobileCollapsibles() {
+    // 1. Hero Architecture Inspector / Terminal Toggle on Mobile
+    const archInspector = document.getElementById('archInspector');
+    const archToggleBtn = document.getElementById('terminalMobileToggle');
+    const archHeader = archInspector ? archInspector.querySelector('.terminal-header') : null;
+
+    function toggleArchInspector(e) {
+      if (window.innerWidth > 768) return; // Keep fully open on desktop
+      if (!archInspector) return;
+      const isExpanded = archInspector.classList.toggle('is-expanded');
+      if (archToggleBtn) {
+        archToggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        const text = archToggleBtn.querySelector('.toggle-text');
+        if (text) text.textContent = isExpanded ? 'Hide Spec' : 'Inspect Spec';
+      }
+    }
+
+    if (archToggleBtn) {
+      archToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleArchInspector();
+      });
+    }
+    if (archHeader) {
+      archHeader.addEventListener('click', toggleArchInspector);
+    }
+
+    // 2. About Dossier Extended Background Toggle
+    const aboutToggleBtn = document.getElementById('aboutToggleBtn');
+    const aboutExtended = document.getElementById('aboutExtended');
+    if (aboutToggleBtn && aboutExtended) {
+      aboutToggleBtn.addEventListener('click', () => {
+        const isExpanded = aboutExtended.classList.toggle('is-expanded');
+        aboutToggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        const label = aboutToggleBtn.querySelector('.toggle-label');
+        if (label) {
+          label.textContent = isExpanded ? 'Show Less' : 'Read Full Background';
+        }
+      });
+    }
+
+    // 3. Experience Past Roles Deliverables Toggles
+    document.querySelectorAll('.role-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('aria-controls');
+        const targetEl = targetId ? document.getElementById(targetId) : btn.previousElementSibling;
+        if (!targetEl) return;
+        const isExpanded = targetEl.classList.toggle('is-expanded');
+        btn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        const label = btn.querySelector('.toggle-label');
+        if (label) {
+          label.textContent = isExpanded ? 'Show Less' : 'More deliverables & tech';
+        }
+      });
+    });
+
+    // 4. Skills Taxonomy Accordion (Mobile <= 768px)
+    document.querySelectorAll('.taxonomy-col').forEach(col => {
+      const header = col.querySelector('.col-header');
+      if (!header) return;
+      header.addEventListener('click', (e) => {
+        if (window.innerWidth > 768) return; // Full grid remains untouched on desktop
+        e.preventDefault();
+        const isCurrentlyExpanded = col.classList.contains('is-expanded');
+        col.classList.toggle('is-expanded', !isCurrentlyExpanded);
+        header.setAttribute('aria-expanded', !isCurrentlyExpanded ? 'true' : 'false');
+      });
+    });
   }
 
   /* ═══════════════════════════════════════════════════════════
@@ -433,7 +549,7 @@
   }
 
   /* ═══════════════════════════════════════════════════════════
-     11. BOOTSTRAP INITIALIZATION
+     12. BOOTSTRAP INITIALIZATION
      ═══════════════════════════════════════════════════════════ */
   function init() {
     initTheme();
@@ -447,6 +563,8 @@
     setupProjectFilters();
     setupScrollSpy();
     setupMobileMenu();
+    setupSmoothScroll();
+    setupMobileCollapsibles();
     setupContactForm();
   }
 

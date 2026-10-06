@@ -100,7 +100,6 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   max-width: 100%;
-  overflow-x: clip;
 }
 
 body {
@@ -110,11 +109,12 @@ body {
   font-size: 1rem;
   line-height: 1.7;
   transition: background-color var(--mid), color var(--mid);
-  overflow-x: clip;
   max-width: 100%;
   width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
+  padding-top: calc(var(--nav-h) + var(--sat));
+  overflow-x: hidden;
   touch-action: manipulation;
 }
 
@@ -179,13 +179,14 @@ img, svg {
 
 /* ── 3. EXECUTIVE MASTHEAD / NAVBAR ── */
 .masthead {
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  width: 100%;
   height: calc(var(--nav-h) + var(--sat));
   padding-top: var(--sat);
-  background: rgba(9, 10, 12, 0.88);
+  background: rgba(9, 10, 12, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
@@ -193,7 +194,7 @@ img, svg {
   transition: background var(--mid), border-color var(--mid);
 }
 [data-theme="light"] .masthead {
-  background: rgba(248, 250, 252, 0.9);
+  background: rgba(248, 250, 252, 0.94);
 }
 
 .masthead-inner {
@@ -393,6 +394,10 @@ body.nav-open {
   display: none;
 }
 
+.mobile-bottom-dock {
+  display: none;
+}
+
 /* ── 4. SHARED BUTTON ARCHITECTURE ── */
 .btn {
   display: inline-flex;
@@ -581,6 +586,13 @@ body.nav-open {
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.terminal-mobile-toggle {
+  display: none;
+}
+.terminal-collapsible-wrapper {
+  display: block;
 }
 
 .terminal-header {
@@ -827,6 +839,12 @@ body.nav-open {
   color: var(--t-primary);
   font-weight: 600;
 }
+.about-extended {
+  display: block;
+}
+.about-toggle-btn {
+  display: none;
+}
 
 .meta-links-group {
   display: flex;
@@ -1021,6 +1039,13 @@ body.nav-open {
   color: var(--t-muted);
 }
 
+.role-collapsible {
+  display: block;
+}
+.role-toggle-btn {
+  display: none;
+}
+
 /* ── 10. PROJECTS & CASE STUDIES ── */
 .project-filter-tabs {
   display: flex;
@@ -1191,12 +1216,28 @@ body.nav-open {
   flex-direction: column;
 }
 .col-header {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   margin-bottom: 1.25rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
+}
+.col-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.col-chevron {
+  display: none;
+}
+.col-collapse-wrapper {
+  display: block;
 }
 .col-num {
   font-family: var(--font-mono);
@@ -1716,6 +1757,7 @@ body.nav-open {
   }
   .skills-taxonomy-grid {
     grid-template-columns: 1fr;
+    gap: 0.85rem;
   }
   .dashboard-banner {
     padding: 1.5rem;
@@ -1725,8 +1767,270 @@ body.nav-open {
     align-items: flex-start;
     gap: 1.25rem;
   }
+
+  /* 1. Hero Architecture Inspector Collapsible on Mobile */
+  .terminal-header {
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .terminal-mobile-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-subtle);
+    border: 1px solid var(--accent-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--fast);
+  }
+  .terminal-mobile-toggle:hover {
+    background: rgba(59, 130, 246, 0.16);
+  }
+  .terminal-mobile-toggle .toggle-arrow {
+    transition: transform 0.25s var(--ease);
+  }
+  .terminal-collapsible-wrapper {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.35s var(--ease), opacity 0.3s ease;
+  }
+  .terminal-panel.is-expanded .terminal-collapsible-wrapper {
+    max-height: 950px;
+    opacity: 1;
+    overflow-y: visible;
+  }
+  .terminal-panel.is-expanded .terminal-mobile-toggle .toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* 2. About Section Progressive Disclosure */
+  .about-extended {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.35s var(--ease), opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .about-extended.is-expanded {
+    max-height: 800px;
+    opacity: 1;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .btn-text-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    transition: all var(--fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-text-toggle:hover {
+    border-color: var(--accent);
+    background: var(--accent-subtle);
+  }
+  .btn-text-toggle .toggle-arrow {
+    transition: transform 0.25s var(--ease);
+  }
+  .btn-text-toggle[aria-expanded="true"] .toggle-arrow {
+    transform: rotate(180deg);
+  }
+  .meta-links-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .meta-link {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    min-height: 42px;
+  }
+
+  /* 3. Experience Past Roles Deliverables Collapsible */
+  .role-collapsible {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.35s var(--ease), opacity 0.3s ease;
+  }
+  .role-collapsible.is-expanded {
+    max-height: 800px;
+    opacity: 1;
+    margin-top: 0.65rem;
+  }
+  .role-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-top: 0.65rem;
+    cursor: pointer;
+    transition: all var(--fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .role-toggle-btn:hover {
+    border-color: var(--accent-border);
+    background: var(--accent-subtle);
+  }
+  .role-toggle-btn .toggle-arrow {
+    transition: transform 0.25s var(--ease);
+  }
+  .role-toggle-btn[aria-expanded="true"] .toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* 4. Skills Taxonomy Accordion */
+  .taxonomy-col {
+    padding: 1.15rem 1.25rem;
+    cursor: pointer;
+    transition: border-color var(--fast), background-color var(--fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .taxonomy-col:hover {
+    border-color: var(--border-strong);
+  }
+  .col-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .col-chevron {
+    display: block;
+    color: var(--t-muted);
+    transition: transform 0.25s var(--ease), color var(--fast);
+    flex-shrink: 0;
+  }
+  .col-collapse-wrapper {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.35s var(--ease), opacity 0.3s ease;
+  }
+  .taxonomy-col.is-expanded {
+    border-color: var(--border-strong);
+  }
+  .taxonomy-col.is-expanded .col-header {
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .taxonomy-col.is-expanded .col-chevron {
+    transform: rotate(180deg);
+    color: var(--accent);
+  }
+  .taxonomy-col.is-expanded .col-collapse-wrapper {
+    max-height: 700px;
+    opacity: 1;
+    margin-top: 0.85rem;
+  }
+
+  /* 5. Mobile Floating Bottom Quick-Navigation Dock */
+  .mobile-bottom-dock {
+    display: block;
+    position: fixed;
+    bottom: max(0.75rem, calc(var(--sab) + 0.35rem));
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 1.5rem);
+    max-width: 440px;
+    background: rgba(15, 16, 19, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-strong);
+    border-radius: 9999px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 990;
+    padding: 0.3rem 0.45rem;
+    transition: transform 0.25s var(--ease), opacity 0.25s ease;
+  }
+  [data-theme="light"] .mobile-bottom-dock {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(15, 23, 42, 0.16);
+    box-shadow: 0 12px 36px rgba(15, 23, 42, 0.16), 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+  .dock-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0.15rem;
+  }
+  .dock-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 0.4rem 0.55rem;
+    border-radius: 9999px;
+    color: var(--t-muted);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 500;
+    min-width: 44px;
+    min-height: 44px;
+    transition: color var(--fast), background-color var(--fast), transform var(--fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .dock-item:hover {
+    color: var(--t-primary);
+  }
+  .dock-item.active {
+    color: var(--accent);
+    background-color: var(--accent-subtle);
+  }
+  .dock-icon {
+    width: 17px;
+    height: 17px;
+    transition: transform var(--fast);
+  }
+  .dock-item.active .dock-icon {
+    transform: scale(1.12);
+  }
+  .dock-btn-top {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  .dock-btn-top:active {
+    transform: translateY(-2px);
+  }
+
+  /* Padding adjustments so bottom dock does not overlap footer or toasts */
+  .colophon {
+    padding-bottom: calc(5.5rem + var(--sab));
+  }
   .toast-container {
-    bottom: max(1rem, var(--sab));
+    bottom: calc(5.2rem + var(--sab));
     right: 1rem;
     left: 1rem;
     align-items: center;
@@ -1985,6 +2289,11 @@ body.nav-open {
 
   /* Hide interactive/screen-only components */
   .masthead,
+  .mobile-bottom-dock,
+  .terminal-mobile-toggle,
+  .about-toggle-btn,
+  .role-toggle-btn,
+  .col-chevron,
   .hero-actions,
   .hero-artifact,
   .project-filter-tabs,
@@ -1996,6 +2305,15 @@ body.nav-open {
   .skip-link,
   .copy-pill {
     display: none !important;
+  }
+
+  .about-extended,
+  .role-collapsible,
+  .col-collapse-wrapper {
+    display: block !important;
+    max-height: none !important;
+    opacity: 1 !important;
+    overflow: visible !important;
   }
 
   .container {
