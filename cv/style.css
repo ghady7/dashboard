@@ -411,6 +411,7 @@ body.nav-open {
   letter-spacing: -0.01em;
   border-radius: var(--radius-sm);
   white-space: nowrap;
+  max-width: 100%;
   transition: all var(--fast);
   border: 1px solid transparent;
 }
@@ -478,7 +479,7 @@ body.nav-open {
   padding-top: clamp(3.5rem, 7vw, 6rem);
   padding-bottom: clamp(4rem, 8vw, 7rem);
   border-bottom: 1px solid var(--border);
-  scroll-margin-top: calc(var(--nav-h) + 1rem);
+  scroll-margin-top: calc(var(--nav-h) + var(--sat) + 1.25rem);
 }
 
 .hero-grid {
@@ -491,14 +492,18 @@ body.nav-open {
 .position-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 0.4rem 0.6rem;
   padding: 0.25rem 0.65rem;
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.7rem;
+  line-height: 1.4;
   margin-bottom: 1.5rem;
+  word-break: break-word;
 }
 .badge-accent {
   color: var(--accent);
@@ -750,10 +755,13 @@ body.nav-open {
 }
 .log-line {
   color: var(--t-secondary);
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .log-time {
   color: var(--t-muted);
   margin-right: 0.4rem;
+  white-space: nowrap;
 }
 .log-tag {
   display: inline-block;
@@ -762,6 +770,7 @@ body.nav-open {
   font-size: 0.62rem;
   margin-right: 0.4rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 .tag-ok   { background: var(--success-subtle); color: var(--success); }
 .tag-info { background: var(--accent-subtle); color: var(--accent); }
@@ -787,7 +796,7 @@ body.nav-open {
 .content-section {
   padding-top: clamp(4rem, 8vw, 6.5rem);
   padding-bottom: clamp(4rem, 8vw, 6.5rem);
-  scroll-margin-top: calc(var(--nav-h) + 1.25rem);
+  scroll-margin-top: calc(var(--nav-h) + var(--sat) + 1.25rem);
 }
 .section-bordered {
   border-top: 1px solid var(--border);
@@ -1388,6 +1397,8 @@ body.nav-open {
   font-family: var(--font-mono);
   font-size: 0.92rem;
   color: var(--t-primary);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .copy-pill {
   font-family: var(--font-mono);
@@ -1405,7 +1416,8 @@ body.nav-open {
 }
 .channel-links {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
   margin-top: 0.25rem;
 }
 .profile-link {
@@ -1607,7 +1619,10 @@ body.nav-open {
 .contact-dossier,
 .contact-info-col,
 .contact-form-col,
-.clean-form {
+.clean-form,
+.terminal-collapsible-wrapper,
+.flow-stage,
+.stage-card {
   min-width: 0;
 }
 
@@ -1624,6 +1639,14 @@ body.nav-open {
   }
   .skills-taxonomy-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── BREAKPOINT: Small Desktops & Landscape Tablets (<= 1024px) ── */
+@media (max-width: 1024px) {
+  .spec-row {
+    grid-template-columns: 100px 1fr;
+    gap: 0.4rem;
   }
 }
 
@@ -1766,6 +1789,21 @@ body.nav-open {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.25rem;
+  }
+  .project-filter-tabs {
+    width: 100%;
+    padding: 0.35rem;
+    gap: 0.35rem;
+    border-radius: var(--radius-sm);
+    scroll-snap-type: x mandatory;
+  }
+  .filter-tab {
+    flex: 1 1 auto;
+    text-align: center;
+    scroll-snap-align: start;
+    min-height: 42px;
+    font-size: 0.72rem;
+    padding: 0.45rem 0.65rem;
   }
 
   /* 1. Hero Architecture Inspector Collapsible on Mobile */
@@ -1971,7 +2009,13 @@ body.nav-open {
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.3);
     z-index: 990;
     padding: 0.3rem 0.45rem;
-    transition: transform 0.25s var(--ease), opacity 0.25s ease;
+    transition: transform 0.25s var(--ease), opacity 0.25s ease, visibility 0.25s;
+  }
+  body.nav-open .mobile-bottom-dock {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, 20px);
   }
   [data-theme="light"] .mobile-bottom-dock {
     background: rgba(255, 255, 255, 0.95);
@@ -1981,8 +2025,9 @@ body.nav-open {
   .dock-inner {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    gap: 0.15rem;
+    justify-content: space-between;
+    width: 100%;
+    gap: 2px;
   }
   .dock-item {
     display: flex;
@@ -1990,16 +2035,23 @@ body.nav-open {
     align-items: center;
     justify-content: center;
     gap: 2px;
-    padding: 0.4rem 0.55rem;
+    padding: 0.35rem 0.25rem;
     border-radius: 9999px;
     color: var(--t-muted);
     font-family: var(--font-mono);
-    font-size: 0.64rem;
+    font-size: 0.62rem;
     font-weight: 500;
-    min-width: 44px;
+    flex: 1 1 0;
+    min-width: 0;
     min-height: 44px;
     transition: color var(--fast), background-color var(--fast), transform var(--fast);
     -webkit-tap-highlight-color: transparent;
+  }
+  .dock-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
   .dock-item:hover {
     color: var(--t-primary);
@@ -2042,6 +2094,33 @@ body.nav-open {
   }
 }
 
+/* ── BREAKPOINT: Mid-size Mobiles & Phablets (<= 640px) ── */
+@media (max-width: 640px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.65rem;
+    margin-bottom: 2.25rem;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+  }
+  .spec-row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px dashed var(--border);
+  }
+  .spec-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
 /* ── BREAKPOINT: Standard Smartphones (<= 560px) ── */
 @media (max-width: 560px) {
   .hero-section {
@@ -2056,23 +2135,20 @@ body.nav-open {
     font-size: 0.95rem;
     margin-bottom: 1.75rem;
   }
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    gap: 0.65rem;
-    margin-bottom: 2.25rem;
-  }
-  .hero-actions .btn {
-    width: 100%;
-    min-height: 48px;
-    justify-content: center;
-    padding: 0.75rem 1rem;
-  }
 
   /* Inspector pipeline stages stack cleanly */
   #tab-pipeline .stage-grid {
     grid-template-columns: 1fr;
+  }
+  .terminal-meta {
+    display: none;
+  }
+  .terminal-title {
+    font-size: 0.68rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
   }
   .terminal-body {
     padding: 1rem;
@@ -2090,6 +2166,7 @@ body.nav-open {
     padding: 0.5rem 0.85rem;
     font-size: 0.64rem;
     line-height: 1.5;
+    word-break: break-word;
   }
 
   /* Projects & Case Studies Specs Stack */
@@ -2098,16 +2175,6 @@ body.nav-open {
   }
   .project-name {
     font-size: 1.15rem;
-  }
-  .spec-row {
-    grid-template-columns: 1fr;
-    gap: 0.15rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px dashed var(--border);
-  }
-  .spec-row:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
   }
   .spec-k {
     font-size: 0.65rem;
@@ -2175,6 +2242,7 @@ body.nav-open {
     gap: 0.4rem;
   }
   .meta-links-group {
+    display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
@@ -2184,22 +2252,58 @@ body.nav-open {
     justify-content: flex-start;
   }
   .meta-link span {
-    word-break: break-all;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     white-space: normal;
+  }
+}
+
+/* ── BREAKPOINT: Compact Smartphones (<= 480px) ── */
+@media (max-width: 480px) {
+  .nav-drawer-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .nav-drawer-hub,
+  .nav-drawer-status {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+  .position-badge {
+    font-size: 0.66rem;
+    padding: 0.3rem 0.55rem;
+    gap: 0.35rem 0.45rem;
+  }
+  .btn {
+    white-space: normal;
+    text-align: center;
+  }
+  .role-entry {
+    padding-left: 1rem;
+  }
+  .role-deliverables li {
+    padding-left: 1.1rem;
+  }
+  .lang-pill-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.45rem;
   }
 }
 
 /* ── BREAKPOINT: Compact Phones & Foldable Covers (<= 380px) ── */
 @media (max-width: 380px) {
   .container {
-    padding-left: 0.85rem;
-    padding-right: 0.85rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
   .brand-name {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
   .hero-headline {
-    font-size: 1.7rem;
+    font-size: clamp(1.6rem, 7vw, 1.85rem);
   }
   .hero-metrics {
     grid-template-columns: 1fr;
@@ -2219,6 +2323,18 @@ body.nav-open {
   .section-heading {
     font-size: 1.45rem;
   }
+  .mobile-bottom-dock {
+    width: calc(100% - 0.75rem);
+    padding: 0.25rem 0.25rem;
+  }
+  .dock-item {
+    padding: 0.3rem 0.12rem;
+    font-size: 0.58rem;
+  }
+  .dock-icon {
+    width: 15px;
+    height: 15px;
+  }
 }
 
 /* ── ORIENTATION / SHORT VIEWPORTS (e.g. Mobile Landscape, h <= 500px) ── */
@@ -2237,6 +2353,12 @@ body.nav-open {
   .masthead-nav {
     max-height: calc(100dvh - var(--nav-h));
     overflow-y: auto;
+  }
+  .mobile-bottom-dock {
+    display: none !important;
+  }
+  .colophon {
+    padding-bottom: calc(2.5rem + var(--sab));
   }
 }
 

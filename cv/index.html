@@ -80,12 +80,12 @@
           <span>Dashboard Hub</span>
         </a>
 
-        <button class="theme-toggle" id="themeToggle" aria-label="Switch visual theme">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch visual theme">
           <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
 
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mastheadNav">
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mastheadNav">
           <span class="bar bar-1"></span>
           <span class="bar bar-2"></span>
           <span class="bar bar-3"></span>
@@ -123,7 +123,7 @@
               <span>Explore Projects</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
-            <button class="btn btn-secondary" id="copyHeroEmailBtn" aria-label="Copy email address to clipboard">
+            <button class="btn btn-secondary" id="copyHeroEmailBtn" type="button" aria-label="Copy email address to clipboard">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               <span id="heroEmailLabel">Ghadytayeh7@gmail.com</span>
             </button>
@@ -160,7 +160,7 @@
               </div>
               <div class="terminal-title">analytics-kpi-engine.sql</div>
               <div class="terminal-meta">REFRESHED · 0.04s</div>
-              <button class="terminal-mobile-toggle" id="terminalMobileToggle" aria-expanded="false" aria-controls="terminalCollapsibleWrapper" aria-label="Toggle technical architecture inspector on mobile">
+              <button class="terminal-mobile-toggle" id="terminalMobileToggle" type="button" aria-expanded="false" aria-controls="terminalCollapsibleWrapper" aria-label="Toggle technical architecture inspector on mobile">
                 <span class="toggle-text">Inspect Spec</span>
                 <svg class="toggle-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
@@ -170,9 +170,9 @@
             <div class="terminal-collapsible-wrapper" id="terminalCollapsibleWrapper">
               <!-- Segmented Inspector Tabs -->
               <div class="terminal-tabs" role="tablist">
-                <button class="terminal-tab active" role="tab" aria-selected="true" data-tab="pipeline">1. Analytics Flow</button>
-                <button class="terminal-tab" role="tab" aria-selected="false" data-tab="schema">2. SQL &amp; DAX Engine</button>
-                <button class="terminal-tab" role="tab" aria-selected="false" data-tab="telemetry">3. Live Telemetry Log</button>
+                <button class="terminal-tab active" type="button" role="tab" aria-selected="true" data-tab="pipeline">1. Analytics Flow</button>
+                <button class="terminal-tab" type="button" role="tab" aria-selected="false" data-tab="schema">2. SQL &amp; DAX Engine</button>
+                <button class="terminal-tab" type="button" role="tab" aria-selected="false" data-tab="telemetry">3. Live Telemetry Log</button>
               </div>
 
               <!-- Tab Content 1: Pipeline Flow -->
@@ -299,7 +299,7 @@ ChurnRate% =
               </p>
             </div>
 
-            <button class="btn-text-toggle about-toggle-btn" id="aboutToggleBtn" aria-expanded="false" aria-controls="aboutExtended" aria-label="Toggle full biography on mobile">
+            <button class="btn-text-toggle about-toggle-btn" id="aboutToggleBtn" type="button" aria-expanded="false" aria-controls="aboutExtended" aria-label="Toggle full biography on mobile">
               <span class="toggle-label">Read Full Background</span>
               <svg class="toggle-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
@@ -424,7 +424,7 @@ ChurnRate% =
                   <span class="t-tag">Statistical Analysis</span>
                 </div>
               </div>
-              <button class="role-toggle-btn" aria-expanded="false" aria-controls="role2Collapsible" aria-label="Toggle full role deliverables on mobile">
+              <button class="role-toggle-btn" id="role2ToggleBtn" type="button" aria-expanded="false" aria-controls="role2Collapsible" aria-label="Toggle full role deliverables on mobile">
                 <span class="toggle-label">More deliverables &amp; tech</span>
                 <svg class="toggle-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
@@ -461,7 +461,7 @@ ChurnRate% =
                   <span class="t-tag">Revenue Strategy</span>
                 </div>
               </div>
-              <button class="role-toggle-btn" aria-expanded="false" aria-controls="role3Collapsible" aria-label="Toggle full role deliverables on mobile">
+              <button class="role-toggle-btn" id="role3ToggleBtn" type="button" aria-expanded="false" aria-controls="role3Collapsible" aria-label="Toggle full role deliverables on mobile">
                 <span class="toggle-label">More deliverables &amp; tech</span>
                 <svg class="toggle-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
@@ -498,7 +498,7 @@ ChurnRate% =
                   <span class="t-tag">SQL Warehousing</span>
                 </div>
               </div>
-              <button class="role-toggle-btn" aria-expanded="false" aria-controls="role4Collapsible" aria-label="Toggle full role deliverables on mobile">
+              <button class="role-toggle-btn" id="role4ToggleBtn" type="button" aria-expanded="false" aria-controls="role4Collapsible" aria-label="Toggle full role deliverables on mobile">
                 <span class="toggle-label">More deliverables &amp; tech</span>
                 <svg class="toggle-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
@@ -522,9 +522,9 @@ ChurnRate% =
           
           <!-- Category Filter Tabs -->
           <div class="project-filter-tabs" role="tablist" aria-label="Filter projects">
-            <button class="filter-tab active" data-filter="all">All Analytics (4)</button>
-            <button class="filter-tab" data-filter="bi">Business &amp; Revenue BI (2)</button>
-            <button class="filter-tab" data-filter="predictive">Predictive &amp; Telemetry (2)</button>
+            <button class="filter-tab active" type="button" role="tab" aria-selected="true" data-filter="all">All Analytics (4)</button>
+            <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="bi">Business &amp; Revenue BI (2)</button>
+            <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="predictive">Predictive &amp; Telemetry (2)</button>
           </div>
         </div>
 
@@ -721,7 +721,7 @@ ChurnRate% =
           
           <!-- Column 1: Business Intelligence & Dashboards -->
           <div class="taxonomy-col is-expanded">
-            <button class="col-header" aria-expanded="true" aria-controls="skillsList1" aria-label="Toggle Business Intelligence skills">
+            <button class="col-header" type="button" aria-expanded="true" aria-controls="skillsList1" aria-label="Toggle Business Intelligence skills">
               <div class="col-header-info">
                 <span class="col-num">01</span>
                 <h3 class="col-title">Business Intelligence &amp; Dashboards</h3>
@@ -741,7 +741,7 @@ ChurnRate% =
 
           <!-- Column 2: Advanced SQL & Data Warehousing -->
           <div class="taxonomy-col">
-            <button class="col-header" aria-expanded="false" aria-controls="skillsList2" aria-label="Toggle SQL and warehousing skills">
+            <button class="col-header" type="button" aria-expanded="false" aria-controls="skillsList2" aria-label="Toggle SQL and warehousing skills">
               <div class="col-header-info">
                 <span class="col-num">02</span>
                 <h3 class="col-title">Advanced SQL &amp; Warehousing</h3>
@@ -761,7 +761,7 @@ ChurnRate% =
 
           <!-- Column 3: Python Analytics & Statistical EDA -->
           <div class="taxonomy-col">
-            <button class="col-header" aria-expanded="false" aria-controls="skillsList3" aria-label="Toggle Python and EDA skills">
+            <button class="col-header" type="button" aria-expanded="false" aria-controls="skillsList3" aria-label="Toggle Python and EDA skills">
               <div class="col-header-info">
                 <span class="col-num">03</span>
                 <h3 class="col-title">Python Analytics &amp; EDA</h3>
@@ -781,7 +781,7 @@ ChurnRate% =
 
           <!-- Column 4: ETL, Systems & Operational Telemetry -->
           <div class="taxonomy-col">
-            <button class="col-header" aria-expanded="false" aria-controls="skillsList4" aria-label="Toggle ETL and telemetry skills">
+            <button class="col-header" type="button" aria-expanded="false" aria-controls="skillsList4" aria-label="Toggle ETL and telemetry skills">
               <div class="col-header-info">
                 <span class="col-num">04</span>
                 <h3 class="col-title">ETL, Systems &amp; Telemetry</h3>
@@ -905,7 +905,7 @@ ChurnRate% =
                 <span class="channel-label">DIRECT EMAIL</span>
                 <div class="channel-action-row">
                   <a href="mailto:Ghadytayeh7@gmail.com" class="channel-value">Ghadytayeh7@gmail.com</a>
-                  <button class="copy-pill" id="copyContactEmailBtn" aria-label="Copy email">Copy</button>
+                  <button class="copy-pill" id="copyContactEmailBtn" type="button" aria-label="Copy email">Copy</button>
                 </div>
               </div>
 
@@ -1021,7 +1021,7 @@ ChurnRate% =
         <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <span class="dock-label">Contact</span>
       </a>
-      <button class="dock-item dock-btn-top" id="dockScrollTop" aria-label="Scroll back to top of page">
+      <button class="dock-item dock-btn-top" id="dockScrollTop" type="button" aria-label="Scroll back to top of page">
         <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
         <span class="dock-label">Top</span>
       </button>

@@ -96,6 +96,10 @@
           const original = label.textContent;
           label.textContent = 'Copied to clipboard!';
           setTimeout(() => { label.textContent = original; }, 2200);
+        } else if (contactBtn && btn === contactBtn) {
+          const original = contactBtn.textContent;
+          contactBtn.textContent = 'Copied!';
+          setTimeout(() => { contactBtn.textContent = original; }, 2200);
         }
       } catch {
         // Fallback for non-secure contexts
@@ -109,6 +113,17 @@
         document.execCommand('copy');
         ta.remove();
         showToast('Email copied to clipboard (' + EMAIL_ADDRESS + ')', 'success');
+
+        const label = document.getElementById('heroEmailLabel');
+        if (label && btn === heroBtn) {
+          const original = label.textContent;
+          label.textContent = 'Copied to clipboard!';
+          setTimeout(() => { label.textContent = original; }, 2200);
+        } else if (contactBtn && btn === contactBtn) {
+          const original = contactBtn.textContent;
+          contactBtn.textContent = 'Copied!';
+          setTimeout(() => { contactBtn.textContent = original; }, 2200);
+        }
       }
     };
 
@@ -451,12 +466,26 @@
     document.querySelectorAll('.taxonomy-col').forEach(col => {
       const header = col.querySelector('.col-header');
       if (!header) return;
-      header.addEventListener('click', (e) => {
-        if (window.innerWidth > 768) return; // Full grid remains untouched on desktop
-        e.preventDefault();
+
+      const toggleAction = () => {
+        if (window.innerWidth > 768) return;
         const isCurrentlyExpanded = col.classList.contains('is-expanded');
         col.classList.toggle('is-expanded', !isCurrentlyExpanded);
         header.setAttribute('aria-expanded', !isCurrentlyExpanded ? 'true' : 'false');
+      };
+
+      header.addEventListener('click', (e) => {
+        if (window.innerWidth > 768) return;
+        e.preventDefault();
+        e.stopPropagation();
+        toggleAction();
+      });
+
+      col.addEventListener('click', (e) => {
+        if (window.innerWidth > 768) return;
+        // If clicking within the expanded body, allow text selection and link clicks
+        if (col.classList.contains('is-expanded') && e.target.closest('.col-collapse-wrapper')) return;
+        toggleAction();
       });
     });
   }
