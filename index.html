@@ -547,6 +547,7 @@
       transition: transform var(--transition-smooth),
                   border-color var(--transition-smooth),
                   box-shadow var(--transition-smooth),
+                  background var(--transition-smooth),
                   opacity var(--transition-smooth);
       display: flex;
       flex-direction: column;
@@ -560,6 +561,7 @@
     .card:hover {
       transform: translateY(-6px);
       border-color: var(--card-border-hover);
+      background: rgba(255, 255, 255, 0.045);
       box-shadow: var(--shadow-card-hover);
     }
 
@@ -648,7 +650,7 @@
     }
 
     .card:hover .icon-wrapper {
-      transform: scale(1.08) rotate(3deg);
+      transform: translateY(-2px) scale(1.05);
       background: rgba(255, 255, 255, 0.12);
       border-color: rgba(255, 255, 255, 0.25);
     }
@@ -1638,10 +1640,7 @@
       // 3. Filter & Search Logic
       initFilteringAndSearch();
 
-      // 4. Interactive 3D Card Hover & Tilt Effect
-      init3DTilt();
-
-      // 5. Back To Top Button
+      // 4. Back To Top Button
       initBackToTop();
     });
 
@@ -1784,39 +1783,6 @@
       if (countAi) countAi.textContent = counts['ai-ml'];
       if (countFullstack) countFullstack.textContent = counts.fullstack;
       if (countTools) countTools.textContent = counts.tools;
-    }
-
-    // 3D Parallax Tilt on Mouse Move (smooth, responsive tracking)
-    function init3DTilt() {
-      const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-      if (isTouch || window.innerWidth < 992) return;
-
-      const cards = document.querySelectorAll('.card:not(.featured)');
-
-      cards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-          card.style.transition = 'transform 0.08s ease-out, border-color var(--transition-smooth), box-shadow var(--transition-smooth)';
-        });
-
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-
-          const rotateX = ((y - centerY) / centerY) * -5;
-          const rotateY = ((x - centerX) / centerX) * 5;
-
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-          card.style.transition = 'transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth)';
-          card.style.transform = '';
-        });
-      });
     }
 
     // Back to Top functionality
