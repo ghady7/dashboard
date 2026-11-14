@@ -220,6 +220,13 @@ img, svg {
   letter-spacing: -0.02em;
   color: var(--t-primary);
 }
+.brand-name {
+  color: #ffffff;
+  font-weight: 700;
+}
+[data-theme="light"] .brand-name {
+  color: #0f172a;
+}
 .brand-monogram {
   font-family: var(--font-mono);
   font-size: 0.9rem;
@@ -487,6 +494,37 @@ body.nav-open {
   grid-template-columns: 1.15fr 0.95fr;
   gap: clamp(2.5rem, 5vw, 4.5rem);
   align-items: start;
+}
+
+.hero-identity-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.hero-person-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  text-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+}
+.hero-identity-sep {
+  color: var(--t-muted);
+  font-size: 0.85rem;
+}
+.hero-identity-role {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+[data-theme="light"] .hero-person-name {
+  color: #0f172a;
+  text-shadow: none;
 }
 
 .position-badge {
@@ -2270,6 +2308,9 @@ body.nav-open {
     width: 100%;
     justify-content: center;
     min-height: 44px;
+  }
+  .hero-person-name {
+    font-size: 1.3rem;
   }
   .position-badge {
     font-size: 0.66rem;
