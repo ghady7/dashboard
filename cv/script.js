@@ -166,9 +166,10 @@
     if (!stream) return;
 
     const realisticEvents = [
+      { tag: 'OK', text: 'Global Retailer Pipeline: Ingested 62,884 transactions ($55.76M gross rev).' },
       { tag: 'OK', text: 'Power BI dataset refresh: 100,000+ Olist transactions processed (0 errors).' },
       { tag: 'INFO', text: 'Recalculating RFM Customer Churn cohort matrices in memory...' },
-      { tag: 'OK', text: 'Hotel Booking EDA: Fact_HotelReservations index hit ratio 99.8%.' },
+      { tag: 'OK', text: 'Hotel Booking Analysis: Fact_HotelReservations index hit ratio 99.8%.' },
       { tag: 'OK', text: 'DAX KPI Measure evaluation: RevPAR & Cancellation Probability computed in 14ms.' },
       { tag: 'INFO', text: 'TomTom Traffic API: Ingested telemetry from 10 Lebanese highway corridors.' },
       { tag: 'OK', text: 'FIFA 2020 Analytics: Player valuation regression updated (R² = 0.912).' },
