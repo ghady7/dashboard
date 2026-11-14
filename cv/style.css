@@ -8,12 +8,12 @@
 
 /* ── 1. DESIGN TOKENS & SYSTEM VARIABLES ── */
 :root {
-  /* Color Palette — Deep Warm Graphite / Zinc */
-  --bg:            #090a0c;
-  --bg-subtle:     #0f1013;
-  --surface:       #131417;
-  --surface-raised:#181a1f;
-  --surface-hover: #1f2127;
+  /* Color Palette — Deep Sophisticated Obsidian / Slate */
+  --bg:            #0b0f19;
+  --bg-subtle:     #111728;
+  --surface:       #151e34;
+  --surface-raised:#1c2642;
+  --surface-hover: #223052;
 
   /* Hairline Precision Borders */
   --border:        rgba(255, 255, 255, 0.08);
@@ -104,6 +104,8 @@ html {
 
 body {
   background-color: var(--bg);
+  background-image: radial-gradient(ellipse 70% 40% at 50% -10%, rgba(59, 130, 246, 0.14), transparent 70%);
+  background-attachment: fixed;
   color: var(--t-primary);
   font-family: var(--font-body);
   font-size: 1rem;
